@@ -1,12 +1,20 @@
 import { useId, useState } from 'react';
 import TextInput from '../components/TextInput';
 import { Link } from 'react-router-dom';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { getAuth } from 'firebase/auth';
 
 const SignUp = () => {
   const id = useId();
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(getAuth());
+
+  const handleSubmit = () => {
+    createUserWithEmailAndPassword(email, password);
+  };
 
   return (
     <>
@@ -15,6 +23,7 @@ const SignUp = () => {
       <form
         className="w-full"
         onSubmit={(e) => {
+          handleSubmit();
           e.preventDefault();
         }}
       >

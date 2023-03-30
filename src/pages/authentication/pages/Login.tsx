@@ -1,11 +1,19 @@
 import { useId, useState } from 'react';
 import TextInput from '../components/TextInput';
 import { Link } from 'react-router-dom';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { getAuth } from 'firebase/auth';
 
 const Login = () => {
   const id = useId();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(getAuth());
+
+  const handleSubmit = () => {
+    signInWithEmailAndPassword(email, password);
+  };
 
   return (
     <>
@@ -17,6 +25,7 @@ const Login = () => {
       <form
         className="w-full"
         onSubmit={(e) => {
+          handleSubmit();
           e.preventDefault();
         }}
       >
