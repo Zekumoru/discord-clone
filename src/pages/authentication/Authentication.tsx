@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
-import Login from './components/Login';
+import Login from './pages/Login';
 import Logo from './components/Logo';
+import SignUp from './pages/SignUp';
 
 const Authentication = () => {
   return (
@@ -8,6 +9,7 @@ const Authentication = () => {
       <Logo className="mb-4 h-9" />
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </div>
   );

@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import TextInput from './TextInput';
+import TextInput from '../components/TextInput';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -7,7 +8,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="mb-1.5 text-2xl font-semibold">Welcome back!</div>
+      <div className="auth-title">Welcome back!</div>
       <div className="mb-5 text-silvergrey-300">
         We're so excited to see you again!
       </div>
@@ -56,7 +57,9 @@ const Login = () => {
 
         <div className="mt-3 text-sm text-silvergrey-400">
           Need an account?{' '}
-          <a className="font-medium text-dodgerblue-100">Register</a>
+          <Link to="/signup" className="font-medium text-dodgerblue-100">
+            Register
+          </Link>
         </div>
       </form>
     </>

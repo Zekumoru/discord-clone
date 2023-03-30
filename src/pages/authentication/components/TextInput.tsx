@@ -3,7 +3,7 @@ import { ReactNode, useId } from 'react';
 type TextInputProps = {
   type: 'text' | 'password' | 'email';
   className?: string;
-  labelContent: ReactNode;
+  labelContent: ReactNode | string;
   value: string;
   required?: boolean;
   minLength?: number;

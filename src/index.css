@@ -10,3 +10,9 @@
     @apply bg-background-300 text-white;
   }
 }
+
+@layer components {
+  .auth-title {
+    @apply mb-1.5 text-2xl font-semibold;
+  }
+}
