@@ -7,8 +7,8 @@ const Login = () => {
 
   return (
     <>
-      <div className="text-2xl font-semibold mb-1.5">Welcome back!</div>
-      <div className="text-silvergrey-300 mb-5">
+      <div className="mb-1.5 text-2xl font-semibold">Welcome back!</div>
+      <div className="mb-5 text-silvergrey-300">
         We're so excited to see you again!
       </div>
 
@@ -26,7 +26,7 @@ const Login = () => {
           required
           labelContent={
             <>
-              Email <span className="text-crimson-100 ml-0.5">*</span>
+              Email <span className="ml-0.5 text-crimson-100">*</span>
             </>
           }
         />
@@ -41,20 +41,20 @@ const Login = () => {
           required
           labelContent={
             <>
-              Password <span className="text-crimson-100 ml-0.5">*</span>
+              Password <span className="ml-0.5 text-crimson-100">*</span>
             </>
           }
         />
 
-        <a className="text-dodgerblue-100 text-sm mb-5 font-medium block">
+        <a className="mb-5 block text-sm font-medium text-dodgerblue-100">
           Forgot your password?
         </a>
 
-        <button className="w-full bg-warmblue-100 rounded font-medium p-2.5">
+        <button className="w-full rounded bg-warmblue-100 p-2.5 font-medium">
           Log In
         </button>
 
-        <div className="text-sm text-silvergrey-400 mt-3">
+        <div className="mt-3 text-sm text-silvergrey-400">
           Need an account?{' '}
           <a className="font-medium text-dodgerblue-100">Register</a>
         </div>

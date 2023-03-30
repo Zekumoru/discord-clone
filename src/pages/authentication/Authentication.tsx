@@ -5,7 +5,7 @@ import Logo from './components/Logo';
 const Authentication = () => {
   return (
     <div className="flex flex-col items-center px-4 py-5">
-      <Logo className="h-9 mb-4" />
+      <Logo className="mb-4 h-9" />
       <Routes>
         <Route path="/" element={<Login />} />
       </Routes>

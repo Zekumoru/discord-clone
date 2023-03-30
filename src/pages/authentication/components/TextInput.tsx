@@ -26,7 +26,7 @@ const TextInput = ({
   return (
     <div className={`flex flex-col ${className ?? ''}`}>
       <label
-        className="mb-2 uppercase font-bold text-silvergrey-300 text-xs"
+        className="mb-2 text-xs font-bold uppercase text-silvergrey-300"
         htmlFor={`email-${id}`}
       >
         {labelContent}
@@ -34,7 +34,7 @@ const TextInput = ({
       <input
         type={type}
         id={`email-${id}`}
-        className="bg-background-700 rounded p-2.5 outline-none leading-none text-silvergrey-300"
+        className="rounded bg-background-700 p-2.5 leading-none text-silvergrey-300 outline-none"
         minLength={minLength}
         maxLength={maxLength}
         value={value}
