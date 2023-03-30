@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import TextInput from '../components/TextInput';
 import { Link } from 'react-router-dom';
 
 const SignUp = () => {
+  const id = useId();
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -19,6 +20,7 @@ const SignUp = () => {
       >
         <TextInput
           type="email"
+          id={`email-${id}`}
           className="mb-5"
           value={email}
           onChange={setEmail}
@@ -28,6 +30,7 @@ const SignUp = () => {
 
         <TextInput
           type="text"
+          id={`username-${id}`}
           className="mb-5"
           value={username}
           onChange={setUsername}
@@ -39,6 +42,7 @@ const SignUp = () => {
 
         <TextInput
           type="password"
+          id={`password-${id}`}
           className="mb-6"
           value={password}
           onChange={setPassword}
