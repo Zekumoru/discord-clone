@@ -7,7 +7,7 @@ import {
 import { useScreenModal } from '../../../../contexts/screen-modal/ScreenModal';
 import IFriend from '../../../../types/Friend';
 import snowflakeId from '../../../../utils/snowflake-id/snowflakeId';
-import AddFriendScreenModal from '../../components/AddFriendScreenModal';
+import AddFriendScreenModal from '../../components/add-friend-screen-modal/AddFriendScreenModal';
 import Toolbar from '../../components/Toolbar';
 import CircledIconButton from './components/CircledIconButton';
 import FriendItem from './components/FriendItem';
