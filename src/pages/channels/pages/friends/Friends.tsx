@@ -1,19 +1,17 @@
 import IconUserPlus from '../../../../assets/icons/IconUserPlus';
+import IFriend from '../../../../types/Friend';
 import snowflakeId from '../../../../utils/snowflake-id/snowflakeId';
 import Toolbar from '../../components/Toolbar';
 import FriendItem from './components/FriendItem';
-import IFriend from './types';
 
-const createFriend = (name: string) => {
+const createFriend = () => {
   return {
-    name,
     userId: snowflakeId(),
     chatId: snowflakeId(),
-    photoUrl: null,
   } as IFriend;
 };
 
-const friends = [createFriend('Foo'), createFriend('Bar'), createFriend('Baz')];
+const friends = [createFriend(), createFriend(), createFriend()];
 
 const Friends = () => {
   return (
@@ -30,7 +28,7 @@ const Friends = () => {
 
         <h2 className="heading-2 mt-4 px-4">Requests — 1</h2>
         <ul>
-          <FriendItem friend={createFriend('Foobar')} />
+          <FriendItem friend={createFriend()} />
         </ul>
       </div>
     </>
