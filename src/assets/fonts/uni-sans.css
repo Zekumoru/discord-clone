@@ -1,0 +1,7 @@
+@layer base {
+  @font-face {
+    font-family: 'Uni Sans';
+    font-size: 700;
+    src: url('/assets/fonts/uni-sans/uni-sans-heavy.otf') format('opentype');
+  }
+}
