@@ -19,13 +19,13 @@ describe('Authentication/SignUp', () => {
 
     await user.click(emailInput);
     await user.keyboard('sample@mail.com');
-    await user.click(emailInput);
+    await user.click(usernameInput);
     await user.keyboard('Foo');
     await user.click(passwordInput);
     await user.keyboard('password123');
 
-    expect(screen.getByDisplayValue(/sample@mail.com/));
-    expect(screen.getByDisplayValue(/foo/i));
-    expect(screen.getByDisplayValue(/password123/));
+    expect(screen.getByDisplayValue(/^sample@mail.com$/));
+    expect(screen.getByDisplayValue(/^foo$/i));
+    expect(screen.getByDisplayValue(/^password123$/));
   });
 });

@@ -21,7 +21,7 @@ describe('Authentication/Login', () => {
     await user.click(passwordInput);
     await user.keyboard('password123');
 
-    expect(screen.getByDisplayValue(/sample@mail.com/));
-    expect(screen.getByDisplayValue(/password123/));
+    expect(screen.getByDisplayValue(/^sample@mail.com$/));
+    expect(screen.getByDisplayValue(/^password123$/));
   });
 });
