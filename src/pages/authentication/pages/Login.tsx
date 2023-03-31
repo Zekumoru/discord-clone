@@ -1,7 +1,10 @@
 import { useId, useState } from 'react';
 import TextInput from '../components/TextInput';
 import { Link } from 'react-router-dom';
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import {
+  useSignInWithEmailAndPassword,
+  useSendPasswordResetEmail,
+} from 'react-firebase-hooks/auth';
 import { getAuth } from 'firebase/auth';
 
 const Login = () => {
@@ -10,9 +13,19 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(getAuth());
+  const [sendPasswordResetEmail, sending, sendError] =
+    useSendPasswordResetEmail(getAuth());
 
   const handleSubmit = () => {
     signInWithEmailAndPassword(email, password);
+  };
+
+  const handleResetPassword = async () => {
+    const success = await sendPasswordResetEmail(email);
+
+    if (success) {
+      alert('Sent password reset to email');
+    }
   };
 
   return (
@@ -53,7 +66,10 @@ const Login = () => {
           required
         />
 
-        <a className="mb-5 inline-block text-sm font-medium text-dodgerblue-100">
+        <a
+          onClick={handleResetPassword}
+          className="mb-5 inline-block text-sm font-medium text-dodgerblue-100"
+        >
           Forgot your password?
         </a>
 
