@@ -2,7 +2,7 @@ import { useId, useState } from 'react';
 import TextInput from '../components/TextInput';
 import { Link } from 'react-router-dom';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { getAuth } from 'firebase/auth';
+import { getAuth, updateProfile } from 'firebase/auth';
 
 const SignUp = () => {
   const id = useId();
@@ -12,8 +12,11 @@ const SignUp = () => {
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(getAuth());
 
-  const handleSubmit = () => {
-    createUserWithEmailAndPassword(email, password);
+  const handleSubmit = async () => {
+    const response = await createUserWithEmailAndPassword(email, password);
+    if (response?.user) {
+      await updateProfile(response.user, { displayName: username });
+    }
   };
 
   return (
