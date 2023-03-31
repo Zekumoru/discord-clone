@@ -3,6 +3,8 @@ import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import SignUp from '../SignUp';
 
+vi.mock('firebase/auth');
+
 describe('Authentication/SignUp', () => {
   it('should correctly type email, username, and password', async () => {
     const user = userEvent.setup();

@@ -3,6 +3,8 @@ import userEvent from '@testing-library/user-event';
 import Login from '../Login';
 import { BrowserRouter } from 'react-router-dom';
 
+vi.mock('firebase/auth');
+
 describe('Authentication/Login', () => {
   it('should correctly type email and password', async () => {
     const user = userEvent.setup();
