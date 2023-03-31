@@ -3,8 +3,7 @@ interface IUser {
   firebaseId: string;
   email: string;
   pictureUrl: string | null;
-  name: string;
-  tag: string;
+  username: string;
   friendsId: string;
   guildsId: string;
   friendRequestsId: string;

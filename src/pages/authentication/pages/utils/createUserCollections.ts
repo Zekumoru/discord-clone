@@ -5,9 +5,8 @@ import { IFriendRequests, IFriends } from '../../../../types/Friend';
 import { IUserGuilds } from '../../../../types/Guild';
 import IUser from '../../../../types/User';
 import { User } from 'firebase/auth';
-import generateTag from './generateTag';
 
-const createUserCollections = async (user: User) => {
+const createUserCollections = async (user: User, username: string) => {
   await performBatch((batch) => {
     const userId = snowflakeId();
 
@@ -36,9 +35,8 @@ const createUserCollections = async (user: User) => {
       id: userId,
       email: user.email,
       firebaseId: user.uid,
-      name: user.displayName,
       pictureUrl: null,
-      tag: generateTag(),
+      username,
       friendsId,
       friendRequestsId,
       guildsId,

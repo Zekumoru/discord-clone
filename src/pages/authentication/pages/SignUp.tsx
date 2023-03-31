@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { getAuth, updateProfile } from 'firebase/auth';
 import createUserCollections from './utils/createUserCollections';
+import generateTag from './utils/generateTag';
 
 const SignUp = () => {
   const id = useId();
@@ -16,8 +17,9 @@ const SignUp = () => {
   const handleSubmit = async () => {
     const response = await createUserWithEmailAndPassword(email, password);
     if (response?.user) {
-      await updateProfile(response.user, { displayName: username });
-      await createUserCollections(response.user);
+      const taggedUsername = `${username}#${generateTag()}`;
+      await updateProfile(response.user, { displayName: taggedUsername });
+      await createUserCollections(response.user, taggedUsername);
     }
   };
 
