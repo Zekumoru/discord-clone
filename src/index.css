@@ -15,4 +15,8 @@
   .auth-title {
     @apply mb-1.5 text-2xl font-semibold;
   }
+
+  .heading-2 {
+    @apply text-xs font-bold uppercase text-silvergrey-300;
+  }
 }
