@@ -1,7 +1,9 @@
-import IconChatBubble from '../../../../assets/icons/IconChatBubble';
-import IconCheck from '../../../../assets/icons/IconCheck';
-import IconUserPlus from '../../../../assets/icons/IconUserPlus';
-import IconXMark from '../../../../assets/icons/IconXMark';
+import {
+  IconChatBubble,
+  IconCheck,
+  IconUserPlus,
+  IconXMark,
+} from '../../../../assets/icons';
 import IFriend from '../../../../types/Friend';
 import snowflakeId from '../../../../utils/snowflake-id/snowflakeId';
 import Toolbar from '../../components/Toolbar';
