@@ -53,7 +53,7 @@ const Login = () => {
           required
         />
 
-        <a className="mb-5 block text-sm font-medium text-dodgerblue-100">
+        <a className="mb-5 inline-block text-sm font-medium text-dodgerblue-100">
           Forgot your password?
         </a>
 

@@ -71,7 +71,7 @@ const SignUp = () => {
 
         <Link
           to="/"
-          className="mt-3 block text-sm font-medium text-dodgerblue-100"
+          className="mt-3 inline-block text-sm font-medium text-dodgerblue-100"
         >
           Already have an account?
         </Link>
