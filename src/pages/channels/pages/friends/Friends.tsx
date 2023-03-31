@@ -4,8 +4,10 @@ import {
   IconUserPlus,
   IconXMark,
 } from '../../../../assets/icons';
+import { useScreenModal } from '../../../../contexts/screen-modal/ScreenModal';
 import IFriend from '../../../../types/Friend';
 import snowflakeId from '../../../../utils/snowflake-id/snowflakeId';
+import AddFriendScreenModal from '../../components/AddFriendScreenModal';
 import Toolbar from '../../components/Toolbar';
 import CircledIconButton from './components/CircledIconButton';
 import FriendItem from './components/FriendItem';
@@ -20,9 +22,23 @@ const createFriend = () => {
 const friends = [createFriend(), createFriend(), createFriend()];
 
 const Friends = () => {
+  const [openModal, closeModal] = useScreenModal();
+
   return (
     <>
-      <Toolbar buttons={<IconUserPlus className="h-6 w-6" />}>Friends</Toolbar>
+      <Toolbar
+        buttons={
+          <div
+            onClick={() =>
+              openModal(<AddFriendScreenModal close={closeModal} />)
+            }
+          >
+            <IconUserPlus className="h-6 w-6" />
+          </div>
+        }
+      >
+        Friends
+      </Toolbar>
 
       <div className="py-4">
         <h2 className="heading-2 px-4">Added — 3</h2>
