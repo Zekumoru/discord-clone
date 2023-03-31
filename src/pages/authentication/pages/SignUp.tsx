@@ -72,9 +72,7 @@ const SignUp = () => {
           required
         />
 
-        <button className="w-full rounded bg-warmblue-100 p-2.5 font-medium">
-          Sign Up
-        </button>
+        <button className="btn">Sign Up</button>
 
         <Link
           to="/"

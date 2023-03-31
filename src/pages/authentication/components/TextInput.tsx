@@ -52,7 +52,7 @@ const TextInput = ({
       <input
         type={type}
         id={id}
-        className="rounded bg-background-700 p-2.5 leading-none text-silvergrey-300 outline-none"
+        className="text-input"
         minLength={minLength}
         maxLength={maxLength}
         value={value}

@@ -16,8 +16,20 @@
     @apply mb-1.5 text-2xl font-semibold;
   }
 
+  .toolbar {
+    @apply sticky top-0 z-30 flex h-14 items-center gap-1 bg-background-500 px-4 py-2 shadow-material;
+  }
+
+  .text-input {
+    @apply rounded bg-background-700 p-2.5 leading-none text-silvergrey-300 outline-none placeholder:text-silvergrey-400;
+  }
+
   .heading-2 {
     @apply text-xs font-bold uppercase text-silvergrey-300;
+  }
+
+  .btn {
+    @apply w-full rounded bg-warmblue-100 p-2.5 font-medium capitalize;
   }
 }
 
