@@ -27,6 +27,9 @@ export default {
         crimson: {
           100: '#F23F42',
         },
+        salmon: {
+          100: '#FA777C',
+        },
       },
     },
   },

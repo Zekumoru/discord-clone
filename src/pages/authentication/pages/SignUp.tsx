@@ -31,10 +31,12 @@ const SignUp = () => {
           type="email"
           id={`email-${id}`}
           className="mb-5"
+          label="Email"
           value={email}
+          error={error?.code}
           onChange={setEmail}
+          hideAsterisk={true}
           required
-          labelContent="Email"
         />
 
         <TextInput
@@ -42,11 +44,12 @@ const SignUp = () => {
           id={`username-${id}`}
           className="mb-5"
           value={username}
+          label="Username"
           onChange={setUsername}
           minLength={3}
           maxLength={32}
+          hideAsterisk={true}
           required
-          labelContent="Username"
         />
 
         <TextInput
@@ -54,11 +57,12 @@ const SignUp = () => {
           id={`password-${id}`}
           className="mb-6"
           value={password}
+          label="Password"
           onChange={setPassword}
           minLength={8}
           maxLength={30}
+          hideAsterisk={true}
           required
-          labelContent="Password"
         />
 
         <button className="w-full rounded bg-warmblue-100 p-2.5 font-medium">

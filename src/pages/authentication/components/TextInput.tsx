@@ -1,11 +1,14 @@
-import { ReactNode } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import TextInputLabel from './TextInputLabel';
 
 type TextInputProps = {
   type: 'text' | 'password' | 'email';
   id: string;
   className?: string;
-  labelContent: ReactNode | string;
   value: string;
+  label: string;
+  error?: string;
+  hideAsterisk?: boolean;
   required?: boolean;
   minLength?: number;
   maxLength?: number;
@@ -16,20 +19,38 @@ const TextInput = ({
   type,
   id,
   className,
-  labelContent,
+  error,
   value,
+  label,
   required,
+  hideAsterisk,
   minLength,
   maxLength,
   onChange,
 }: TextInputProps) => {
+  const [isErrorShown, setIsErrorShown] = useState(false);
+
+  useEffect(() => {
+    if (!error) return;
+    setIsErrorShown(true);
+  }, [error]);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsErrorShown(false);
+    onChange(e.target.value);
+  };
+
   return (
     <div className={`flex flex-col ${className ?? ''}`}>
       <label
         className="mb-2 text-xs font-bold uppercase text-silvergrey-300"
         htmlFor={id}
       >
-        {labelContent}
+        <TextInputLabel
+          label={label}
+          error={isErrorShown ? error : undefined}
+          required={required && !hideAsterisk}
+        />
       </label>
       <input
         type={type}
@@ -38,7 +59,7 @@ const TextInput = ({
         minLength={minLength}
         maxLength={maxLength}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={handleChange}
         required={required}
       />
     </div>

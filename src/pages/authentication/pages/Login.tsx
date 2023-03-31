@@ -33,30 +33,24 @@ const Login = () => {
           type="email"
           id={`email-${id}`}
           className="mb-5"
+          label="Email"
           value={email}
+          error={error?.code}
           onChange={setEmail}
           required
-          labelContent={
-            <>
-              Email <span className="ml-0.5 text-crimson-100">*</span>
-            </>
-          }
         />
 
         <TextInput
           type="password"
           id={`password-${id}`}
           className="mb-1.5"
+          label="Password"
           value={password}
-          onChange={setPassword}
           minLength={8}
           maxLength={30}
+          error={error?.code}
+          onChange={setPassword}
           required
-          labelContent={
-            <>
-              Password <span className="ml-0.5 text-crimson-100">*</span>
-            </>
-          }
         />
 
         <a className="mb-5 block text-sm font-medium text-dodgerblue-100">
