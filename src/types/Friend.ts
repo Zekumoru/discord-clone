@@ -9,11 +9,16 @@ interface IFriends {
   friendsList: IFriend[];
 }
 
+interface IFriendRequest {
+  userId: string;
+  pendingType: 'acceptance' | 'request';
+}
+
 interface IFriendRequests {
   id: string;
   userId: string;
-  requests: IFriend[];
+  requests: IFriendRequest[];
 }
 
 export default IFriend;
-export type { IFriends, IFriendRequests };
+export type { IFriends, IFriendRequest, IFriendRequests };
