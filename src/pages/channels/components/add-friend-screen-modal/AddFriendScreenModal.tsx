@@ -4,6 +4,7 @@ import { getAuth } from 'firebase/auth';
 import UsernameInput from './components/UsernameInput';
 import AddFriendModalToolbar from './components/AddFriendModalToolbar';
 import { ScreenModalMethods } from '../../../../contexts/screen-modal/ScreenModal';
+import useAddFriend from './hooks/use-add-friend/useAddFriend';
 
 type AddFriendScreenModalProps = {
   close: ScreenModalMethods[1];
@@ -12,10 +13,14 @@ type AddFriendScreenModalProps = {
 const AddFriendScreenModal = ({ close }: AddFriendScreenModalProps) => {
   const [username, setUsername] = useState('');
   const [user] = useAuthState(getAuth());
+  const { mutate: addFriend } = useAddFriend({
+    onSuccess: () => {
+      close();
+    },
+  });
 
   const handleSubmit = () => {
-    console.log('Sending friend request...');
-    close();
+    addFriend(username);
   };
 
   return (
