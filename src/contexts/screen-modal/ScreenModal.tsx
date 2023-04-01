@@ -39,3 +39,4 @@ const ScreenModalProvider = ({ children }: ScreenModalProviderProps) => {
 
 export default ScreenModalProvider;
 export { useScreenModal };
+export type { ScreenModalMethods };

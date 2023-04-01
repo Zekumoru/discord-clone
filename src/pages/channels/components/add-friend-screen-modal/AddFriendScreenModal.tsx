@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import ScreenModalToolbar from '../../../../contexts/screen-modal/components/ScreenModalToolbar';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth } from 'firebase/auth';
 import UsernameInput from './components/UsernameInput';
+import AddFriendModalToolbar from './components/AddFriendModalToolbar';
+import { ScreenModalMethods } from '../../../../contexts/screen-modal/ScreenModal';
 
 type AddFriendScreenModalProps = {
-  close: () => void;
+  close: ScreenModalMethods[1];
 };
 
 const AddFriendScreenModal = ({ close }: AddFriendScreenModalProps) => {
@@ -19,15 +20,7 @@ const AddFriendScreenModal = ({ close }: AddFriendScreenModalProps) => {
 
   return (
     <div className="min-h-screen bg-background-300">
-      <ScreenModalToolbar
-        leftElement={
-          <button className="font-medium" onClick={close}>
-            Close
-          </button>
-        }
-      >
-        Add Friend
-      </ScreenModalToolbar>
+      <AddFriendModalToolbar close={close} />
 
       <div className="mb-1 mt-2 p-4">
         <h1 className="text-center text-2xl font-bold">
