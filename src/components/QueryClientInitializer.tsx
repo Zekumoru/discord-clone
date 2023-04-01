@@ -24,3 +24,4 @@ const QueryClientInitializer = ({
 };
 
 export default QueryClientInitializer;
+export { queryClient };
