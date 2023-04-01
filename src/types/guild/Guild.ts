@@ -1,4 +1,4 @@
-import IRole from './Role';
+import IRole from '../role/Role';
 
 interface IGuild {
   // Stub!

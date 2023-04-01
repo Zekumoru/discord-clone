@@ -5,7 +5,7 @@ import {
   IconXMark,
 } from '../../../../assets/icons';
 import { useScreenModal } from '../../../../contexts/screen-modal/ScreenModal';
-import IFriend from '../../../../types/Friend';
+import IFriend from '../../../../types/friend/Friend';
 import snowflakeId from '../../../../utils/snowflake-id/snowflakeId';
 import AddFriendScreenModal from '../../components/add-friend-screen-modal/AddFriendScreenModal';
 import Toolbar from '../../components/Toolbar';

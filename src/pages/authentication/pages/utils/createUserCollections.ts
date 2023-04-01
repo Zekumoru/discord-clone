@@ -1,9 +1,9 @@
 import { doc, getFirestore } from 'firebase/firestore';
 import performBatch from '../../../../utils/performBatch';
 import snowflakeId from '../../../../utils/snowflake-id/snowflakeId';
-import { IFriendRequests, IFriends } from '../../../../types/Friend';
-import { IUserGuilds } from '../../../../types/Guild';
-import IUser from '../../../../types/User';
+import { IFriendRequests, IFriends } from '../../../../types/friend/Friend';
+import { IUserGuilds } from '../../../../types/guild/Guild';
+import IUser from '../../../../types/user/User';
 import { User } from 'firebase/auth';
 
 const createUserCollections = async (user: User, username: string) => {
