@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "deploy": "yarn build && firebase deploy --only hosting",
     "test": "vitest",
+    "coverage": "vitest --coverage",
     "lint": "prettier --write ."
   },
   "dependencies": {
