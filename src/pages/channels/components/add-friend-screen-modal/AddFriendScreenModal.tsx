@@ -3,7 +3,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth } from 'firebase/auth';
 import UsernameInput from './components/UsernameInput';
 import AddFriendModalToolbar from './components/AddFriendModalToolbar';
-import { ScreenModalMethods } from '../../../../contexts/screen-modal/ScreenModal';
+import { ScreenModalMethods } from '../../../../contexts/screen-modal/ScreenModalContext';
 import useAddFriend from './hooks/use-add-friend/useAddFriend';
 
 type AddFriendScreenModalProps = {

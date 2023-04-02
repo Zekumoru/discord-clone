@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import Authentication from './pages/authentication/Authentication';
 import Channels from './pages/channels/Channels';
-import ScreenModalProvider from './contexts/screen-modal/ScreenModal';
+import ScreenModalProvider from './contexts/screen-modal/ScreenModalContext';
 import CurrentUserProvider from './contexts/current-user/CurrentUserContext';
 
 function App() {

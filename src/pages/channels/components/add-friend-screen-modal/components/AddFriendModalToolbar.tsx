@@ -1,5 +1,5 @@
 import ScreenModalToolbar from '../../../../../contexts/screen-modal/components/ScreenModalToolbar';
-import { ScreenModalMethods } from '../../../../../contexts/screen-modal/ScreenModal';
+import { ScreenModalMethods } from '../../../../../contexts/screen-modal/ScreenModalContext';
 
 type AddFriendModalToolbarProps = {
   close: ScreenModalMethods[1];
