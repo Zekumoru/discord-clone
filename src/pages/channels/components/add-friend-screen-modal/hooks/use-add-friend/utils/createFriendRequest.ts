@@ -30,3 +30,4 @@ const createFriendRequest = async (
 };
 
 export default createFriendRequest;
+export type { CreateFriendRequestOptions };
