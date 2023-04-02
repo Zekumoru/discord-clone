@@ -9,6 +9,19 @@ import IUser from '../../../../../../../types/user/User';
 import createFriendRequest, {
   CreateFriendRequestOptions,
 } from '../utils/createFriendRequest';
+import {
+  DocumentReference,
+  DocumentSnapshot,
+  getDoc,
+} from 'firebase/firestore';
+import {
+  IFriendRequest,
+  IFriendRequests,
+} from '../../../../../../../types/friend/Friend';
+import createDoc from '../../../../../../../utils/firebase/createDoc';
+
+vi.mock('../../../../../../../utils/firebase/createDoc');
+const mockedCreateDoc = vi.mocked(createDoc);
 
 vi.mock(
   '../../../../../../../contexts/current-user/CurrentUserContext',
@@ -30,7 +43,10 @@ vi.mock('firebase/firestore', () => ({
     withConverter: () => {},
   }),
   writeBatch: vi.fn(() => ({ commit: () => {} })),
+  getDoc: vi.fn(async () => ({ data: vi.fn() })),
 }));
+
+const mockedGetDoc = vi.mocked(getDoc);
 
 vi.mock('../utils/createFriendRequest', () => ({
   default: vi.fn(async () => {}),
@@ -43,7 +59,11 @@ vi.mock('react-firebase-hooks/auth', () => ({
 const mockedUseAuthState = vi.mocked(useAuthState);
 
 afterEach(() => {
+  mockedCreateDoc.mockRestore();
+  mockedUseCurrentUser.mockRestore();
   mockedFindUserByUsername.mockRestore();
+  mockedGetDoc.mockRestore();
+  mockedCreateFriendRequest.mockRestore();
   mockedUseAuthState.mockRestore();
 });
 
@@ -156,17 +176,27 @@ describe('AddFriendScreenModal/useAddFriend', () => {
   test('that the user sending the request gets a friend request of type pending request and the user being sent a friend request gets a friend request of type pending acceptance', async () => {
     const user = userEvent.setup();
     mockedUseCurrentUser.mockReturnValue([
-      { id: '123', username: 'User#1234', friendRequestsId: '123' } as IUser,
+      { id: '1234', username: 'User#1234', friendRequestsId: '1234' } as IUser,
       false,
       undefined,
     ]);
     mockedFindUserByUsername.mockReturnValue(
       Promise.resolve({
-        id: '789',
+        id: '7890',
         username: 'Test#1234',
-        friendRequestsId: '789',
+        friendRequestsId: '7890',
       } as IUser)
     );
+    mockedCreateDoc.mockImplementation((docName) => {
+      return { path: docName } as DocumentReference<IFriendRequests>;
+    });
+    mockedGetDoc.mockImplementation(async (ref) => {
+      return {
+        data: () => ({
+          requests: [] as IFriendRequest[],
+        }),
+      } as DocumentSnapshot<IFriendRequests>;
+    });
     const createFriendRequest = vi.fn();
     mockedCreateFriendRequest.mockImplementation(createFriendRequest);
     const queryClient = new QueryClient({
@@ -192,16 +222,83 @@ describe('AddFriendScreenModal/useAddFriend', () => {
     expect(createFriendRequest).toHaveBeenNthCalledWith<
       [any, CreateFriendRequestOptions]
     >(1, expect.anything(), {
-      userId: '123',
-      requestsId: '789',
+      friendRequests: { requests: [] as IFriendRequest[] } as IFriendRequests,
+      friendRequestsRef: {
+        path: 'friend-requests/7890',
+      } as DocumentReference<IFriendRequests>,
+      userId: '1234',
       pendingType: 'acceptance',
     });
     expect(createFriendRequest).toHaveBeenNthCalledWith<
       [any, CreateFriendRequestOptions]
     >(2, expect.anything(), {
-      userId: '789',
-      requestsId: '123',
+      friendRequests: { requests: [] as IFriendRequest[] } as IFriendRequests,
+      friendRequestsRef: {
+        path: 'friend-requests/1234',
+      } as DocumentReference<IFriendRequests>,
+      userId: '7890',
       pendingType: 'request',
     });
+  });
+
+  it('should return an error if a user tries to add the same user again', async () => {
+    const user = userEvent.setup();
+    mockedUseCurrentUser.mockReturnValue([
+      { id: '1234', username: 'User#1234', friendRequestsId: '1234' } as IUser,
+      false,
+      undefined,
+    ]);
+    mockedFindUserByUsername.mockReturnValue(
+      Promise.resolve({
+        id: '7890',
+        username: 'Test#7890',
+        friendRequestsId: '7890',
+      } as IUser)
+    );
+    mockedCreateDoc.mockImplementation((docName) => {
+      return { path: docName } as DocumentReference<IFriendRequests>;
+    });
+    mockedGetDoc.mockImplementation(async (ref) => {
+      if (ref.path.includes('1234')) {
+        return {
+          data: () => ({
+            requests: [{ userId: '7890', pendingType: 'request' }],
+          }),
+        } as DocumentSnapshot<IFriendRequests>;
+      }
+      return {
+        data: () => ({
+          requests: [{ userId: '1234', pendingType: 'acceptance' }],
+        }),
+      } as DocumentSnapshot<IFriendRequests>;
+    });
+    const queryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: false,
+        },
+      },
+    });
+    const Component = () => {
+      const { mutate: addFriend, error } = useAddFriend();
+      if (error instanceof Error) {
+        return <div>{error.message}</div>;
+      }
+      return <button onClick={() => addFriend('Test#7890')} />;
+    };
+    const originalConsoleError = console.error;
+    console.error = () => {};
+    render(
+      <QueryClientProvider client={queryClient}>
+        <Component />
+      </QueryClientProvider>
+    );
+
+    await user.click(screen.getByRole('button'));
+
+    expect(
+      screen.getByText(/already sent a friend request/i)
+    ).toBeInTheDocument();
+    console.error = originalConsoleError;
   });
 });
