@@ -1,6 +1,6 @@
 import { useId, useState } from 'react';
 import TextInput from '../components/TextInput';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { getAuth, updateProfile } from 'firebase/auth';
 import createUserCollections from './utils/createUserCollections';
@@ -13,6 +13,7 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(getAuth());
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     const response = await createUserWithEmailAndPassword(email, password);
@@ -20,6 +21,7 @@ const SignUp = () => {
       const taggedUsername = `${username}#${generateTag()}`;
       await updateProfile(response.user, { displayName: taggedUsername });
       await createUserCollections(response.user, taggedUsername);
+      navigate('/channels/@me');
     }
   };
 

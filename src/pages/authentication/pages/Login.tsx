@@ -1,6 +1,6 @@
 import { useId, useState } from 'react';
 import TextInput from '../components/TextInput';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   useSignInWithEmailAndPassword,
   useSendPasswordResetEmail,
@@ -15,9 +15,13 @@ const Login = () => {
     useSignInWithEmailAndPassword(getAuth());
   const [sendPasswordResetEmail, sending, sendError] =
     useSendPasswordResetEmail(getAuth());
+  const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    signInWithEmailAndPassword(email, password);
+  const handleSubmit = async () => {
+    const response = await signInWithEmailAndPassword(email, password);
+    if (response?.user) {
+      navigate('/channels/@me');
+    }
   };
 
   const handleResetPassword = async () => {
