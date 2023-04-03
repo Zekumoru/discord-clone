@@ -2,8 +2,12 @@ import { render, screen, waitFor } from '@testing-library/react';
 import CurrentUserProvider, { useCurrentUser } from '../CurrentUserContext';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { User } from 'firebase/auth';
-import { QuerySnapshot, getDocs } from 'firebase/firestore';
+import { getDocs } from 'firebase/firestore';
 import NoRetryQueryClientProvider from '../../../tests/NoRetryQueryClientProvider';
+import mockCurrentUser from '../utils/mockCurrentUser';
+import mockGetDocsData, {
+  mockCollectionData,
+} from '../../../tests/utils/firebase/mockGetDocsData';
 import IUser from '../../../types/user/User';
 
 vi.mock('firebase/auth');
@@ -12,21 +16,9 @@ vi.mock('react-firebase-hooks/auth');
 
 describe('CurrentUserContext', () => {
   it('should return the current user', async () => {
-    vi.mocked(useAuthState).mockReturnValue([
-      { uid: '1234567890' } as User,
-      false,
-      undefined,
-    ]);
-    vi.mocked(getDocs<IUser>).mockResolvedValue({
-      docs: [
-        {
-          data: () => ({
-            id: '1234567890',
-            username: 'User',
-          }),
-        },
-      ],
-    } as QuerySnapshot<IUser>);
+    const user = mockCurrentUser('1234', 'User#1234');
+    const mcd = mockCollectionData;
+    mockGetDocsData({ users: mcd<IUser>([user]) });
     const Component = () => {
       const [user] = useCurrentUser();
       return <div>{user?.username}</div>;
