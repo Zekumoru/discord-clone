@@ -1,20 +1,17 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import mockCurrentUser from '../../../../../../contexts/current-user/utils/mockCurrentUser';
+import mockCurrentUser from '../../../../../contexts/current-user/utils/mockCurrentUser';
 import mockGetDocsData, {
   mockCollectionData as mcd,
-} from '../../../../../../tests/utils/firebase/mockGetDocsData';
-import {
-  IFriendRequests,
-  IFriends,
-} from '../../../../../../types/friend/Friend';
-import IUser from '../../../../../../types/user/User';
-import FriendRequestItem from '../friend-item/FriendRequestItem';
-import NoRetryQueryClientProvider from '../../../../../../tests/NoRetryQueryClientProvider';
-import CurrentUserProvider from '../../../../../../contexts/current-user/CurrentUserContext';
+} from '../../../../../tests/utils/firebase/mockGetDocsData';
+import { IFriendRequests, IFriends } from '../../../../../types/friend/Friend';
+import IUser from '../../../../../types/user/User';
+import FriendRequestItem from '../components/friend-item/FriendRequestItem';
+import NoRetryQueryClientProvider from '../../../../../tests/NoRetryQueryClientProvider';
+import CurrentUserProvider from '../../../../../contexts/current-user/CurrentUserContext';
 import mockGetDocData, {
   mockDocumentData as mdd,
-} from '../../../../../../tests/utils/firebase/mockGetDocData';
+} from '../../../../../tests/utils/firebase/mockGetDocData';
 import { WriteBatch, writeBatch } from 'firebase/firestore';
 
 vi.mock('firebase/auth');
