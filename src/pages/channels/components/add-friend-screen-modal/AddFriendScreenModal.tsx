@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { getAuth } from 'firebase/auth';
 import UsernameInput from './components/UsernameInput';
 import AddFriendModalToolbar from './components/AddFriendModalToolbar';
 import { ScreenModalMethods } from '../../../../contexts/screen-modal/ScreenModalContext';
 import useAddFriend from './hooks/use-add-friend/useAddFriend';
+import { useCurrentUser } from '../../../../contexts/current-user/CurrentUserContext';
 
 type AddFriendScreenModalProps = {
   close: ScreenModalMethods[1];
@@ -12,7 +11,7 @@ type AddFriendScreenModalProps = {
 
 const AddFriendScreenModal = ({ close }: AddFriendScreenModalProps) => {
   const [username, setUsername] = useState('');
-  const [user] = useAuthState(getAuth());
+  const [user] = useCurrentUser();
   const { mutate: addFriend } = useAddFriend({
     onSuccess: () => {
       close();
@@ -51,7 +50,7 @@ const AddFriendScreenModal = ({ close }: AddFriendScreenModalProps) => {
             required
           />
           <div className="mt-2 text-sm text-silvergrey-300">
-            Your username is {user?.displayName}
+            Your username is {user?.username}
           </div>
 
           <button className="btn my-4 py-2 text-sm font-semibold">
