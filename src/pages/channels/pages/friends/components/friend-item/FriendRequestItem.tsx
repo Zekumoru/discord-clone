@@ -35,12 +35,14 @@ const FriendRequestItem = ({ request }: FriendRequestItemProps) => {
       buttons={
         <span className="flex gap-1.5">
           <CircledIconButton
+            testid="accept-btn"
             onClick={handleAccept}
             icon={
               <IconCheck strokeWidth={2} className="h-4 w-4 text-jade-100" />
             }
           />
           <CircledIconButton
+            testid="reject-btn"
             onClick={handleReject}
             icon={
               <IconXMark strokeWidth={2} className="h-4 w-4 text-crimson-100" />
