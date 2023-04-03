@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import IFriend from '../../../../../types/friend/Friend';
+import IFriend from '../../../../../../types/friend/Friend';
 
 type FriendItemProps = {
   friend: IFriend;
