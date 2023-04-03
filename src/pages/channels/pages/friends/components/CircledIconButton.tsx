@@ -1,12 +1,16 @@
 import { ReactNode } from 'react';
 
 type CircledIconButtonProps = {
+  onClick?: () => void;
   icon: ReactNode;
 };
 
-const CircledIconButton = ({ icon }: CircledIconButtonProps) => {
+const CircledIconButton = ({ onClick, icon }: CircledIconButtonProps) => {
   return (
-    <span className="grid h-8 w-8 place-content-center rounded-full bg-background-500">
+    <span
+      onClick={onClick}
+      className="grid h-8 w-8 place-content-center rounded-full bg-background-500"
+    >
       {icon}
     </span>
   );
