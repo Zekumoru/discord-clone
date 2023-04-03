@@ -2,13 +2,13 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AddFriendScreenModal from '../AddFriendScreenModal';
 import { User } from 'firebase/auth';
-import QueryClientInitializer from '../../../../../components/QueryClientInitializer';
+import QueryClientInitializer from '../../../../../../../components/QueryClientInitializer';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import IUser from '../../../../../types/user/User';
+import IUser from '../../../../../../../types/user/User';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { QuerySnapshot, getDocs } from 'firebase/firestore';
-import NoRetryQueryClientProvider from '../../../../../tests/NoRetryQueryClientProvider';
-import CurrentUserProvider from '../../../../../contexts/current-user/CurrentUserContext';
+import NoRetryQueryClientProvider from '../../../../../../../tests/NoRetryQueryClientProvider';
+import CurrentUserProvider from '../../../../../../../contexts/current-user/CurrentUserContext';
 
 vi.mock('firebase/auth');
 vi.mock('firebase/firestore');

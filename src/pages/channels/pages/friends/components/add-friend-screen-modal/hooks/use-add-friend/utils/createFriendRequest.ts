@@ -2,7 +2,7 @@ import { DocumentReference, WriteBatch, getDoc } from 'firebase/firestore';
 import {
   IFriendRequest,
   IFriendRequests,
-} from '../../../../../../../types/friend/Friend';
+} from '../../../../../../../../../types/friend/Friend';
 
 type CreateFriendRequestOptions = {
   friendRequestsRef: DocumentReference<IFriendRequests>;

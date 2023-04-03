@@ -1,14 +1,14 @@
 import { useMutation } from 'react-query';
-import performBatch from '../../../../../../utils/performBatch';
-import findUserByUsername from '../../../../../../types/user/firebase/findUserByUsername';
-import { useCurrentUser } from '../../../../../../contexts/current-user/CurrentUserContext';
-import IUser from '../../../../../../types/user/User';
+import performBatch from '../../../../../../../../utils/performBatch';
+import findUserByUsername from '../../../../../../../../types/user/firebase/findUserByUsername';
+import { useCurrentUser } from '../../../../../../../../contexts/current-user/CurrentUserContext';
+import IUser from '../../../../../../../../types/user/User';
 import createFriendRequest from './utils/createFriendRequest';
-import createDoc from '../../../../../../utils/firebase/createDoc';
+import createDoc from '../../../../../../../../utils/firebase/createDoc';
 import {
   IFriendRequest,
   IFriendRequests,
-} from '../../../../../../types/friend/Friend';
+} from '../../../../../../../../types/friend/Friend';
 import { getDoc } from 'firebase/firestore';
 
 const alreadyHasRequest = (userId: string, requests: IFriendRequest[]) => {

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import UsernameInput from './components/UsernameInput';
 import AddFriendModalToolbar from './components/AddFriendModalToolbar';
-import { ScreenModalMethods } from '../../../../contexts/screen-modal/ScreenModalContext';
+import { ScreenModalMethods } from '../../../../../../contexts/screen-modal/ScreenModalContext';
 import useAddFriend from './hooks/use-add-friend/useAddFriend';
-import { useCurrentUser } from '../../../../contexts/current-user/CurrentUserContext';
+import { useCurrentUser } from '../../../../../../contexts/current-user/CurrentUserContext';
 
 type AddFriendScreenModalProps = {
   close: ScreenModalMethods[1];

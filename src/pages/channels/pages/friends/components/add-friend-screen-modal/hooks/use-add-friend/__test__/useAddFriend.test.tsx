@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import useAddFriend from '../useAddFriend';
-import IUser from '../../../../../../../types/user/User';
+import IUser from '../../../../../../../../../types/user/User';
 import { CreateFriendRequestOptions } from '../utils/createFriendRequest';
 import {
   DocumentReference,
@@ -19,12 +19,12 @@ import {
 import {
   IFriendRequest,
   IFriendRequests,
-} from '../../../../../../../types/friend/Friend';
-import NoRetryQueryClientProvider from '../../../../../../../tests/NoRetryQueryClientProvider';
-import silentErrors from '../../../../../../../tests/silentErrors';
+} from '../../../../../../../../../types/friend/Friend';
+import NoRetryQueryClientProvider from '../../../../../../../../../tests/NoRetryQueryClientProvider';
+import silentErrors from '../../../../../../../../../tests/silentErrors';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { User } from 'firebase/auth';
-import CurrentUserProvider from '../../../../../../../contexts/current-user/CurrentUserContext';
+import CurrentUserProvider from '../../../../../../../../../contexts/current-user/CurrentUserContext';
 
 vi.mock('firebase/auth');
 vi.mock('firebase/firestore');
