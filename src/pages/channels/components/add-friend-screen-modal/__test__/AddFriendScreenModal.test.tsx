@@ -1,53 +1,49 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import ScreenModalProvider, {
-  useScreenModal,
-} from '../../../../../contexts/screen-modal/ScreenModalContext';
 import AddFriendScreenModal from '../AddFriendScreenModal';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { User } from 'firebase/auth';
-import findUserByUsername from '../../../../../types/user/firebase/findUserByUsername';
 import QueryClientInitializer from '../../../../../components/QueryClientInitializer';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
 import IUser from '../../../../../types/user/User';
-
-vi.mock('../../../../../contexts/current-user/CurrentUserContext', () => ({
-  useCurrentUser: vi.fn(() => []),
-}));
-const mockedUseCurrentUser = vi.mocked(useCurrentUser);
-
-vi.mock('../../../../../types/user/firebase/findUserByUsername', () => ({
-  default: vi.fn(async () => {}),
-}));
-const mockedFindUserByUsername = vi.mocked(findUserByUsername);
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { QuerySnapshot, getDocs } from 'firebase/firestore';
+import NoRetryQueryClientProvider from '../../../../../tests/NoRetryQueryClientProvider';
+import CurrentUserProvider from '../../../../../contexts/current-user/CurrentUserContext';
 
 vi.mock('firebase/auth');
-vi.mock('firebase/firestore', () => ({
-  getFirestore: () => {},
-  collection: () => ({
-    withConverter: () => {},
-  }),
-}));
-
-vi.mock('react-firebase-hooks/auth', () => ({
-  useAuthState: vi.fn(() => []),
-}));
-const mockedUseAuthState = vi.mocked(useAuthState);
-
-afterEach(() => {
-  mockedFindUserByUsername.mockRestore();
-  mockedUseAuthState.mockRestore();
-});
+vi.mock('firebase/firestore');
+vi.mock('react-firebase-hooks/auth');
 
 describe('AddFriendScreenModal', () => {
   it("should close the modal when the 'close' button is clicked", async () => {
     const user = userEvent.setup();
+    const mockCurrenUser = () => {
+      vi.mocked(useAuthState).mockReturnValue([
+        {
+          uid: '1234',
+        } as User,
+        false,
+        undefined,
+      ]);
+      vi.mocked(getDocs<IUser>).mockResolvedValueOnce({
+        docs: [
+          {
+            data: () => ({
+              id: '1234',
+              username: 'User#1234',
+            }),
+          },
+        ],
+      } as QuerySnapshot<IUser>);
+    };
     const closeFn = vi.fn();
+    mockCurrenUser();
     render(
-      <QueryClientInitializer>
-        <AddFriendScreenModal close={closeFn} />
-      </QueryClientInitializer>
+      <NoRetryQueryClientProvider>
+        <CurrentUserProvider>
+          <AddFriendScreenModal close={closeFn} />
+        </CurrentUserProvider>
+      </NoRetryQueryClientProvider>
     );
 
     await user.click(screen.getByText('Close'));
@@ -55,37 +51,67 @@ describe('AddFriendScreenModal', () => {
     expect(closeFn).toBeCalled();
   });
 
-  it("should show the name of the current user in the 'Your username is ...'", () => {
-    mockedUseAuthState.mockReturnValue([
-      { displayName: 'User#1234' } as User,
-      false,
-      undefined,
-    ]);
+  it("should show the name of the current user in the 'Your username is ...'", async () => {
+    const mockCurrenUser = () => {
+      vi.mocked(useAuthState).mockReturnValue([
+        { uid: '1234' } as User,
+        false,
+        undefined,
+      ]);
+      vi.mocked(getDocs<IUser>).mockResolvedValueOnce({
+        docs: [
+          {
+            data: () => ({
+              id: '1234',
+              username: 'User#1234',
+            }),
+          },
+        ],
+      } as QuerySnapshot<IUser>);
+    };
+    mockCurrenUser();
     render(
-      <QueryClientInitializer>
-        <AddFriendScreenModal close={() => {}} />
-      </QueryClientInitializer>
+      <NoRetryQueryClientProvider>
+        <CurrentUserProvider>
+          <AddFriendScreenModal close={() => {}} />
+        </CurrentUserProvider>
+      </NoRetryQueryClientProvider>
     );
 
-    expect(screen.getByText(/your username is user#1234/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.getByText(/your username is user#1234/i)
+      ).toBeInTheDocument();
+    });
   });
 
   it('should close the modal when friend request is sent', async () => {
     const user = userEvent.setup();
+    const mockCurrenUser = () => {
+      vi.mocked(useAuthState).mockReturnValue([
+        { uid: '1234' } as User,
+        false,
+        undefined,
+      ]);
+      vi.mocked(getDocs<IUser>).mockResolvedValueOnce({
+        docs: [
+          {
+            data: () => ({
+              id: '1234',
+              username: 'User#1234',
+            }),
+          },
+        ],
+      } as QuerySnapshot<IUser>);
+    };
+    mockCurrenUser();
     const closeFn = vi.fn();
-    mockedUseCurrentUser.mockReturnValue([{} as IUser, false, undefined]);
-    mockedFindUserByUsername.mockReturnValue(Promise.resolve({} as IUser));
-    const queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
-          retry: false,
-        },
-      },
-    });
     render(
-      <QueryClientProvider client={queryClient}>
-        <AddFriendScreenModal close={closeFn} />
-      </QueryClientProvider>
+      <NoRetryQueryClientProvider>
+        <CurrentUserProvider>
+          <AddFriendScreenModal close={closeFn} />
+        </CurrentUserProvider>
+      </NoRetryQueryClientProvider>
     );
 
     await user.click(screen.getByText('Close'));
