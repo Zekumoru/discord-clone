@@ -68,7 +68,7 @@ type useAcceptFriendProps = {
 };
 
 const useAcceptFriend = ({ onSuccess }: useAcceptFriendProps = {}) => {
-  return useMutation(acceptFriend);
+  return useMutation(acceptFriend, { onSuccess });
 };
 
 export default useAcceptFriend;
