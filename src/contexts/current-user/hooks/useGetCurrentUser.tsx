@@ -6,10 +6,14 @@ const getCurrentUser = async (firebaseId: string) => {
 };
 
 const useGetCurrentUser = (firebaseId: string) => {
-  return useQuery('currentUser', async () => await getCurrentUser(firebaseId), {
-    enabled: !!firebaseId,
-    refetchOnWindowFocus: false,
-  });
+  return useQuery(
+    ['user', 'current'],
+    async () => await getCurrentUser(firebaseId),
+    {
+      enabled: !!firebaseId,
+      refetchOnWindowFocus: false,
+    }
+  );
 };
 
 export default useGetCurrentUser;
