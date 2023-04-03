@@ -5,7 +5,7 @@ import {
   getDocs,
 } from 'firebase/firestore';
 
-const mockCollectionData = <T extends DocumentData>(data: T[]) => {
+const mockCollectionData = <T extends DocumentData>(...data: T[]) => {
   return {
     docs: data.map((data) => ({
       data: () => data,

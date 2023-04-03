@@ -13,8 +13,8 @@ describe('Tests/mockGetDocsData', () => {
     const barsRef = createCollection<Bar>('bars');
     const mcd = mockCollectionData;
     mockGetDocsData({
-      foos: mcd<Foo>([{ foo: 'A' }, { foo: 'B' }, { foo: 'C' }]),
-      bars: mcd<Bar>([{ bar: 'A' }, { bar: 'B' }, { bar: 'C' }]),
+      foos: mcd<Foo>({ foo: 'A' }, { foo: 'B' }, { foo: 'C' }),
+      bars: mcd<Bar>({ bar: 'A' }, { bar: 'B' }, { bar: 'C' }),
     });
 
     const foo = (await getDocs<Foo>(foosRef)).docs.map((doc) => doc.data());
