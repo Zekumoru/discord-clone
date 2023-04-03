@@ -1,5 +1,4 @@
 import { User } from 'firebase/auth';
-import { QuerySnapshot, getDocs } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import IUser from '../../../types/user/User';
 
@@ -43,8 +42,8 @@ const mockCurrentUser: MockCurrentUserOverloads = (
     const username = usernameOrUser;
 
     user = {
-      id: idOrFirebaseUser,
-      username: usernameOrUser,
+      id,
+      username,
       email: isOtherUserProps(otherProps) ? otherProps.email : '',
       pictureUrl: isOtherUserProps(otherProps) ? otherProps.pictureUrl : null,
       firebaseId: id,
@@ -55,7 +54,7 @@ const mockCurrentUser: MockCurrentUserOverloads = (
 
     firebaseUser = {
       uid: id,
-      displayName: usernameOrUser,
+      displayName: username,
       email: isOtherUserProps(otherProps) ? otherProps.email : '',
       photoURL: isOtherUserProps(otherProps) ? otherProps.pictureUrl : null,
     } as User;

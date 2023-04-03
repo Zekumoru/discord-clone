@@ -18,7 +18,7 @@ describe('CurrentUserContext', () => {
   it('should return the current user', async () => {
     const user = mockCurrentUser('1234', 'User#1234');
     const mcd = mockCollectionData;
-    mockGetDocsData({ users: mcd<IUser>([user]) });
+    mockGetDocsData({ users: mcd<IUser>(user) });
     const Component = () => {
       const [user] = useCurrentUser();
       return <div>{user?.username}</div>;

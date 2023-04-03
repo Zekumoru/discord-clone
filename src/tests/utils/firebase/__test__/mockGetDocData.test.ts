@@ -31,7 +31,7 @@ describe('Tests/mockGetDocData', () => {
     expect(bar).toEqual<Bar>({ bar: 'A' });
   });
 
-  it.only('should return an empty doc object if the data has not been mocked', async () => {
+  it('should return an empty doc object if the data has not been mocked', async () => {
     type Foo = { foo: string };
     const fooRef = createDoc<Foo>('tests/foo');
     mockGetDocData();
