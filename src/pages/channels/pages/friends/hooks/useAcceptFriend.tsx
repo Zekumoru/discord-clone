@@ -11,6 +11,7 @@ import { getDoc } from 'firebase/firestore';
 import friendRequestsDoc from '../../../../../types/friend/firebase/friendRequestsDoc';
 import friendsDoc from '../../../../../types/friend/firebase/friendsDoc';
 import snowflakeId from '../../../../../utils/snowflake-id/snowflakeId';
+import removeFriendRequests from './utils/removeFriendRequests';
 
 type AcceptFriendArgs = {
   currentUser: IUser;
@@ -23,26 +24,10 @@ const acceptFriend = async ({ currentUser, request }: AcceptFriendArgs) => {
     const otherUser = (await getDoc(userDoc(request.userId))).data()!;
 
     // remove requests on both users
-    const currentUserRequestsRef = friendRequestsDoc(
-      currentUser.friendRequestsId
-    );
-    const otherUserRequestsRef = friendRequestsDoc(otherUser.friendRequestsId);
-
-    const currentUserRequests = (await getDoc(currentUserRequestsRef)).data()!;
-    const otherUserRequests = (await getDoc(otherUserRequestsRef)).data()!;
-
-    batch.set<IFriendRequests>(currentUserRequestsRef, {
-      ...currentUserRequests,
-      requests: currentUserRequests.requests.filter(
-        (req) => req.userId !== otherUser.id
-      ),
-    });
-
-    batch.set<IFriendRequests>(otherUserRequestsRef, {
-      ...otherUserRequests,
-      requests: otherUserRequests.requests.filter(
-        (req) => req.userId !== currentUser.id
-      ),
+    await removeFriendRequests({
+      batch,
+      currentUser,
+      otherUser,
     });
 
     // add as friends in both users
