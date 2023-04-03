@@ -1,14 +1,9 @@
 import { useMutation } from 'react-query';
 import IUser from '../../../../../types/user/User';
-import {
-  IFriendRequest,
-  IFriendRequests,
-  IFriends,
-} from '../../../../../types/friend/Friend';
+import { IFriendRequest, IFriends } from '../../../../../types/friend/Friend';
 import performBatch from '../../../../../utils/performBatch';
 import userDoc from '../../../../../types/user/firebase/userDoc';
 import { getDoc } from 'firebase/firestore';
-import friendRequestsDoc from '../../../../../types/friend/firebase/friendRequestsDoc';
 import friendsDoc from '../../../../../types/friend/firebase/friendsDoc';
 import snowflakeId from '../../../../../utils/snowflake-id/snowflakeId';
 import removeFriendRequests from './utils/removeFriendRequests';
