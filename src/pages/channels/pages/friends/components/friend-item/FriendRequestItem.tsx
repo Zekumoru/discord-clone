@@ -1,16 +1,16 @@
 import { IconCheck, IconXMark } from '../../../../../../assets/icons';
-import IFriend from '../../../../../../types/friend/Friend';
+import { IFriendRequest } from '../../../../../../types/friend/Friend';
 import CircledIconButton from '../CircledIconButton';
 import FriendItem from './FriendItem';
 
 type FriendRequestItemProps = {
-  friend: IFriend;
+  request: IFriendRequest;
 };
 
-const FriendRequestItem = ({ friend }: FriendRequestItemProps) => {
+const FriendRequestItem = ({ request }: FriendRequestItemProps) => {
   return (
     <FriendItem
-      friend={friend}
+      friendId={request.userId}
       buttons={
         <span className="flex gap-1.5">
           <CircledIconButton

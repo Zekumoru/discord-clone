@@ -10,7 +10,7 @@ type UserFriendItemProps = {
 const UserFriendItem = ({ friend }: UserFriendItemProps) => {
   return (
     <FriendItem
-      friend={friend}
+      friendId={friend.userId}
       buttons={
         <CircledIconButton icon={<IconChatBubble className="h-4 w-4" />} />
       }
