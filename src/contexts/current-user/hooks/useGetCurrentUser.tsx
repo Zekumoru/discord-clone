@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 import findUserByFirebaseId from '../../../types/user/firebase/findUserByFirebaseId';
 
 const getCurrentUser = async (firebaseId: string) => {
-  return findUserByFirebaseId(firebaseId);
+  return await findUserByFirebaseId(firebaseId);
 };
 
 const useGetCurrentUser = (firebaseId: string) => {
