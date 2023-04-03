@@ -43,7 +43,7 @@ const collection = vi.fn(
   }
 );
 
-const query = vi.fn();
+const query = vi.fn((query) => query);
 
 const getDoc = vi.fn(firestore.getDoc);
 
