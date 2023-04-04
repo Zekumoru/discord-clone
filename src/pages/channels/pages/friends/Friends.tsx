@@ -29,14 +29,18 @@ const Friends = () => {
           ))}
         </ul>
 
-        <h2 className="heading-2 mt-4 px-4">
-          Requests — {pendingFriendAcceptances.length}
-        </h2>
-        <ul>
-          {pendingFriendAcceptances.map((request, index) => (
-            <FriendRequestItem key={index} request={request} />
-          ))}
-        </ul>
+        {!!pendingFriendAcceptances.length && (
+          <>
+            <h2 className="heading-2 mt-4 px-4">
+              Requests — {pendingFriendAcceptances.length}
+            </h2>
+            <ul>
+              {pendingFriendAcceptances.map((request, index) => (
+                <FriendRequestItem key={index} request={request} />
+              ))}
+            </ul>
+          </>
+        )}
       </div>
     </>
   );
