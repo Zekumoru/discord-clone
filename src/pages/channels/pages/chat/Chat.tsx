@@ -7,6 +7,7 @@ import ChatInput from './components/ChatInput';
 import removeTagFromName from '../../../../utils/removeTagFromName';
 import { useState } from 'react';
 import useSendMessage from './hooks/useSendMessage';
+import ChatMessages from './components/ChatMessages';
 
 const Chat = () => {
   const { id: chatId } = useParams();
@@ -37,6 +38,8 @@ const Chat = () => {
       <Toolbar prefix={<span className="text-silvergrey-400">@</span>}>
         {friendName}
       </Toolbar>
+
+      <ChatMessages chatId={chatId} />
 
       <ChatInput
         value={input}

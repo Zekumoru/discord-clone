@@ -18,7 +18,7 @@ const ChatInput = ({
   };
 
   return (
-    <div className="fixed  bottom-0 left-0 right-0 m-4 flex flex-col justify-center rounded bg-background-100 px-4 py-2 shadow-sm">
+    <div className="fixed bottom-0 left-0 right-0 m-4 flex h-10 flex-col justify-center rounded bg-background-100 px-4 py-2 shadow-sm">
       <input
         className="bg-transparent outline-none placeholder:text-silvergrey-600"
         value={value ?? ''}

@@ -24,6 +24,12 @@
     @apply rounded bg-background-700 p-2.5 leading-none text-silvergrey-300 outline-none placeholder:text-silvergrey-400;
   }
 
+  .message {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    @apply gap-4;
+  }
+
   .h-screen-toolbar {
     min-height: calc(100vh - 56px);
   }

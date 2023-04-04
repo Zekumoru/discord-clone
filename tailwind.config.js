@@ -30,6 +30,7 @@ export default {
           100: '#00A8FC',
         },
         silvergrey: {
+          100: '#D6DED6',
           300: '#B5BAC1',
           400: '#949BA4',
           600: '#6D6F78',
