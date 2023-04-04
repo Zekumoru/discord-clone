@@ -42,10 +42,7 @@ const TextInput = ({
 
   return (
     <div className={`flex flex-col ${className ?? ''}`}>
-      <label
-        className="mb-2 text-xs font-bold uppercase text-silvergrey-300"
-        htmlFor={id}
-      >
+      <label className="heading-2 mb-2" htmlFor={id}>
         <TextInputLabel
           label={label}
           error={isErrorShown ? error : undefined}
@@ -55,7 +52,7 @@ const TextInput = ({
       <input
         type={type}
         id={id}
-        className="rounded bg-background-700 p-2.5 leading-none text-silvergrey-300 outline-none"
+        className="text-input"
         minLength={minLength}
         maxLength={maxLength}
         value={value}

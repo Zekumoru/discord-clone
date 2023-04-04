@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "deploy": "yarn build && firebase deploy --only hosting",
     "test": "vitest",
+    "coverage": "vitest --coverage",
     "lint": "prettier --write ."
   },
   "dependencies": {
@@ -18,7 +19,9 @@
     "react-dom": "^18.2.0",
     "react-firebase-hooks": "^5.1.1",
     "react-query": "^3.39.3",
-    "react-router-dom": "^6.10.0"
+    "react-router-dom": "^6.10.0",
+    "snowflake-id": "^1.1.0",
+    "uniqolor": "^1.1.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -27,6 +30,7 @@
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react-swc": "^3.0.0",
+    "@vitest/coverage-c8": "^0.29.8",
     "autoprefixer": "^10.4.14",
     "jsdom": "^21.1.1",
     "postcss": "^8.4.21",

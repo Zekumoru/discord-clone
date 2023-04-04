@@ -13,6 +13,9 @@ export default {
         material:
           'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px',
       },
+      gridTemplateColumns: {
+        'center-3': '1fr 3fr 1fr',
+      },
       colors: {
         background: {
           300: '#313338',
@@ -20,7 +23,7 @@ export default {
           700: '#1E1F22',
         },
         warmblue: {
-          100: '#5865F2',
+          100: '#5A65EA',
         },
         dodgerblue: {
           100: '#00A8FC',
@@ -28,6 +31,9 @@ export default {
         silvergrey: {
           300: '#B5BAC1',
           400: '#949BA4',
+        },
+        jade: {
+          100: '#23A55A',
         },
         crimson: {
           100: '#F23F42',

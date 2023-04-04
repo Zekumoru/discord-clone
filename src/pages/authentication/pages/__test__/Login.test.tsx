@@ -2,7 +2,10 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Login from '../Login';
 import { BrowserRouter } from 'react-router-dom';
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import {
+  useSignInWithEmailAndPassword,
+  useSendPasswordResetEmail,
+} from 'react-firebase-hooks/auth';
 import { AuthError } from 'firebase/auth';
 
 vi.mock('firebase/auth');
@@ -12,10 +15,18 @@ const mockedUseSignInWithEmailAndPassword = vi.mocked(
   useSignInWithEmailAndPassword
 );
 
+const mockedUseSendPasswordResetEmail = vi.mocked(useSendPasswordResetEmail);
+
 beforeEach(() => {
   mockedUseSignInWithEmailAndPassword.mockReturnValue([
     async (_e, _p) => undefined,
     undefined,
+    false,
+    undefined,
+  ]);
+
+  mockedUseSendPasswordResetEmail.mockReturnValue([
+    async (_e) => false,
     false,
     undefined,
   ]);
