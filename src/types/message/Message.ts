@@ -4,7 +4,7 @@ interface IMessage {
   id: string;
   userId: string;
   content: string;
-  timestamp: Timestamp;
+  timestamp: Timestamp | null;
 }
 
 export default IMessage;
