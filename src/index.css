@@ -24,6 +24,10 @@
     @apply rounded bg-background-700 p-2.5 leading-none text-silvergrey-300 outline-none placeholder:text-silvergrey-400;
   }
 
+  .h-screen-toolbar {
+    min-height: calc(100vh - 56px);
+  }
+
   .heading-2 {
     @apply text-xs font-bold uppercase text-silvergrey-300;
   }
