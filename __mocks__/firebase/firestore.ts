@@ -58,5 +58,16 @@ const writeBatch = vi.fn((_f: firestore.Firestore) => {
   } as unknown as firestore.WriteBatch;
 });
 
+const onSnapshot = vi.fn(firestore.onSnapshot);
+
 export * from 'firebase/firestore';
-export { getFirestore, doc, collection, query, getDoc, getDocs, writeBatch };
+export {
+  getFirestore,
+  doc,
+  collection,
+  query,
+  getDoc,
+  getDocs,
+  writeBatch,
+  onSnapshot,
+};
