@@ -18,6 +18,7 @@ export default {
       },
       colors: {
         background: {
+          100: '#383A40',
           300: '#313338',
           500: '#2C2D31',
           700: '#1E1F22',
@@ -31,6 +32,7 @@ export default {
         silvergrey: {
           300: '#B5BAC1',
           400: '#949BA4',
+          600: '#6D6F78',
         },
         jade: {
           100: '#23A55A',
