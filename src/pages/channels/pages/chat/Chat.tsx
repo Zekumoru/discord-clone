@@ -6,11 +6,12 @@ import { useCurrentUser } from '../../../../contexts/current-user/CurrentUserCon
 import ChatInput from './components/ChatInput';
 import removeTagFromName from '../../../../utils/removeTagFromName';
 import { useState } from 'react';
+import useSendMessage from './hooks/useSendMessage';
 
 const Chat = () => {
-  const { id } = useParams();
+  const { id: chatId } = useParams();
   const [user] = useCurrentUser();
-  const [chat] = useChat(id);
+  const [chat] = useChat(chatId);
   let friendId: string | undefined;
   if (chat && user) {
     friendId = chat.participants.filter(
@@ -20,6 +21,16 @@ const Chat = () => {
   const [friend] = useUser(friendId);
   const friendName = removeTagFromName(friend?.username ?? '');
   const [input, setInput] = useState('');
+  const { mutate: sendMessage } = useSendMessage();
+
+  const handleSendMessage = () => {
+    sendMessage({
+      userId: user!.id,
+      chatId: chatId!,
+      content: input,
+    });
+    setInput('');
+  };
 
   return (
     <div>
@@ -30,10 +41,7 @@ const Chat = () => {
       <ChatInput
         value={input}
         onChange={setInput}
-        onEnter={() => {
-          console.log(input);
-          setInput('');
-        }}
+        onEnter={handleSendMessage}
         placeholder={`Message @${friendName}`}
       />
     </div>
