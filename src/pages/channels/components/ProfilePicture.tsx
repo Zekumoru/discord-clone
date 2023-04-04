@@ -20,12 +20,13 @@ const ProfilePicture = ({ user }: ProfilePictureProps) => {
 
   return (
     <span
-      className="grid h-10 w-10 place-content-center rounded-full font-medium"
+      className="grid h-10 w-10 place-content-center rounded-full bg-cover bg-center bg-no-repeat font-medium"
       style={{
         backgroundColor: bgColor.color,
+        backgroundImage: user?.pictureUrl ? `url(${user.pictureUrl})` : '',
       }}
     >
-      {acronyms.join('')}
+      {!user?.pictureUrl && acronyms.join('')}
     </span>
   );
 };
