@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import ChatMessages from '../components/ChatMessages';
 import NoRetryQueryClientProvider from '../../../../../tests/NoRetryQueryClientProvider';
-import mockFirestoreCollection, {
+import {
+  mockFirestoreCollection,
   mockResetFirestoreCollection,
-} from '../../../../../../__mocks__/firebase/utils/mockFirestoreCollection';
+} from '../../../../../../__mocks__/firebase/utils/mockFirestore';
 import IMessage from '../../../../../types/message/Message';
 import { Timestamp } from 'firebase/firestore';
 

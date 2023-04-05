@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import mockFirestoreCollection, {
+import {
+  mockFirestoreCollection,
   mockResetFirestoreCollection,
   updateMockedOnSnapshot,
-} from '../../../../../../__mocks__/firebase/utils/mockFirestoreCollection';
+} from '../../../../../../__mocks__/firebase/utils/mockFirestore';
 import NoRetryQueryClientProvider from '../../../../../tests/NoRetryQueryClientProvider';
 import Chat from '../Chat';
 import { Params, useParams } from 'react-router-dom';
@@ -31,10 +32,7 @@ afterEach(() => {
 describe('Chat', () => {
   it('should send a message and display it', async () => {
     const user = userEvent.setup();
-    const currentUser = mockCurrentUser('user', 'user');
-    mockFirestoreCollection<IUser>('users', {
-      user: currentUser,
-    });
+    mockCurrentUser('user', 'user');
     setRouterParams({ id: 'chat-id' });
     render(
       <NoRetryQueryClientProvider>
@@ -57,10 +55,7 @@ describe('Chat', () => {
 
   it('should send multiple messages ', async () => {
     const user = userEvent.setup();
-    const currentUser = mockCurrentUser('user', 'user');
-    mockFirestoreCollection<IUser>('users', {
-      user: currentUser,
-    });
+    mockCurrentUser('user', 'user');
     setRouterParams({ id: 'chat-id' });
     render(
       <NoRetryQueryClientProvider>
