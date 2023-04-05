@@ -34,6 +34,10 @@
     min-height: calc(100vh - 56px);
   }
 
+  .h-screen-slide-header {
+    height: calc(100vh - 60px);
+  }
+
   .heading-2 {
     @apply text-xs font-bold uppercase text-silvergrey-300;
   }

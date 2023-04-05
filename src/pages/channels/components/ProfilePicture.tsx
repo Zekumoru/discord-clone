@@ -3,9 +3,10 @@ import uniqolor from 'uniqolor';
 
 type ProfilePictureProps = {
   user: IUser | undefined;
+  className?: string;
 };
 
-const ProfilePicture = ({ user }: ProfilePictureProps) => {
+const ProfilePicture = ({ user, className }: ProfilePictureProps) => {
   const bgColor = uniqolor(user?.username ?? '', {
     saturation: [30, 40],
     lightness: [25, 40],
@@ -20,7 +21,7 @@ const ProfilePicture = ({ user }: ProfilePictureProps) => {
 
   return (
     <span
-      className="grid h-10 w-10 place-content-center rounded-full bg-cover bg-center bg-no-repeat font-medium"
+      className={`grid h-10 w-10 place-content-center rounded-full bg-cover bg-center bg-no-repeat font-medium ${className}`}
       style={{
         backgroundColor: bgColor.color,
         backgroundImage: user?.pictureUrl ? `url(${user.pictureUrl})` : '',

@@ -10,7 +10,7 @@ import useSendMessage from './hooks/useSendMessage';
 import ChatMessages from './components/ChatMessages';
 import { IconUsers } from '../../../../assets/icons';
 import ChatToolbar from './components/ChatToolbar';
-import MembersSlider from './components/MembersSlider';
+import MembersSlider from './components/members-slider/MembersSlider';
 
 const Chat = () => {
   const { id: chatId } = useParams();
@@ -37,23 +37,27 @@ const Chat = () => {
     setInput('');
   };
 
-  const handleMembersSlide = () => {
-    setIsMembersSlideOpen(true);
-  };
-
   return (
     <div>
-      <MembersSlider isOpen={isMembersSlideOpen} />
+      <MembersSlider
+        isOpen={isMembersSlideOpen}
+        members={chat?.participants ?? []}
+        onClose={() => setIsMembersSlideOpen(false)}
+        headerProps={{
+          title: removeTagFromName(user?.username ?? ''),
+          prefix: '@',
+        }}
+      />
 
       <div className={`relative ${isMembersSlideOpen ? '-left-80' : ''}`}>
-        <ChatToolbar onMembersSlide={handleMembersSlide}>
+        <ChatToolbar onMembersSlide={() => setIsMembersSlideOpen(true)}>
           {friendName}
         </ChatToolbar>
 
         <ChatMessages chatId={chatId} />
 
         <ChatInput
-          className={`${isMembersSlideOpen ? '-left-80 right-80' : ''}`}
+          className={`${isMembersSlideOpen ? '!-left-80 !right-80' : ''}`}
           value={input}
           onChange={setInput}
           onEnter={handleSendMessage}
