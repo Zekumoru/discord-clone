@@ -52,6 +52,16 @@ const collection = vi.fn(
 
 const query = vi.fn((query) => query);
 
+const serverTimestamp = vi.fn((): firestore.Timestamp => {
+  const date = new Date();
+  return {
+    toDate: () => date,
+    toMillis: () => date.getMilliseconds(),
+    nanoseconds: date.getMilliseconds() * 1000,
+    seconds: date.getSeconds(),
+  } as firestore.Timestamp;
+});
+
 export * from 'firebase/firestore';
 export {
   getFirestore,
@@ -63,4 +73,5 @@ export {
   getDocs,
   writeBatch,
   onSnapshot,
+  serverTimestamp,
 };
