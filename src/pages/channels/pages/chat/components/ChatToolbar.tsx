@@ -4,13 +4,14 @@ import Toolbar from '../../../components/Toolbar';
 
 type ChatToolbarProps = {
   children: ReactNode;
+  onMembersSlide?: () => void;
 };
 
-const ChatToolbar = ({ children }: ChatToolbarProps) => {
+const ChatToolbar = ({ onMembersSlide, children }: ChatToolbarProps) => {
   return (
     <Toolbar
       buttons={
-        <div>
+        <div onClick={onMembersSlide}>
           <IconUsers className="h-6 w-6" />
         </div>
       }
