@@ -7,7 +7,7 @@ const getCurrentUser = async (firebaseId: string) => {
 
 const useGetCurrentUser = (firebaseId: string) => {
   return useQuery(
-    ['user', 'current'],
+    ['user', 'current', firebaseId],
     async () => await getCurrentUser(firebaseId),
     {
       enabled: !!firebaseId,
