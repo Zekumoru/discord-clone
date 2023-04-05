@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase/firestore';
+
 interface IUser {
   id: string;
   firebaseId: string;
@@ -7,6 +9,7 @@ interface IUser {
   friendsId: string;
   guildsId: string;
   friendRequestsId: string;
+  creationTimestamp: Timestamp;
 }
 
 export default IUser;

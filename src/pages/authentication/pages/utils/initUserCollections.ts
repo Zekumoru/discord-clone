@@ -1,4 +1,4 @@
-import { doc, getFirestore } from 'firebase/firestore';
+import { doc, getFirestore, serverTimestamp } from 'firebase/firestore';
 import performBatch from '../../../../utils/performBatch';
 import snowflakeId from '../../../../utils/snowflake-id/snowflakeId';
 import { IFriendRequests, IFriends } from '../../../../types/friend/Friend';
@@ -36,6 +36,7 @@ const initUserCollections = async (user: User, username: string) => {
       email: user.email,
       firebaseId: user.uid,
       pictureUrl: null,
+      creationTimestamp: serverTimestamp(),
       username,
       friendsId,
       friendRequestsId,
