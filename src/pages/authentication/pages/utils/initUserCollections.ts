@@ -5,10 +5,18 @@ import { IFriendRequests, IFriends } from '../../../../types/friend/Friend';
 import { IUserGuilds } from '../../../../types/guild/Guild';
 import IUser from '../../../../types/user/User';
 import { User } from 'firebase/auth';
+import userChatsDoc from '../../../../types/user-chat/firebase/userChatsDoc';
 
 const initUserCollections = async (user: User, username: string) => {
   await performBatch((batch) => {
     const userId = snowflakeId();
+
+    const userChatsId = snowflakeId();
+    batch.set(userChatsDoc(userChatsId), {
+      userId,
+      id: userChatsId,
+      chats: [],
+    });
 
     const friendsId = snowflakeId();
     batch.set(doc(getFirestore(), `friends/${friendsId}`), {
@@ -37,6 +45,7 @@ const initUserCollections = async (user: User, username: string) => {
       firebaseId: user.uid,
       pictureUrl: null,
       creationTimestamp: serverTimestamp(),
+      userChatsId,
       username,
       friendsId,
       friendRequestsId,

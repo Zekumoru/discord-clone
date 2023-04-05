@@ -6,6 +6,7 @@ interface IUser {
   email: string;
   pictureUrl: string | null;
   username: string;
+  userChatsId: string;
   friendsId: string;
   guildsId: string;
   friendRequestsId: string;
