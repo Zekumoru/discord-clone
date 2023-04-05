@@ -14,6 +14,7 @@ import {
 type TFirestoreDoc<T = DocumentData> = { [P: string]: T };
 
 const firestoreCollections = new Map<string, TFirestoreDoc>();
+const snapshotCallbacks = new Map<string, (snapshot: QuerySnapshot) => void>();
 
 const mockFirestoreCollection = <T extends DocumentData>(
   path: string,
@@ -37,6 +38,13 @@ const getMockedFirestoreCollection = <T extends DocumentData>(
 
 const mockResetFirestoreCollection = () => {
   firestoreCollections.clear();
+  snapshotCallbacks.clear();
+};
+
+const updateMockedOnSnapshot = (query: Query) => {
+  if ('path' in query && typeof query.path === 'string') {
+    snapshotCallbacks.get(query.path)?.(getQuerySnapshot(query));
+  }
 };
 
 const getQuerySnapshot = (query: Query) => {
@@ -100,6 +108,9 @@ const onSnapshot = vi.fn<
   Unsubscribe
 >((query, onNext) => {
   onNext(getQuerySnapshot(query));
+  if ('path' in query && typeof query.path === 'string') {
+    snapshotCallbacks.set(query.path, onNext);
+  }
   return () => {};
 });
 
@@ -121,6 +132,7 @@ export {
   getDocs,
   onSnapshot,
   writeBatch,
+  updateMockedOnSnapshot,
   mockResetFirestoreCollection,
   peekMockedFirestoreCollection,
   getMockedFirestoreCollection,
