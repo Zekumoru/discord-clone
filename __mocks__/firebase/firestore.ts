@@ -1,53 +1,50 @@
 import { vi } from 'vitest';
 import * as firestore from 'firebase/firestore';
-
-const getWithConverter = <
-  T extends firestore.DocumentReference | firestore.CollectionReference
->() => {
-  let _converter: null | firestore.FirestoreDataConverter<firestore.DocumentData> =
-    null;
-  return {
-    get converter() {
-      return _converter;
-    },
-    withConverter<T extends firestore.DocumentData>(
-      converter: firestore.FirestoreDataConverter<T>
-    ) {
-      _converter = converter;
-      return this as T;
-    },
-  };
-};
+import getWithConverter from './utils/getWithConverter';
+import { getDoc, getDocs } from './utils/mockFirestoreCollection';
+import FirebaseError from './utils/FirebaseError';
 
 const getFirestore = () => {};
 
 const doc = vi.fn(
   (_f: firestore.Firestore, path: string, ...pathSegments: string[]) => {
-    type Reference = ReturnType<typeof firestore.doc>;
+    const realPath = [path, ...pathSegments].join('/');
+
+    const segments = realPath.split('/');
+    if (segments.length % 2 !== 0) {
+      throw new FirebaseError(
+        `Invalid document reference. Document references must have an even number of segments, but ${path} has ${segments.length}.`
+      );
+    }
+
     return {
       type: 'document',
-      path: path.concat(...pathSegments),
-      ...getWithConverter<Reference>(),
-    } as Reference;
+      path: realPath,
+      ...getWithConverter(),
+    } as firestore.DocumentReference;
   }
 );
 
 const collection = vi.fn(
   (_f: firestore.Firestore, path: string, ...pathSegments: string[]) => {
-    type Reference = ReturnType<typeof firestore.collection>;
+    const realPath = [path, ...pathSegments].join('/');
+
+    const segments = realPath.split('/');
+    if (segments.length % 2 === 0) {
+      throw new FirebaseError(
+        `Invalid collection reference. Collection references must have an odd number of segments, but ${path} has ${segments.length}.`
+      );
+    }
+
     return {
       type: 'collection',
-      path: path.concat(...pathSegments),
-      ...getWithConverter<Reference>(),
-    } as Reference;
+      path: realPath,
+      ...getWithConverter(),
+    } as firestore.CollectionReference;
   }
 );
 
 const query = vi.fn((query) => query);
-
-const getDoc = vi.fn(firestore.getDoc);
-
-const getDocs = vi.fn(firestore.getDocs);
 
 const writeBatch = vi.fn((_f: firestore.Firestore) => {
   return {
