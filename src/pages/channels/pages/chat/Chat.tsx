@@ -8,6 +8,8 @@ import removeTagFromName from '../../../../utils/removeTagFromName';
 import { useState } from 'react';
 import useSendMessage from './hooks/useSendMessage';
 import ChatMessages from './components/ChatMessages';
+import { IconUsers } from '../../../../assets/icons';
+import ChatToolbar from './components/ChatToolbar';
 
 const Chat = () => {
   const { id: chatId } = useParams();
@@ -35,9 +37,7 @@ const Chat = () => {
 
   return (
     <div>
-      <Toolbar prefix={<span className="text-silvergrey-400">@</span>}>
-        {friendName}
-      </Toolbar>
+      <ChatToolbar>{friendName}</ChatToolbar>
 
       <ChatMessages chatId={chatId} />
 
