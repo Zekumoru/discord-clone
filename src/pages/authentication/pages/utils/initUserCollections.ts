@@ -6,7 +6,7 @@ import { IUserGuilds } from '../../../../types/guild/Guild';
 import IUser from '../../../../types/user/User';
 import { User } from 'firebase/auth';
 
-const createUserCollections = async (user: User, username: string) => {
+const initUserCollections = async (user: User, username: string) => {
   await performBatch((batch) => {
     const userId = snowflakeId();
 
@@ -44,4 +44,4 @@ const createUserCollections = async (user: User, username: string) => {
   });
 };
 
-export default createUserCollections;
+export default initUserCollections;

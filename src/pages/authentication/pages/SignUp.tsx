@@ -3,7 +3,7 @@ import TextInput from '../components/TextInput';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { getAuth, updateProfile } from 'firebase/auth';
-import createUserCollections from './utils/createUserCollections';
+import initUserCollections from './utils/initUserCollections';
 import generateTag from './utils/generateTag';
 
 const SignUp = () => {
@@ -20,7 +20,7 @@ const SignUp = () => {
     if (response?.user) {
       const taggedUsername = `${username}#${generateTag()}`;
       await updateProfile(response.user, { displayName: taggedUsername });
-      await createUserCollections(response.user, taggedUsername);
+      await initUserCollections(response.user, taggedUsername);
       navigate('/channels/@me');
     }
   };
