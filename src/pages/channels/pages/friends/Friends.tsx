@@ -63,7 +63,7 @@ const Friends = () => {
 
           {hasRequests && (
             <>
-              <h2 className="heading-2 mt-4 px-4">
+              <h2 className="heading-2 mt-4 px-4 first-of-type:mt-0">
                 Requests — {pendingFriendAcceptances.length}
               </h2>
               <ul>
