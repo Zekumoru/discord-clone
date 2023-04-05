@@ -10,6 +10,7 @@ import {
   WithFieldValue,
   WriteBatch,
 } from 'firebase/firestore';
+import retrievePathAndDocName from './retrievePathAndDocName';
 
 type TFirestoreDoc<T = DocumentData> = { [P: string]: T };
 
@@ -21,6 +22,21 @@ const mockFirestoreCollection = <T extends DocumentData>(
   data: TFirestoreDoc<T>
 ) => {
   firestoreCollections.set(path, data);
+};
+
+const mockFirestoreDocument = <T extends DocumentData>(
+  path: string,
+  data: T
+) => {
+  const [collectionPath, docName] = retrievePathAndDocName(path);
+  const collection = firestoreCollections.get(collectionPath);
+  if (collection === undefined) {
+    firestoreCollections.set(collectionPath, {
+      [docName]: data,
+    });
+  } else {
+    collection[docName] = data;
+  }
 };
 
 const peekMockedFirestoreCollection = <T extends DocumentData>(
@@ -65,25 +81,9 @@ const getQuerySnapshot = (query: Query) => {
   } as QuerySnapshot;
 };
 
-const retrievePathAndDocName = (path: string) => {
-  const slashIndex = path.lastIndexOf('/');
-  const docName = path.substring(slashIndex + 1);
-  const collectionPath = path.substring(0, slashIndex);
-
-  return [collectionPath, docName];
-};
-
 const setDoc = vi.fn<[DocumentReference, WithFieldValue<DocumentData>]>(
   async (query, data) => {
-    const [collectionPath, docName] = retrievePathAndDocName(query.path);
-    const collection = firestoreCollections.get(collectionPath);
-    if (collection === undefined) {
-      firestoreCollections.set(collectionPath, {
-        [docName]: data,
-      });
-    } else {
-      collection[docName] = data;
-    }
+    mockFirestoreDocument(query.path, data);
   }
 );
 
@@ -125,7 +125,6 @@ const writeBatch = vi.fn((_f: Firestore) => {
   } as unknown as WriteBatch;
 });
 
-export default mockFirestoreCollection;
 export {
   setDoc,
   getDoc,
@@ -133,6 +132,8 @@ export {
   onSnapshot,
   writeBatch,
   updateMockedOnSnapshot,
+  mockFirestoreDocument,
+  mockFirestoreCollection,
   mockResetFirestoreCollection,
   peekMockedFirestoreCollection,
   getMockedFirestoreCollection,

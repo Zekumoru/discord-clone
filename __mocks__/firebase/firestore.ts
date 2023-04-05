@@ -7,7 +7,7 @@ import {
   getDocs,
   writeBatch,
   onSnapshot,
-} from './utils/mockFirestoreCollection';
+} from './utils/mockFirestore';
 import FirebaseError from './utils/FirebaseError';
 
 const getFirestore = () => {};

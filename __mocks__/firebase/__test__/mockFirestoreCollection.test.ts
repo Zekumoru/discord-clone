@@ -8,10 +8,11 @@ import {
   setDoc,
   writeBatch,
 } from 'firebase/firestore';
-import mockFirestoreCollection, {
+import {
+  mockFirestoreCollection,
   getMockedFirestoreCollection,
   mockResetFirestoreCollection,
-} from '../utils/mockFirestoreCollection';
+} from '../utils/mockFirestore';
 import { vi } from 'vitest';
 
 vi.mock('firebase/firestore');
