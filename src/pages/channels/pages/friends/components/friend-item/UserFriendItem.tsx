@@ -6,9 +6,10 @@ import FriendItem from './FriendItem';
 
 type UserFriendItemProps = {
   friend: IFriend;
+  onClick?: () => void;
 };
 
-const UserFriendItem = ({ friend }: UserFriendItemProps) => {
+const UserFriendItem = ({ friend, onClick }: UserFriendItemProps) => {
   const navigate = useNavigate();
 
   const handleGotoChat = () => {
@@ -17,6 +18,7 @@ const UserFriendItem = ({ friend }: UserFriendItemProps) => {
 
   return (
     <FriendItem
+      onClick={onClick}
       friendId={friend.userId}
       buttons={
         <CircledIconButton

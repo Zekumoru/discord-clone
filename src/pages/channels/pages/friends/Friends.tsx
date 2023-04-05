@@ -41,7 +41,11 @@ const Friends = () => {
               </h2>
               <ul>
                 {friends.friendsList.map((friend) => (
-                  <UserFriendItem key={friend.userId} friend={friend} />
+                  <UserFriendItem
+                    key={friend.userId}
+                    friend={friend}
+                    onClick={() => console.log('opening user modal')}
+                  />
                 ))}
               </ul>
             </>
