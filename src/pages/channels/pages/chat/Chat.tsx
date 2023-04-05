@@ -44,7 +44,7 @@ const Chat = () => {
         members={chat?.participants ?? []}
         onClose={() => setIsMembersSlideOpen(false)}
         headerProps={{
-          title: removeTagFromName(user?.username ?? ''),
+          title: removeTagFromName(friend?.username ?? ''),
           prefix: '@',
         }}
       />
