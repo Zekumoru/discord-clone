@@ -1,64 +1,66 @@
 import { vi } from 'vitest';
 import * as firestore from 'firebase/firestore';
-
-const getWithConverter = <
-  T extends firestore.DocumentReference | firestore.CollectionReference
->() => {
-  let _converter: null | firestore.FirestoreDataConverter<firestore.DocumentData> =
-    null;
-  return {
-    get converter() {
-      return _converter;
-    },
-    withConverter<T extends firestore.DocumentData>(
-      converter: firestore.FirestoreDataConverter<T>
-    ) {
-      _converter = converter;
-      return this as T;
-    },
-  };
-};
+import getWithConverter from './utils/getWithConverter';
+import {
+  setDoc,
+  getDoc,
+  getDocs,
+  writeBatch,
+  onSnapshot,
+} from './utils/mockFirestore';
+import FirebaseError from './utils/FirebaseError';
 
 const getFirestore = () => {};
 
 const doc = vi.fn(
   (_f: firestore.Firestore, path: string, ...pathSegments: string[]) => {
-    type Reference = ReturnType<typeof firestore.doc>;
+    const realPath = [path, ...pathSegments].join('/');
+
+    const segments = realPath.split('/');
+    if (segments.length % 2 !== 0) {
+      throw new FirebaseError(
+        `Invalid document reference. Document references must have an even number of segments, but ${path} has ${segments.length}.`
+      );
+    }
+
     return {
       type: 'document',
-      path: path.concat(...pathSegments),
-      ...getWithConverter<Reference>(),
-    } as Reference;
+      path: realPath,
+      ...getWithConverter(),
+    } as firestore.DocumentReference;
   }
 );
 
 const collection = vi.fn(
   (_f: firestore.Firestore, path: string, ...pathSegments: string[]) => {
-    type Reference = ReturnType<typeof firestore.collection>;
+    const realPath = [path, ...pathSegments].join('/');
+
+    const segments = realPath.split('/');
+    if (segments.length % 2 === 0) {
+      throw new FirebaseError(
+        `Invalid collection reference. Collection references must have an odd number of segments, but ${path} has ${segments.length}.`
+      );
+    }
+
     return {
       type: 'collection',
-      path: path.concat(...pathSegments),
-      ...getWithConverter<Reference>(),
-    } as Reference;
+      path: realPath,
+      ...getWithConverter(),
+    } as firestore.CollectionReference;
   }
 );
 
 const query = vi.fn((query) => query);
 
-const getDoc = vi.fn(firestore.getDoc);
-
-const getDocs = vi.fn(firestore.getDocs);
-
-const writeBatch = vi.fn((_f: firestore.Firestore) => {
+const serverTimestamp = vi.fn((): firestore.Timestamp => {
+  const date = new Date();
   return {
-    set: vi.fn(),
-    update: vi.fn(),
-    delete: vi.fn(),
-    commit: vi.fn(),
-  } as unknown as firestore.WriteBatch;
+    toDate: () => date,
+    toMillis: () => date.getMilliseconds(),
+    nanoseconds: date.getMilliseconds() * 1000,
+    seconds: date.getSeconds(),
+  } as firestore.Timestamp;
 });
-
-const onSnapshot = vi.fn(firestore.onSnapshot);
 
 export * from 'firebase/firestore';
 export {
@@ -66,8 +68,10 @@ export {
   doc,
   collection,
   query,
+  setDoc,
   getDoc,
   getDocs,
   writeBatch,
   onSnapshot,
+  serverTimestamp,
 };

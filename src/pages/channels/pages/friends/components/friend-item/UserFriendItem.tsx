@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { IconChatBubble } from '../../../../../../assets/icons';
 import IFriend from '../../../../../../types/friend/Friend';
 import CircledIconButton from '../CircledIconButton';
@@ -8,11 +9,20 @@ type UserFriendItemProps = {
 };
 
 const UserFriendItem = ({ friend }: UserFriendItemProps) => {
+  const navigate = useNavigate();
+
+  const handleGotoChat = () => {
+    navigate(`/channels/@me/${friend.chatId}`);
+  };
+
   return (
     <FriendItem
       friendId={friend.userId}
       buttons={
-        <CircledIconButton icon={<IconChatBubble className="h-4 w-4" />} />
+        <CircledIconButton
+          onClick={handleGotoChat}
+          icon={<IconChatBubble className="h-4 w-4" />}
+        />
       }
     />
   );

@@ -1,6 +1,7 @@
 import { User } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import IUser from '../../../types/user/User';
+import { mockFirestoreDocument } from '../../../../__mocks__/firebase/utils/mockFirestore';
 
 type OtherUserProps = Pick<IUser, 'email' | 'pictureUrl'>;
 
@@ -61,6 +62,7 @@ const mockCurrentUser: MockCurrentUserOverloads = (
   }
 
   vi.mocked(useAuthState).mockReturnValue([firebaseUser, false, undefined]);
+  mockFirestoreDocument(`users/${user.id}`, user);
 
   return user;
 };

@@ -4,6 +4,7 @@ import IconCheck from './IconCheck';
 import IconDiscord from './IconDiscord';
 import IconUserPlus from './IconUserPlus';
 import IconXMark from './IconXMark';
+import IconUsers from './IconUsers';
 
 export {
   IconBurger,
@@ -12,4 +13,5 @@ export {
   IconDiscord,
   IconUserPlus,
   IconXMark,
+  IconUsers,
 };

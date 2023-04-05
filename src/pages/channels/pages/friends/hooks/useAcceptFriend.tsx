@@ -7,6 +7,8 @@ import { getDoc } from 'firebase/firestore';
 import friendsDoc from '../../../../../types/friend/firebase/friendsDoc';
 import snowflakeId from '../../../../../utils/snowflake-id/snowflakeId';
 import removeFriendRequests from './utils/removeFriendRequests';
+import IChat from '../../../../../types/chat/Chat';
+import chatDoc from '../../../../../types/chat/firebase/chatDoc';
 
 type AcceptFriendArgs = {
   currentUser: IUser;
@@ -52,6 +54,22 @@ const acceptFriend = async ({ currentUser, request }: AcceptFriendArgs) => {
         {
           userId: currentUser.id,
           chatId,
+        },
+      ],
+    });
+
+    const chatRef = chatDoc(chatId);
+    const messagesId = snowflakeId();
+
+    batch.set(chatRef, {
+      id: chatId,
+      messagesId,
+      participants: [
+        {
+          userId: currentUser.id,
+        },
+        {
+          userId: otherUser.id,
         },
       ],
     });
