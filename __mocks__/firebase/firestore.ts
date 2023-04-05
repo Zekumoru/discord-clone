@@ -5,6 +5,7 @@ import {
   setDoc,
   getDoc,
   getDocs,
+  writeBatch,
   onSnapshot,
 } from './utils/mockFirestoreCollection';
 import FirebaseError from './utils/FirebaseError';
@@ -50,15 +51,6 @@ const collection = vi.fn(
 );
 
 const query = vi.fn((query) => query);
-
-const writeBatch = vi.fn((_f: firestore.Firestore) => {
-  return {
-    set: vi.fn(),
-    update: vi.fn(),
-    delete: vi.fn(),
-    commit: vi.fn(),
-  } as unknown as firestore.WriteBatch;
-});
 
 export * from 'firebase/firestore';
 export {

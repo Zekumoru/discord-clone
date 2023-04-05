@@ -6,6 +6,7 @@ import {
   getFirestore,
   onSnapshot,
   setDoc,
+  writeBatch,
 } from 'firebase/firestore';
 import mockFirestoreCollection, {
   getMockedFirestoreCollection,
@@ -36,6 +37,18 @@ describe('mockFirestoreCollection', () => {
     const fooRef = doc(getFirestore(), 'some/other/data/foo');
 
     await setDoc(fooRef, { data: 'foo' } as TData);
+
+    expect(getMockedFirestoreCollection('some/other/data')).toEqual<TData[]>([
+      { data: 'foo' },
+    ]);
+  });
+
+  it("should add the new document using WriteBatch's set method", async () => {
+    type TData = { data: string };
+    const fooRef = doc(getFirestore(), 'some/other/data/foo');
+    const batch = writeBatch(getFirestore());
+
+    batch.set(fooRef, { data: 'foo' } as TData);
 
     expect(getMockedFirestoreCollection('some/other/data')).toEqual<TData[]>([
       { data: 'foo' },

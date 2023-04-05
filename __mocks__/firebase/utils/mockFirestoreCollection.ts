@@ -3,10 +3,12 @@ import {
   DocumentData,
   DocumentReference,
   DocumentSnapshot,
+  Firestore,
   Query,
   QuerySnapshot,
   Unsubscribe,
   WithFieldValue,
+  WriteBatch,
 } from 'firebase/firestore';
 
 type TFirestoreDoc<T = DocumentData> = { [P: string]: T };
@@ -101,12 +103,24 @@ const onSnapshot = vi.fn<
   return () => {};
 });
 
+const writeBatch = vi.fn((_f: Firestore) => {
+  return {
+    set: vi.fn<[DocumentReference, WithFieldValue<DocumentData>]>(
+      (query, data) => setDoc(query, data)
+    ),
+    update: vi.fn(),
+    delete: vi.fn(),
+    commit: vi.fn(),
+  } as unknown as WriteBatch;
+});
+
 export default mockFirestoreCollection;
 export {
   setDoc,
   getDoc,
   getDocs,
   onSnapshot,
+  writeBatch,
   mockResetFirestoreCollection,
   peekMockedFirestoreCollection,
   getMockedFirestoreCollection,
