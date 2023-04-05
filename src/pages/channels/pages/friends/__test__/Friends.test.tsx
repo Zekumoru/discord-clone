@@ -12,6 +12,7 @@ import IUser from '../../../../../types/user/User';
 import mockGetDocData, {
   mockDocumentData as mdd,
 } from '../../../../../tests/utils/firebase/mockGetDocData';
+import { BrowserRouter } from 'react-router-dom';
 
 vi.mock('firebase/auth');
 vi.mock('firebase/firestore');
@@ -47,11 +48,13 @@ describe('FriendsPage', () => {
       return () => {};
     });
     render(
-      <NoRetryQueryClientProvider>
-        <CurrentUserProvider>
-          <Friends />
-        </CurrentUserProvider>
-      </NoRetryQueryClientProvider>
+      <BrowserRouter>
+        <NoRetryQueryClientProvider>
+          <CurrentUserProvider>
+            <Friends />
+          </CurrentUserProvider>
+        </NoRetryQueryClientProvider>
+      </BrowserRouter>
     );
 
     await waitFor(() => {
