@@ -6,6 +6,7 @@ import {
   Query,
   QuerySnapshot,
   Unsubscribe,
+  WithFieldValue,
 } from 'firebase/firestore';
 
 type TFirestoreDoc<T = DocumentData> = { [P: string]: T };
@@ -17,6 +18,19 @@ const mockFirestoreCollection = <T extends DocumentData>(
   data: TFirestoreDoc<T>
 ) => {
   firestoreCollections.set(path, data);
+};
+
+const peekMockedFirestoreCollection = <T extends DocumentData>(
+  path: string
+) => {
+  return firestoreCollections.get(path) as TFirestoreDoc<T>;
+};
+
+const getMockedFirestoreCollection = <T extends DocumentData>(
+  path: string
+): T[] => {
+  const collectionData = firestoreCollections.get(path) ?? {};
+  return Object.values(collectionData) as T[];
 };
 
 const mockResetFirestoreCollection = () => {
@@ -41,18 +55,31 @@ const getQuerySnapshot = (query: Query) => {
   } as QuerySnapshot;
 };
 
+const retrievePathAndDocName = (path: string) => {
+  const slashIndex = path.lastIndexOf('/');
+  const docName = path.substring(slashIndex + 1);
+  const collectionPath = path.substring(0, slashIndex);
+
+  return [collectionPath, docName];
+};
+
+const setDoc = vi.fn<[DocumentReference, WithFieldValue<DocumentData>]>(
+  async (query, data) => {
+    const [collectionPath, docName] = retrievePathAndDocName(query.path);
+    const collection = firestoreCollections.get(collectionPath);
+    if (collection === undefined) {
+      firestoreCollections.set(collectionPath, {
+        [docName]: data,
+      });
+    } else {
+      collection[docName] = data;
+    }
+  }
+);
+
 const getDoc = vi.fn<[DocumentReference], Promise<DocumentSnapshot>>(
   async (query) => {
-    let docName = '';
-    let collectionPath = '';
-
-    if ('path' in query) {
-      const path = query.path as string;
-      const slashIndex = path.lastIndexOf('/');
-      docName = path.substring(slashIndex + 1);
-      collectionPath = path.substring(0, slashIndex);
-    }
-
+    const [collectionPath, docName] = retrievePathAndDocName(query.path);
     const docs =
       firestoreCollections.get(collectionPath) ?? ({} as TFirestoreDoc);
 
@@ -75,4 +102,12 @@ const onSnapshot = vi.fn<
 });
 
 export default mockFirestoreCollection;
-export { getDoc, getDocs, onSnapshot, mockResetFirestoreCollection };
+export {
+  setDoc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  mockResetFirestoreCollection,
+  peekMockedFirestoreCollection,
+  getMockedFirestoreCollection,
+};

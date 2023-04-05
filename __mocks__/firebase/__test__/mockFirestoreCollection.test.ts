@@ -5,8 +5,10 @@ import {
   getDocs,
   getFirestore,
   onSnapshot,
+  setDoc,
 } from 'firebase/firestore';
 import mockFirestoreCollection, {
+  getMockedFirestoreCollection,
   mockResetFirestoreCollection,
 } from '../utils/mockFirestoreCollection';
 import { vi } from 'vitest';
@@ -16,6 +18,28 @@ vi.mock('firebase/firestore');
 describe('mockFirestoreCollection', () => {
   afterEach(() => {
     mockResetFirestoreCollection();
+  });
+
+  it('should add the new document to mocked firestore db', async () => {
+    type TData = { data: string };
+    const fooRef = doc(getFirestore(), 'data/foo');
+
+    await setDoc(fooRef, { data: 'foo' } as TData);
+
+    expect(getMockedFirestoreCollection('data')).toEqual<TData[]>([
+      { data: 'foo' },
+    ]);
+  });
+
+  it('should add the new document with nested path to mocked firestore db', async () => {
+    type TData = { data: string };
+    const fooRef = doc(getFirestore(), 'some/other/data/foo');
+
+    await setDoc(fooRef, { data: 'foo' } as TData);
+
+    expect(getMockedFirestoreCollection('some/other/data')).toEqual<TData[]>([
+      { data: 'foo' },
+    ]);
   });
 
   test('that the mocked firestore db has the data added to it', async () => {

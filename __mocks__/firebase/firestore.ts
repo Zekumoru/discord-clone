@@ -1,7 +1,12 @@
 import { vi } from 'vitest';
 import * as firestore from 'firebase/firestore';
 import getWithConverter from './utils/getWithConverter';
-import { getDoc, getDocs, onSnapshot } from './utils/mockFirestoreCollection';
+import {
+  setDoc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+} from './utils/mockFirestoreCollection';
 import FirebaseError from './utils/FirebaseError';
 
 const getFirestore = () => {};
@@ -61,6 +66,7 @@ export {
   doc,
   collection,
   query,
+  setDoc,
   getDoc,
   getDocs,
   writeBatch,
