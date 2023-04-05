@@ -1,7 +1,7 @@
 import { vi } from 'vitest';
 import * as firestore from 'firebase/firestore';
 import getWithConverter from './utils/getWithConverter';
-import { getDoc, getDocs } from './utils/mockFirestoreCollection';
+import { getDoc, getDocs, onSnapshot } from './utils/mockFirestoreCollection';
 import FirebaseError from './utils/FirebaseError';
 
 const getFirestore = () => {};
@@ -54,8 +54,6 @@ const writeBatch = vi.fn((_f: firestore.Firestore) => {
     commit: vi.fn(),
   } as unknown as firestore.WriteBatch;
 });
-
-const onSnapshot = vi.fn(firestore.onSnapshot);
 
 export * from 'firebase/firestore';
 export {

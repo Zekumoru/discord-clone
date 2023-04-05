@@ -4,6 +4,7 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  onSnapshot,
 } from 'firebase/firestore';
 import mockFirestoreCollection, {
   mockResetFirestoreCollection,
@@ -63,5 +64,21 @@ describe('mockFirestoreCollection', () => {
 
     expect(notExistsData).toBeUndefined();
     expect(data).toEqual({ data: 'foobar' });
+  });
+
+  it('should return the snapshot of a collection', () => {
+    type TData = { data: string };
+    mockFirestoreCollection<TData>('data', {
+      foo: { data: 'foo' },
+      bar: { data: 'bar' },
+    });
+
+    let data: TData[] = [];
+    const dataRef = collection(getFirestore(), 'data');
+    onSnapshot(dataRef, (snapshot) => {
+      data = snapshot.docs.map((doc) => doc.data() as TData);
+    });
+
+    expect(data).toEqual([{ data: 'foo' }, { data: 'bar' }]);
   });
 });

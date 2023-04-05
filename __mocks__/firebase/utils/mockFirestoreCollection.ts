@@ -5,6 +5,7 @@ import {
   DocumentSnapshot,
   Query,
   QuerySnapshot,
+  Unsubscribe,
 } from 'firebase/firestore';
 
 type TFirestoreDoc<T = DocumentData> = { [P: string]: T };
@@ -20,6 +21,24 @@ const mockFirestoreCollection = <T extends DocumentData>(
 
 const mockResetFirestoreCollection = () => {
   firestoreCollections.clear();
+};
+
+const getQuerySnapshot = (query: Query) => {
+  let path = '';
+  if ('path' in query) {
+    path = query.path as string;
+  }
+
+  const docs = firestoreCollections.get(path) ?? ({} as TFirestoreDoc);
+  const keys = Object.keys(docs);
+
+  return {
+    docs: keys.map((key) => ({
+      data: () => docs[key],
+    })),
+    empty: keys.length === 0,
+    size: keys.length,
+  } as QuerySnapshot;
 };
 
 const getDoc = vi.fn<[DocumentReference], Promise<DocumentSnapshot>>(
@@ -44,22 +63,16 @@ const getDoc = vi.fn<[DocumentReference], Promise<DocumentSnapshot>>(
 );
 
 const getDocs = vi.fn<[Query], Promise<QuerySnapshot>>(async (query) => {
-  let path = '';
-  if ('path' in query) {
-    path = query.path as string;
-  }
+  return getQuerySnapshot(query);
+});
 
-  const docs = firestoreCollections.get(path) ?? ({} as TFirestoreDoc);
-  const keys = Object.keys(docs);
-
-  return {
-    docs: keys.map((key) => ({
-      data: () => docs[key],
-    })),
-    empty: keys.length === 0,
-    size: keys.length,
-  } as QuerySnapshot;
+const onSnapshot = vi.fn<
+  [Query, (snapshot: QuerySnapshot) => void],
+  Unsubscribe
+>((query, onNext) => {
+  onNext(getQuerySnapshot(query));
+  return () => {};
 });
 
 export default mockFirestoreCollection;
-export { getDoc, getDocs, mockResetFirestoreCollection };
+export { getDoc, getDocs, onSnapshot, mockResetFirestoreCollection };
