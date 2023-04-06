@@ -1,6 +1,5 @@
-import UserPartialModal from '../../../../components/UserPartialModal';
+import useUserPartialModal from '../../../../components/user-partial-modal/hooks/useUserPartialModal';
 import { useCurrentUser } from '../../../../contexts/current-user/CurrentUserContext';
-import { usePartialScreenModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import FriendsToolbar from './components/FriendsToolbar';
 import FriendRequestItem from './components/friend-item/FriendRequestItem';
 import UserFriendItem from './components/friend-item/UserFriendItem';
@@ -11,7 +10,7 @@ const Friends = () => {
   const [user] = useCurrentUser();
   const [friends] = useFriends(user?.friendsId);
   const [friendRequests] = useFriendRequests(user?.friendRequestsId);
-  const [openPartialModal, closePartialModal] = usePartialScreenModal();
+  const [openUserPartialModal] = useUserPartialModal();
 
   const pendingFriendAcceptances = friendRequests?.requests.filter(
     (request) => request.pendingType === 'acceptance'
@@ -47,14 +46,7 @@ const Friends = () => {
                   <UserFriendItem
                     key={friend.userId}
                     friend={friend}
-                    onClick={() =>
-                      openPartialModal(
-                        <UserPartialModal
-                          userId={friend.userId}
-                          close={closePartialModal}
-                        />
-                      )
-                    }
+                    onClick={() => openUserPartialModal(friend.userId)}
                   />
                 ))}
               </ul>

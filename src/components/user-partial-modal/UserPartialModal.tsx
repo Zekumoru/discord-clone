@@ -1,11 +1,11 @@
 import { format } from 'date-fns';
-import { IconChatBubble } from '../assets/icons';
-import { PartialScreenModalMethods } from '../contexts/partial-screen-modal/PartialScreenModalContext';
-import ProfilePicture from '../pages/channels/components/ProfilePicture';
-import extractNameAndTag from '../utils/extractNameAndTag';
-import useUser from '../types/user/hooks/useUser';
-import { useCurrentUser } from '../contexts/current-user/CurrentUserContext';
-import useUserChatId from '../types/user-chat/hooks/useUserChatId';
+import { IconChatBubble } from '../../assets/icons';
+import { PartialScreenModalMethods } from '../../contexts/partial-screen-modal/PartialScreenModalContext';
+import ProfilePicture from '../../pages/channels/components/ProfilePicture';
+import extractNameAndTag from '../../utils/extractNameAndTag';
+import useUser from '../../types/user/hooks/useUser';
+import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
+import useUserChatId from '../../types/user-chat/hooks/useUserChatId';
 import { useNavigate } from 'react-router-dom';
 
 type UserPartialModalProps = {
