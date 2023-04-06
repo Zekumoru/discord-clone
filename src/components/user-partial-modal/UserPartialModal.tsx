@@ -1,12 +1,11 @@
-import { format } from 'date-fns';
-import { IconChatBubble } from '../../assets/icons';
 import { PartialScreenModalMethods } from '../../contexts/partial-screen-modal/PartialScreenModalContext';
-import ProfilePicture from '../../pages/channels/components/ProfilePicture';
-import extractNameAndTag from '../../utils/extractNameAndTag';
 import useUser from '../../types/user/hooks/useUser';
 import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
 import useUserChatId from '../../types/user-chat/hooks/useUserChatId';
 import { useNavigate } from 'react-router-dom';
+import UserPartialModalBanner from './components/UserPartialModalBanner';
+import InfoAndActions from './components/InfoAndActions';
+import AdditionalInfo from './components/AdditionalInfo';
 
 type UserPartialModalProps = {
   userId: string;
@@ -16,19 +15,15 @@ type UserPartialModalProps = {
 const UserPartialModal = ({ userId, close }: UserPartialModalProps) => {
   const [currentUser] = useCurrentUser();
   const [user] = useUser(userId);
-  const [name, tag] = extractNameAndTag(user?.username ?? '');
   const [chatId] = useUserChatId(currentUser?.userChatsId, user?.id);
   const navigate = useNavigate();
 
   const handleMessageIconClick = () => {
-    if (isSelf) return;
     if (chatId === undefined) return;
 
     close();
     navigate(`/channels/@me/${chatId}`);
   };
-
-  const isSelf = currentUser?.id === user?.id;
 
   return (
     <div className="flex min-h-screen flex-col items-center bg-background-700 bg-opacity-50">
@@ -37,49 +32,15 @@ const UserPartialModal = ({ userId, close }: UserPartialModalProps) => {
       <div className="mb-3 h-1.5 w-16 rounded bg-silvergrey-300" />
 
       <div className="min-h-[85vh] w-full overflow-hidden rounded-t-lg bg-background-500">
-        <div className="relative mb-11 h-20 bg-slate-600">
-          <div className="absolute left-4 top-8 rounded-full bg-background-500 p-2">
-            <ProfilePicture className="h-20 w-20 text-2xl" user={user} />
-          </div>
-        </div>
+        <UserPartialModalBanner user={user} />
 
         <div className="flex flex-col gap-4 p-4">
-          <div className="rounded-lg bg-background-700 py-4">
-            <div className="px-4 text-xl font-semibold">
-              <span className="">{name}</span>{' '}
-              <span className="font-medium text-silvergrey-300">#{tag}</span>
-            </div>
+          <InfoAndActions
+            user={user}
+            onMessageIconClick={handleMessageIconClick}
+          />
 
-            <div className="my-2.5 border-b border-background-500" />
-
-            <div className="mt-2 flex justify-center px-4 text-silvergrey-300">
-              <button
-                onClick={handleMessageIconClick}
-                disabled={isSelf}
-                className={`flex select-none flex-col items-center p-2 ${
-                  isSelf ? 'text-silvergrey-800' : 'cursor-pointer'
-                }`}
-              >
-                <IconChatBubble className="h-7 w-7" />
-                <div
-                  className={`mt-0.5 ${
-                    isSelf ? 'text-silvergrey-800' : 'text-silvergrey-400'
-                  }`}
-                >
-                  Message
-                </div>
-              </button>
-            </div>
-          </div>
-
-          <div className="rounded-lg bg-background-700 py-4">
-            <div className="px-4">
-              <div className="heading-2 mb-2.5">Discord member since</div>
-              <div>
-                {user && format(user.creationTimestamp.toDate(), 'MMM d, yyyy')}
-              </div>
-            </div>
-          </div>
+          <AdditionalInfo user={user} />
         </div>
       </div>
     </div>
