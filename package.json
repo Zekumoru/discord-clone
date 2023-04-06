@@ -10,7 +10,8 @@
     "deploy": "yarn build && firebase deploy --only hosting",
     "test": "vitest",
     "coverage": "vitest --coverage",
-    "lint": "prettier --write ."
+    "lint": "prettier --write .",
+    "emulator": "firebase emulators:start"
   },
   "dependencies": {
     "date-fns": "^2.29.3",
