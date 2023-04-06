@@ -4,6 +4,9 @@ import { PartialScreenModalMethods } from '../contexts/partial-screen-modal/Part
 import ProfilePicture from '../pages/channels/components/ProfilePicture';
 import extractNameAndTag from '../utils/extractNameAndTag';
 import useUser from '../types/user/hooks/useUser';
+import { useCurrentUser } from '../contexts/current-user/CurrentUserContext';
+import useUserChatId from '../types/user-chat/hooks/useUserChatId';
+import { useNavigate } from 'react-router-dom';
 
 type UserPartialModalProps = {
   userId: string;
@@ -11,8 +14,18 @@ type UserPartialModalProps = {
 };
 
 const UserPartialModal = ({ userId, close }: UserPartialModalProps) => {
+  const [currentUser] = useCurrentUser();
   const [user] = useUser(userId);
   const [name, tag] = extractNameAndTag(user?.username ?? '');
+  const [chatId] = useUserChatId(currentUser?.userChatsId, user?.id);
+  const navigate = useNavigate();
+
+  const handleMessageIconClick = () => {
+    if (chatId === undefined) return;
+
+    close();
+    navigate(`/channels/@me/${chatId}`);
+  };
 
   return (
     <div className="flex min-h-screen flex-col items-center bg-background-700 bg-opacity-50">
@@ -37,7 +50,10 @@ const UserPartialModal = ({ userId, close }: UserPartialModalProps) => {
             <div className="my-2.5 border-b border-background-500" />
 
             <div className="mt-4 px-4 text-silvergrey-300">
-              <div className="flex flex-col items-center">
+              <div
+                onClick={handleMessageIconClick}
+                className="flex cursor-pointer select-none flex-col items-center"
+              >
                 <IconChatBubble className="h-7 w-7" />
                 <div className="mt-0.5 text-silvergrey-400">Message</div>
               </div>
