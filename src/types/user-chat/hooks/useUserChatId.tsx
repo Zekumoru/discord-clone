@@ -13,6 +13,11 @@ const getUserChatId = async (
   otherUserId: string | undefined
 ) => {
   if (userChats === undefined || otherUserId === undefined) return;
+  if (userChats.userId === otherUserId) {
+    throw new Error(
+      'Cannot create user chat! You cannot chat with yourself, loner.'
+    );
+  }
 
   const userChat = userChats.chats.find(
     (userChat) => userChat.userId === otherUserId
@@ -81,6 +86,8 @@ const useUserChatId = (
   const [userChats, userChatsLoading, userChatsError] =
     useUserChats(userChatsId);
 
+  const isSelf = userChats?.userId === otherUserId;
+
   const {
     data: chatId,
     isLoading,
@@ -89,7 +96,7 @@ const useUserChatId = (
     ['user-chat', userChats?.id, otherUserId],
     async () => await getUserChatId(userChats, otherUserId),
     {
-      enabled: !!userChatsId && !!otherUserId,
+      enabled: !!userChatsId && !!otherUserId && !isSelf,
       refetchOnWindowFocus: false,
     }
   );
