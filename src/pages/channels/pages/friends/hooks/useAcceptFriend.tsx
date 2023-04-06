@@ -65,3 +65,4 @@ const useAcceptFriend = ({ onSuccess }: useAcceptFriendProps = {}) => {
 };
 
 export default useAcceptFriend;
+export { acceptFriend };
