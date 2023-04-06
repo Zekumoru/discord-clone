@@ -1,23 +1,22 @@
-import { User } from 'firebase/auth';
-import initUserCollections from '../initUserCollections';
-import { nanoid } from 'nanoid';
-import { getMockedFirestoreCollection } from '../../../../../../__mocks__/firebase/utils/mockFirestore';
+import setup from '../../../../../tests/firebase/setup';
+import teardown from '../../../../../tests/firebase/teardown';
+import usersCollection from '../../../../../types/user/firebase/usersCollection';
+import { getDocs } from 'firebase/firestore';
+import userGuildsCollection from '../../../../../types/user/firebase/userGuildsCollection';
+import friendsCollection from '../../../../../types/friend/firebase/friendsCollection';
+import friendRequestsCollection from '../../../../../types/friend/firebase/friendRequestsCollection';
 
-vi.mock('firebase/firestore');
+afterEach(async () => {
+  await teardown();
+});
 
 describe('authentication/initUserCollections', () => {
-  it('should create the appropriate collections when a new user has been created in the cloud firestore', () => {
-    initUserCollections(
-      {
-        uid: nanoid(),
-        email: 'user@example.com',
-      } as User,
-      'User#1234'
-    );
+  it('should create the appropriate collections when a new user has been created in the cloud firestore', async () => {
+    await setup();
 
-    expect(getMockedFirestoreCollection('users')).not.toEqual([]);
-    expect(getMockedFirestoreCollection('user-guilds')).not.toEqual([]);
-    expect(getMockedFirestoreCollection('friends')).not.toEqual([]);
-    expect(getMockedFirestoreCollection('friend-requests')).not.toEqual([]);
+    expect((await getDocs(usersCollection)).docs).not.toEqual([]);
+    expect((await getDocs(userGuildsCollection)).docs).not.toEqual([]);
+    expect((await getDocs(friendsCollection)).docs).not.toEqual([]);
+    expect((await getDocs(friendRequestsCollection)).docs).not.toEqual([]);
   });
 });
