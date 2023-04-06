@@ -79,10 +79,10 @@ const useSendFriendRequest = ({
   onSuccess,
 }: UseSendFriendRequestProps = {}) => {
   const [user] = useCurrentUser();
-
   return useMutation(sendFriendRequest.bind(undefined, user), {
     onSuccess,
   });
 };
 
 export default useSendFriendRequest;
+export { sendFriendRequest };
