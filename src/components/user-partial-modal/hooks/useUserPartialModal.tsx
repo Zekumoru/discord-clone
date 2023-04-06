@@ -4,7 +4,11 @@ import UserPartialModal from '../UserPartialModal';
 const useUserPartialModal = () => {
   const [openPartialModal, closePartialModal] = usePartialScreenModal();
 
-  const open = (userId: string) => {
+  const open = (userId: string | undefined) => {
+    if (userId === undefined) {
+      throw new Error('Cannot open user partial modal. User id is missing.');
+    }
+
     openPartialModal(
       <UserPartialModal userId={userId} close={closePartialModal} />
     );

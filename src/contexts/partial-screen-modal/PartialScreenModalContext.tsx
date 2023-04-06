@@ -33,7 +33,7 @@ const PartialScreenModalProvider = ({
   return (
     <PartialScreenModalContext.Provider value={[open, close]}>
       {modal && (
-        <div className="fixed bottom-0 left-0 top-0 z-50 w-full overflow-y-auto overflow-x-hidden">
+        <div className="fixed bottom-0 left-0 top-0 z-[100] w-full overflow-y-auto overflow-x-hidden">
           {modal}
         </div>
       )}

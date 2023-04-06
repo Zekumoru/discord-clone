@@ -21,11 +21,14 @@ const UserPartialModal = ({ userId, close }: UserPartialModalProps) => {
   const navigate = useNavigate();
 
   const handleMessageIconClick = () => {
+    if (isSelf) return;
     if (chatId === undefined) return;
 
     close();
     navigate(`/channels/@me/${chatId}`);
   };
+
+  const isSelf = currentUser?.id === user?.id;
 
   return (
     <div className="flex min-h-screen flex-col items-center bg-background-700 bg-opacity-50">
@@ -49,14 +52,23 @@ const UserPartialModal = ({ userId, close }: UserPartialModalProps) => {
 
             <div className="my-2.5 border-b border-background-500" />
 
-            <div className="mt-4 px-4 text-silvergrey-300">
-              <div
+            <div className="mt-2 flex justify-center px-4 text-silvergrey-300">
+              <button
                 onClick={handleMessageIconClick}
-                className="flex cursor-pointer select-none flex-col items-center"
+                disabled={isSelf}
+                className={`flex select-none flex-col items-center p-2 ${
+                  isSelf ? 'text-silvergrey-800' : 'cursor-pointer'
+                }`}
               >
                 <IconChatBubble className="h-7 w-7" />
-                <div className="mt-0.5 text-silvergrey-400">Message</div>
-              </div>
+                <div
+                  className={`mt-0.5 ${
+                    isSelf ? 'text-silvergrey-800' : 'text-silvergrey-400'
+                  }`}
+                >
+                  Message
+                </div>
+              </button>
             </div>
           </div>
 
