@@ -6,46 +6,38 @@
  * APP/NO-OPTIONS ERROR.
  *
  */
-import {
-  connectAuthEmulator,
-  createUserWithEmailAndPassword,
-  getAuth,
-  updateProfile,
-} from 'firebase/auth';
-import initUserCollections from '../../pages/authentication/pages/utils/initUserCollections';
-import { initializeApp } from 'firebase/app';
-import firebaseConfig from '../../firebase.config';
-import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
+import './initializeBeforeSetup';
+import createUser from './createUser';
+import findUserByFirebaseId from '../../types/user/firebase/findUserByFirebaseId';
+import { User, getAuth } from 'firebase/auth';
+import { getDocs } from 'firebase/firestore';
+import usersCollection from '../../types/user/firebase/usersCollection';
+import IUser from '../../types/user/User';
 
-initializeApp(firebaseConfig);
-connectAuthEmulator(getAuth(), 'http://localhost:3173');
-connectFirestoreEmulator(getFirestore(), 'localhost', 3174);
+const setup = async (usernames?: string[]) => {
+  const otherUsers: IUser[] = [];
+  if (usernames && usernames.length !== 0) {
+    const [_skipped, ...users] = await Promise.all(
+      usernames.map((username, index) =>
+        (async () => {
+          if (index === 0) return;
 
-type SetupOptions = {
-  email: string;
-  password: string;
-  username: string;
-};
-
-const defaultOptions: SetupOptions = {
-  email: 'user@example.com',
-  password: 'user@password',
-  username: 'User#1234',
-};
-
-const setup = async ({ email, password, username } = defaultOptions) => {
-  if (!email || !password || !username) {
-    throw new Error('One of the setup options is missing.');
+          const user = await createUser(username);
+          return await findUserByFirebaseId(user.uid);
+        })()
+      )
+    );
+    otherUsers.push(...(users as IUser[]));
   }
 
-  const response = await createUserWithEmailAndPassword(
-    getAuth(),
-    email,
-    password
-  );
+  let user: User;
+  if (usernames === undefined) {
+    user = await createUser('User#1234');
+  } else {
+    user = await createUser(usernames[0]);
+  }
 
-  await updateProfile(response.user, { displayName: username });
-  await initUserCollections(response.user, username);
+  return [await findUserByFirebaseId(user.uid), ...otherUsers] as IUser[];
 };
 
 export default setup;
