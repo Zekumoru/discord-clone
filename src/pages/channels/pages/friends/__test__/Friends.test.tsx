@@ -40,7 +40,7 @@ describe('FriendsPage', () => {
             return {
               id: '1234',
               userId: '1234',
-              friendsList: [{ userId: '7890', chatId: '7890' }],
+              friendsList: [{ userId: '7890' }],
             } as IFriends;
           }
         },
