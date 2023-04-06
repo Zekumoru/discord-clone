@@ -15,21 +15,24 @@ const alreadyHasRequest = (userId: string, requests: IFriendRequest[]) => {
   return requests.some((request) => request.userId === userId);
 };
 
-const addFriend = async (currentUser: IUser | undefined, username: string) => {
+const sendFriendRequest = async (
+  currentUser: IUser | undefined,
+  username: string
+) => {
   if (currentUser === undefined) {
     throw new Error('User is not logged in.');
   }
 
   await performBatch(async (batch) => {
-    const userToAdd = await findUserByUsername(username);
+    const otherUser = await findUserByUsername(username);
 
-    if (userToAdd === undefined) {
+    if (otherUser === undefined) {
       throw new Error(
         `Cannot add friend! The user does not exist: ${username}`
       );
     }
 
-    if (userToAdd.id === currentUser.id) {
+    if (otherUser.id === currentUser.id) {
       throw new Error(`You cannot add yourself as a friend!`);
     }
 
@@ -38,12 +41,12 @@ const addFriend = async (currentUser: IUser | undefined, username: string) => {
     );
     const currentUserFriends = (await getDoc(currentUserFriendsRef)).data()!;
 
-    const userToAddFriendsRef = createDoc<IFriendRequests>(
-      `friend-requests/${userToAdd.friendRequestsId}`
+    const otherUserFriendsRef = createDoc<IFriendRequests>(
+      `friend-requests/${otherUser.friendRequestsId}`
     );
-    const userToAddFriends = (await getDoc(userToAddFriendsRef)).data()!;
+    const otherUserFriends = (await getDoc(otherUserFriendsRef)).data()!;
 
-    if (alreadyHasRequest(userToAdd.id, currentUserFriends.requests)) {
+    if (alreadyHasRequest(otherUser.id, currentUserFriends.requests)) {
       throw new Error(
         `Cannot add friend! You already sent a friend request to this user.`
       );
@@ -52,8 +55,8 @@ const addFriend = async (currentUser: IUser | undefined, username: string) => {
     await Promise.all([
       // Send friend request of pending type ACCEPTANCE on the receiving user.
       createFriendRequest(batch, {
-        friendRequestsRef: userToAddFriendsRef,
-        friendRequests: userToAddFriends,
+        friendRequestsRef: otherUserFriendsRef,
+        friendRequests: otherUserFriends,
         userId: currentUser.id,
         pendingType: 'acceptance',
       }),
@@ -61,23 +64,25 @@ const addFriend = async (currentUser: IUser | undefined, username: string) => {
       createFriendRequest(batch, {
         friendRequestsRef: currentUserFriendsRef,
         friendRequests: currentUserFriends,
-        userId: userToAdd.id,
+        userId: otherUser.id,
         pendingType: 'request',
       }),
     ]);
   });
 };
 
-type UseAddFriendProps = {
+type UseSendFriendRequestProps = {
   onSuccess?: () => void;
 };
 
-const useAddFriend = ({ onSuccess }: UseAddFriendProps = {}) => {
+const useSendFriendRequest = ({
+  onSuccess,
+}: UseSendFriendRequestProps = {}) => {
   const [user] = useCurrentUser();
 
-  return useMutation(addFriend.bind(undefined, user), {
+  return useMutation(sendFriendRequest.bind(undefined, user), {
     onSuccess,
   });
 };
 
-export default useAddFriend;
+export default useSendFriendRequest;

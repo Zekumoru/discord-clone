@@ -1,9 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import useAddFriend from '../useAddFriend';
+import useSendFriendRequest from '../useSendFriendRequest';
 import IUser from '../../../../../../../../../types/user/User';
-import { CreateFriendRequestOptions } from '../utils/createFriendRequest';
 import {
   DocumentReference,
   DocumentSnapshot,
@@ -34,7 +32,7 @@ describe('AddFriendScreenModal/useAddFriend', () => {
   it('should return an error if the user, for some reason, is not logged in then tries to add someone as a friend', async () => {
     const user = userEvent.setup();
     const Component = () => {
-      const { mutate: addFriend, error } = useAddFriend();
+      const { mutate: addFriend, error } = useSendFriendRequest();
       if (error instanceof Error) {
         return <div>{error.message}</div>;
       }
@@ -81,7 +79,7 @@ describe('AddFriendScreenModal/useAddFriend', () => {
       } as QuerySnapshot<IUser>);
     };
     const Component = () => {
-      const { mutate: addFriend, error } = useAddFriend();
+      const { mutate: addFriend, error } = useSendFriendRequest();
       if (error instanceof Error) {
         return <div>{error.message}</div>;
       }
@@ -139,7 +137,7 @@ describe('AddFriendScreenModal/useAddFriend', () => {
       } as QuerySnapshot<IUser>);
     };
     const Component = () => {
-      const { mutate: addFriend, error } = useAddFriend();
+      const { mutate: addFriend, error } = useSendFriendRequest();
       if (error instanceof Error) {
         return <div>{error.message}</div>;
       }
@@ -225,7 +223,7 @@ describe('AddFriendScreenModal/useAddFriend', () => {
       } as unknown as WriteBatch;
     });
     const Component = () => {
-      const { mutate: addFriend } = useAddFriend();
+      const { mutate: addFriend } = useSendFriendRequest();
       return <button onClick={() => addFriend('Test#1234')} />;
     };
 
@@ -323,7 +321,7 @@ describe('AddFriendScreenModal/useAddFriend', () => {
       } as DocumentSnapshot<IFriendRequests>);
     };
     const Component = () => {
-      const { mutate: addFriend, error } = useAddFriend();
+      const { mutate: addFriend, error } = useSendFriendRequest();
       if (error instanceof Error) {
         return <div>{error.message}</div>;
       }

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import UsernameInput from './components/UsernameInput';
 import AddFriendModalToolbar from './components/AddFriendModalToolbar';
 import { ScreenModalMethods } from '../../../../../../contexts/screen-modal/ScreenModalContext';
-import useAddFriend from './hooks/use-add-friend/useAddFriend';
+import useSendFriendRequest from './hooks/use-add-friend/useSendFriendRequest';
 import { useCurrentUser } from '../../../../../../contexts/current-user/CurrentUserContext';
 
 type AddFriendScreenModalProps = {
@@ -12,7 +12,7 @@ type AddFriendScreenModalProps = {
 const AddFriendScreenModal = ({ close }: AddFriendScreenModalProps) => {
   const [username, setUsername] = useState('');
   const [user] = useCurrentUser();
-  const { mutate: addFriend } = useAddFriend({
+  const { mutate: addFriend } = useSendFriendRequest({
     onSuccess: () => {
       close();
     },
