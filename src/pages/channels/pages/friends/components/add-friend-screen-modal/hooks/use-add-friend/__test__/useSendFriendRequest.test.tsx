@@ -9,7 +9,7 @@ afterEach(async () => {
   await teardown();
 });
 
-describe('AddFriendScreenModal/useAddFriend', () => {
+describe('AddFriendScreenModal/useSendFriendRequest', () => {
   it('should return an error if the user, for some reason, is not logged in then tries to add someone as a friend', async () => {
     await expect(sendFriendRequest(undefined, '')).rejects.toMatch(
       /user is not logged in/i
