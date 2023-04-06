@@ -34,15 +34,12 @@ const acceptFriend = async ({ currentUser, request }: AcceptFriendArgs) => {
     const currentUserFriends = (await getDoc(currentUserFriendsRef)).data()!;
     const otherUserFriends = (await getDoc(otherUserFriendsRef)).data()!;
 
-    const chatId = snowflakeId();
-
     batch.set<IFriends>(currentUserFriendsRef, {
       ...currentUserFriends,
       friendsList: [
         ...currentUserFriends.friendsList,
         {
           userId: otherUser.id,
-          chatId,
         },
       ],
     });
@@ -53,23 +50,6 @@ const acceptFriend = async ({ currentUser, request }: AcceptFriendArgs) => {
         ...otherUserFriends.friendsList,
         {
           userId: currentUser.id,
-          chatId,
-        },
-      ],
-    });
-
-    const chatRef = chatDoc(chatId);
-    const messagesId = snowflakeId();
-
-    batch.set(chatRef, {
-      id: chatId,
-      messagesId,
-      participants: [
-        {
-          userId: currentUser.id,
-        },
-        {
-          userId: otherUser.id,
         },
       ],
     });

@@ -114,7 +114,6 @@ describe('FriendsPage/FriendRequestItem', () => {
           friendsList: [
             {
               userId: '7890',
-              chatId: expect.anything(),
             },
           ],
         }
@@ -128,7 +127,6 @@ describe('FriendsPage/FriendRequestItem', () => {
           friendsList: [
             {
               userId: '1234',
-              chatId: expect.anything(),
             },
           ],
         }
