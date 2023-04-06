@@ -1,67 +1,44 @@
+import setup from '../../../../../tests/firebase/setup';
 import { render, screen, waitFor } from '@testing-library/react';
 import MembersSlider from '../components/members-slider/MembersSlider';
-import {
-  mockFirestoreCollection,
-  mockResetFirestoreCollection,
-} from '../../../../../../__mocks__/firebase/utils/mockFirestore';
 import NoRetryQueryClientProvider from '../../../../../tests/NoRetryQueryClientProvider';
-import IUser from '../../../../../types/user/User';
+import teardown from '../../../../../tests/firebase/teardown';
 
-vi.mock('firebase/firestore');
-
-afterEach(() => {
-  mockResetFirestoreCollection();
+afterEach(async () => {
+  await teardown();
 });
 
 describe('MembersSlider', () => {
-  it("should show the title with the friend's name if on the friend's chat", () => {
-    const Component = () => {
-      return (
-        <MembersSlider
-          isOpen={true}
-          headerProps={{ title: 'Friend', prefix: '@' }}
-          members={[]}
-        />
-      );
-    };
-    render(<Component />);
+  it("should show the title with the other user's name", async () => {
+    await setup();
+    render(
+      <MembersSlider
+        isOpen={true}
+        headerProps={{ title: 'User', prefix: '@' }}
+        members={[]}
+      />
+    );
 
     expect(screen.getByText('@')).toBeInTheDocument();
-    expect(screen.getByText('Friend')).toBeInTheDocument();
+    expect(screen.getByText('User')).toBeInTheDocument();
   });
 
   it('should display the members', async () => {
-    mockFirestoreCollection<IUser>('users', {
-      '1234': {
-        id: '1234',
-        username: 'User#1234',
-        pictureUrl: null,
-      } as IUser,
-      '7890': {
-        id: '7890',
-        username: 'Friend#7890',
-        pictureUrl: null,
-      } as IUser,
-    });
-    const Component = () => {
-      return (
-        <MembersSlider
-          isOpen={true}
-          headerProps={{ title: 'TEST', prefix: '@' }}
-          members={[{ userId: '1234' }, { userId: '7890' }]}
-        />
-      );
-    };
+    const [currentUser, otherUser] = await setup(['User#1234', 'Test#7890']);
     render(
       <NoRetryQueryClientProvider>
-        <Component />
+        <MembersSlider
+          isOpen={true}
+          headerProps={{ title: otherUser.username, prefix: '@' }}
+          members={[{ userId: currentUser.id }, { userId: otherUser.id }]}
+        />
       </NoRetryQueryClientProvider>
     );
 
     await waitFor(() => {
       expect(screen.getByText(/members — 2/i)).toBeInTheDocument();
       expect(screen.getByText('User')).toBeInTheDocument();
-      expect(screen.getByText('Friend')).toBeInTheDocument();
+      expect(screen.getByText('Test')).toBeInTheDocument();
     });
   });
 });

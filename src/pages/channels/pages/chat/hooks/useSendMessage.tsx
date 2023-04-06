@@ -30,3 +30,4 @@ const useSendMessage = () => {
 };
 
 export default useSendMessage;
+export { sendMessage };
