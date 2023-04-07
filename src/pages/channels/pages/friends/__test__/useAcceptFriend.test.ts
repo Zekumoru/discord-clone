@@ -1,4 +1,4 @@
-import setup from '../../../../../tests/firebase/setup';
+import setup, { setupTest } from '../../../../../tests/firebase/setup';
 import { getDoc } from 'firebase/firestore';
 import teardown from '../../../../../tests/firebase/teardown';
 import friendsDoc from '../../../../../types/friend/firebase/friendsDoc';
@@ -6,13 +6,17 @@ import friendRequestsDoc from '../../../../../types/friend/firebase/friendReques
 import { acceptFriend } from '../hooks/useAcceptFriend';
 import { sendFriendRequest } from '../components/add-friend-screen-modal/hooks/use-add-friend/useSendFriendRequest';
 
+const instance = setup();
 afterEach(async () => {
-  await teardown();
+  await teardown(instance);
 });
 
 describe('FriendsPage/useAcceptFriend', () => {
   it('should add the user as a friend on friend request accepted', async () => {
-    const [currentUser, otherUser] = await setup(['User#1234', 'Test#7890']);
+    const [currentUser, otherUser] = await setupTest(instance, [
+      'User#1234',
+      'Test#7890',
+    ]);
     const currentUserFriendRequestsRef = friendRequestsDoc(
       currentUser.friendRequestsId
     );

@@ -1,4 +1,4 @@
-import setup from '../../../../../tests/firebase/setup';
+import setup, { setupTest } from '../../../../../tests/firebase/setup';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NoRetryQueryClientProvider from '../../../../../tests/NoRetryQueryClientProvider';
@@ -14,14 +14,14 @@ const setRouterParams = (obj: Params) => {
   mockedUseParams.mockReturnValue(obj);
 };
 
+const instance = setup();
 afterEach(async () => {
-  mockedUseParams.mockRestore();
-  await teardown();
+  await teardown(instance);
 });
 
 describe('Chat', () => {
   it('should send a message and display it', async () => {
-    await setup(['User#1234']);
+    await setupTest(instance, ['User#1234']);
     const user = userEvent.setup();
     setRouterParams({ id: 'chat-id' });
     render(
@@ -43,7 +43,7 @@ describe('Chat', () => {
   });
 
   it('should send multiple messages ', async () => {
-    await setup(['User#1234']);
+    await setupTest(instance, ['User#1234']);
     const user = userEvent.setup();
     setRouterParams({ id: 'chat-id' });
     render(

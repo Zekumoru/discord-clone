@@ -1,18 +1,22 @@
 import { getDoc } from 'firebase/firestore';
-import setup from '../../../../../tests/firebase/setup';
+import setup, { setupTest } from '../../../../../tests/firebase/setup';
 import teardown from '../../../../../tests/firebase/teardown';
 import friendRequestsDoc from '../../../../../types/friend/firebase/friendRequestsDoc';
 import friendsDoc from '../../../../../types/friend/firebase/friendsDoc';
 import { sendFriendRequest } from '../components/add-friend-screen-modal/hooks/use-add-friend/useSendFriendRequest';
 import { rejectFriend } from '../hooks/useRejectFriend';
 
+const instance = setup();
 afterEach(async () => {
-  await teardown();
+  await teardown(instance);
 });
 
 describe('FriendsPage/useRejectFriend', () => {
   it('should remove the friend requests if rejected', async () => {
-    const [currentUser, otherUser] = await setup(['User#1234', 'Test#7890']);
+    const [currentUser, otherUser] = await setupTest(instance, [
+      'User#1234',
+      'Test#7890',
+    ]);
     const currentUserFriendRequestsRef = friendRequestsDoc(
       currentUser.friendRequestsId
     );

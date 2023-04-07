@@ -1,4 +1,4 @@
-import setup from '../../../../../tests/firebase/setup';
+import setup, { setupTest } from '../../../../../tests/firebase/setup';
 import teardown from '../../../../../tests/firebase/teardown';
 import usersCollection from '../../../../../types/user/firebase/usersCollection';
 import { getDocs } from 'firebase/firestore';
@@ -6,13 +6,14 @@ import userGuildsCollection from '../../../../../types/user/firebase/userGuildsC
 import friendsCollection from '../../../../../types/friend/firebase/friendsCollection';
 import friendRequestsCollection from '../../../../../types/friend/firebase/friendRequestsCollection';
 
+const instance = setup();
 afterEach(async () => {
-  await teardown();
+  await teardown(instance);
 });
 
 describe('authentication/initUserCollections', () => {
   it('should create the appropriate collections when a new user has been created in the cloud firestore', async () => {
-    await setup();
+    await setupTest(instance);
 
     expect((await getDocs(usersCollection)).docs).not.toEqual([]);
     expect((await getDocs(userGuildsCollection)).docs).not.toEqual([]);

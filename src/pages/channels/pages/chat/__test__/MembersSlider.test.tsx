@@ -1,16 +1,17 @@
-import setup from '../../../../../tests/firebase/setup';
+import setup, { setupTest } from '../../../../../tests/firebase/setup';
 import { render, screen, waitFor } from '@testing-library/react';
 import MembersSlider from '../components/members-slider/MembersSlider';
 import NoRetryQueryClientProvider from '../../../../../tests/NoRetryQueryClientProvider';
 import teardown from '../../../../../tests/firebase/teardown';
 
+const instance = setup();
 afterEach(async () => {
-  await teardown();
+  await teardown(instance);
 });
 
 describe('MembersSlider', () => {
   it("should show the title with the other user's name", async () => {
-    await setup();
+    await setupTest(instance);
     render(
       <MembersSlider
         isOpen={true}
@@ -24,7 +25,10 @@ describe('MembersSlider', () => {
   });
 
   it('should display the members', async () => {
-    const [currentUser, otherUser] = await setup(['User#1234', 'Test#7890']);
+    const [currentUser, otherUser] = await setupTest(instance, [
+      'User#1234',
+      'Test#7890',
+    ]);
     render(
       <NoRetryQueryClientProvider>
         <MembersSlider
