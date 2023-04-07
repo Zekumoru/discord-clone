@@ -1,19 +1,20 @@
-import setup, { setupTest } from '../../../../../../../tests/firebase/setup';
+import '@test-utils/initialize';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AddFriendScreenModal from '../AddFriendScreenModal';
 import NoRetryQueryClientProvider from '../../../../../../../tests/NoRetryQueryClientProvider';
 import CurrentUserProvider from '../../../../../../../contexts/current-user/CurrentUserContext';
-import teardown from '../../../../../../../tests/firebase/teardown';
+import { setupBeforeAll, setupTest } from '@test-utils';
 
-const instance = setup();
-afterEach(async () => {
-  await teardown(instance);
-});
+vi.mock('react-firebase-hooks/auth');
+beforeAll(setupBeforeAll);
 
 describe('AddFriendScreenModal', () => {
   it("should close the modal when the 'close' button is clicked", async () => {
-    await setupTest(instance, ['User#1234']);
+    const [cleanup] = await setupTest({
+      usernames: ['User#1234'],
+      mockUseAuthState: true,
+    });
     const user = userEvent.setup();
     const closeFn = vi.fn();
     render(
@@ -27,10 +28,14 @@ describe('AddFriendScreenModal', () => {
     await user.click(screen.getByText('Close'));
 
     expect(closeFn).toBeCalled();
+    await cleanup();
   });
 
   it("should show the name of the current user in the 'Your username is ...'", async () => {
-    await setupTest(instance, ['User#1234']);
+    const [cleanup] = await setupTest({
+      usernames: ['User#1234'],
+      mockUseAuthState: true,
+    });
     render(
       <NoRetryQueryClientProvider>
         <CurrentUserProvider>
@@ -41,13 +46,17 @@ describe('AddFriendScreenModal', () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText(/your username is user#1234/i)
+        screen.getByText(/your username is .*user#1234/i)
       ).toBeInTheDocument();
     });
+    await cleanup();
   });
 
   it('should close the modal when friend request is sent', async () => {
-    await setupTest(instance, ['User#1234']);
+    const [cleanup] = await setupTest({
+      usernames: ['User#1234'],
+      mockUseAuthState: true,
+    });
     const user = userEvent.setup();
     const closeFn = vi.fn();
     render(
@@ -61,5 +70,6 @@ describe('AddFriendScreenModal', () => {
     await user.click(screen.getByText('Close'));
 
     expect(closeFn).toBeCalled();
+    await cleanup();
   });
 });

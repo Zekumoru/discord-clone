@@ -1,17 +1,18 @@
-import setup, { setupTest } from '../../../tests/firebase/setup';
+import '@test-utils/initialize';
 import { render, screen, waitFor } from '@testing-library/react';
 import CurrentUserProvider, { useCurrentUser } from '../CurrentUserContext';
 import NoRetryQueryClientProvider from '../../../tests/NoRetryQueryClientProvider';
-import teardown from '../../../tests/firebase/teardown';
+import { setupBeforeAll, setupTest } from '@test-utils';
 
-const instance = setup();
-afterEach(async () => {
-  await teardown(instance);
-});
+vi.mock('react-firebase-hooks/auth');
+beforeAll(setupBeforeAll);
 
 describe('CurrentUserContext', () => {
   it('should return the current user', async () => {
-    await setupTest(instance, ['Some User#1234']);
+    const [cleanup] = await setupTest({
+      usernames: ['Some User#1234'],
+      mockUseAuthState: true,
+    });
     const Component = () => {
       const [user] = useCurrentUser();
       return <div>{user?.username}</div>;
@@ -27,5 +28,6 @@ describe('CurrentUserContext', () => {
     await waitFor(() => {
       expect(screen.getByText(/some user/i)).toBeInTheDocument();
     });
+    await cleanup();
   });
 });

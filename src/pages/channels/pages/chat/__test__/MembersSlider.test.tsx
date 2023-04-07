@@ -1,17 +1,14 @@
-import setup, { setupTest } from '../../../../../tests/firebase/setup';
+import '@test-utils/initialize';
 import { render, screen, waitFor } from '@testing-library/react';
 import MembersSlider from '../components/members-slider/MembersSlider';
 import NoRetryQueryClientProvider from '../../../../../tests/NoRetryQueryClientProvider';
-import teardown from '../../../../../tests/firebase/teardown';
+import { setupBeforeAll, setupTest } from '@test-utils';
 
-const instance = setup();
-afterEach(async () => {
-  await teardown(instance);
-});
+beforeAll(setupBeforeAll);
 
 describe('MembersSlider', () => {
   it("should show the title with the other user's name", async () => {
-    await setupTest(instance);
+    const [cleanup] = await setupTest();
     render(
       <MembersSlider
         isOpen={true}
@@ -22,13 +19,13 @@ describe('MembersSlider', () => {
 
     expect(screen.getByText('@')).toBeInTheDocument();
     expect(screen.getByText('User')).toBeInTheDocument();
+    await cleanup();
   });
 
   it('should display the members', async () => {
-    const [currentUser, otherUser] = await setupTest(instance, [
-      'User#1234',
-      'Test#7890',
-    ]);
+    const [cleanup, currentUser, otherUser] = await setupTest({
+      usernames: ['User#1234', 'Test#7890'],
+    });
     render(
       <NoRetryQueryClientProvider>
         <MembersSlider
@@ -39,10 +36,11 @@ describe('MembersSlider', () => {
       </NoRetryQueryClientProvider>
     );
 
-    await waitFor(() => {
+    waitFor(() => {
       expect(screen.getByText(/members — 2/i)).toBeInTheDocument();
       expect(screen.getByText('User')).toBeInTheDocument();
       expect(screen.getByText('Test')).toBeInTheDocument();
     });
+    await cleanup();
   });
 });

@@ -1,12 +1,14 @@
-import setup, { setupTest } from '../../../../../tests/firebase/setup';
-import { render, screen, waitFor } from '@testing-library/react';
+import '@test-utils/initialize';
+import { render, screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NoRetryQueryClientProvider from '../../../../../tests/NoRetryQueryClientProvider';
 import Chat from '../Chat';
 import { Params, useParams } from 'react-router-dom';
 import CurrentUserProvider from '../../../../../contexts/current-user/CurrentUserContext';
-import teardown from '../../../../../tests/firebase/teardown';
+import { setupBeforeAll, setupTest } from '@test-utils';
+import { nanoid } from 'nanoid';
 
+vi.mock('react-firebase-hooks/auth');
 vi.mock('react-router-dom');
 
 const mockedUseParams = vi.mocked(useParams);
@@ -14,16 +16,16 @@ const setRouterParams = (obj: Params) => {
   mockedUseParams.mockReturnValue(obj);
 };
 
-const instance = setup();
-afterEach(async () => {
-  await teardown(instance);
-});
+beforeAll(setupBeforeAll);
 
 describe('Chat', () => {
   it('should send a message and display it', async () => {
-    await setupTest(instance, ['User#1234']);
+    const [cleanup] = await setupTest({
+      usernames: ['User#1234'],
+      mockUseAuthState: true,
+    });
     const user = userEvent.setup();
-    setRouterParams({ id: 'chat-id' });
+    setRouterParams({ id: nanoid() });
     render(
       <NoRetryQueryClientProvider>
         <CurrentUserProvider>
@@ -37,15 +39,16 @@ describe('Chat', () => {
     await user.keyboard('Hello world!');
     await user.keyboard('{Enter}');
 
-    waitFor(() => {
-      expect(screen.getByText(/hello world/i)).toBeInTheDocument();
-    });
+    expect(await screen.findByText(/hello world/i)).toBeInTheDocument();
   });
 
   it('should send multiple messages ', async () => {
-    await setupTest(instance, ['User#1234']);
+    const [cleanup] = await setupTest({
+      usernames: ['User#1234'],
+      mockUseAuthState: true,
+    });
     const user = userEvent.setup();
-    setRouterParams({ id: 'chat-id' });
+    setRouterParams({ id: nanoid() });
     render(
       <NoRetryQueryClientProvider>
         <CurrentUserProvider>
@@ -57,14 +60,17 @@ describe('Chat', () => {
 
     await user.click(input);
     await user.keyboard('Hello world!');
+    await user.keyboard('{Enter}');
     await user.keyboard('How are you?');
+    await user.keyboard('{Enter}');
     await user.keyboard("I hope you're doing well.");
     await user.keyboard('{Enter}');
 
-    waitFor(() => {
-      expect(screen.getByText(/hello world/i)).toBeInTheDocument();
-      expect(screen.getByText(/how are you/i)).toBeInTheDocument();
-      expect(screen.getByText(/i hope you're doing well/i)).toBeInTheDocument();
-    });
+    expect(await screen.findByText(/hello world/i)).toBeInTheDocument();
+    expect(await screen.findByText(/how are you/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/i hope you're doing well/i)
+    ).toBeInTheDocument();
+    await cleanup();
   });
 });

@@ -1,8 +1,8 @@
 import createDoc from '../../../utils/firebase/createDoc';
 import { IUserGuilds } from '../../guild/Guild';
 
-const userGuilds = (userGuildsId: string) => {
+const userGuildsDoc = (userGuildsId: string) => {
   return createDoc<IUserGuilds>(`user-guilds/${userGuildsId}`);
 };
 
-export default userGuilds;
+export default userGuildsDoc;

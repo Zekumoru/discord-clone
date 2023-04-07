@@ -10,8 +10,13 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: './src/tests/globalSetup.ts',
-    globalSetup: './src/tests/globalTeardown.ts',
+    setupFiles: './src/tests/setup.ts',
+    globalSetup: './src/tests/globalSetup.ts',
     css: false,
+  },
+  resolve: {
+    alias: {
+      '@test-utils': 'src/tests/utils',
+    },
   },
 });
