@@ -11,6 +11,12 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/tests/setup.ts',
+    globalSetup: './src/tests/globalSetup.ts',
     css: false,
+  },
+  resolve: {
+    alias: {
+      '@test-utils': 'src/tests/utils',
+    },
   },
 });
