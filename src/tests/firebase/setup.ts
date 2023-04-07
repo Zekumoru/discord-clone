@@ -7,37 +7,53 @@
  *
  */
 import './initializeBeforeSetup';
-import createUser from './createUser';
-import findUserByFirebaseId from '../../types/user/firebase/findUserByFirebaseId';
-import { User, getAuth } from 'firebase/auth';
-import { getDocs } from 'firebase/firestore';
-import usersCollection from '../../types/user/firebase/usersCollection';
-import IUser from '../../types/user/User';
+import createTestInstance, { FirebaseTestInstance } from './createTestInstance';
+import createUsers from './createUsers';
+import {
+  deleteUser,
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+} from 'firebase/auth';
+import userDoc from '../../types/user/firebase/userDoc';
+import { deleteDoc } from 'firebase/firestore';
+import userGuilds from '../../types/user/firebase/userGuilds';
+import userChatsDoc from '../../types/user-chat/firebase/userChatsDoc';
+import friendsDoc from '../../types/friend/firebase/friendsDoc';
+import friendRequestsDoc from '../../types/friend/firebase/friendRequestsDoc';
 
-const setup = async (usernames?: string[]) => {
-  const otherUsers: IUser[] = [];
-  if (usernames && usernames.length !== 0) {
-    const [_skipped, ...users] = await Promise.all(
-      usernames.map((username, index) =>
-        (async () => {
-          if (index === 0) return;
+const firebaseTestInstances = new Map<string, FirebaseTestInstance>();
 
-          const user = await createUser(username);
-          return await findUserByFirebaseId(user.uid);
-        })()
-      )
-    );
-    otherUsers.push(...(users as IUser[]));
-  }
+const setup = () => {
+  const instance = createTestInstance();
+  firebaseTestInstances.set(instance.id, instance);
 
-  let user: User;
-  if (usernames === undefined) {
-    user = await createUser('User#1234');
-  } else {
-    user = await createUser(usernames[0]);
-  }
+  return instance;
+};
 
-  return [await findUserByFirebaseId(user.uid), ...otherUsers] as IUser[];
+const setupTest = async (
+  instance: FirebaseTestInstance,
+  usernames?: string[]
+) => {
+  return await createUsers(instance, usernames);
+};
+
+const removeTestInstance = async (instance: FirebaseTestInstance) => {
+  await Promise.all(
+    instance.getUsers().map(({ email, password }) =>
+      (async () => {
+        const { user: firebaseUser } = await signInWithEmailAndPassword(
+          getAuth(),
+          email,
+          password
+        );
+        await deleteUser(firebaseUser);
+      })()
+    )
+  );
+
+  firebaseTestInstances.delete(instance.id);
 };
 
 export default setup;
+export { setupTest, removeTestInstance };

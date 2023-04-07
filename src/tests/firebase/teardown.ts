@@ -1,23 +1,8 @@
-const teardown = async () => {
-  const deleteAllUsers = async () => {
-    await fetch(
-      'http://localhost:3173/emulator/v1/projects/discord-clone-zekumoru/accounts',
-      {
-        method: 'DELETE',
-      }
-    );
-  };
+import { FirebaseTestInstance } from './createTestInstance';
+import { removeTestInstance } from './setup';
 
-  const deleteAllCollections = async () => {
-    await fetch(
-      'http://localhost:3174/emulator/v1/projects/discord-clone-zekumoru/databases/(default)/documents',
-      {
-        method: 'DELETE',
-      }
-    );
-  };
-
-  await Promise.all([deleteAllUsers(), deleteAllCollections()]);
+const teardown = async (instance: FirebaseTestInstance) => {
+  await removeTestInstance(instance);
 };
 
 export default teardown;
