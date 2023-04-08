@@ -11,6 +11,7 @@ const MessageIconBtn = ({
 }: MessageIconBtnProps) => {
   return (
     <button
+      data-testid="message-icon-btn"
       onClick={onMessageIconClick}
       disabled={isSelf}
       className={`flex select-none flex-col items-center p-2 ${

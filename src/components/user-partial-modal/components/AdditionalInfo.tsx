@@ -12,7 +12,8 @@ const AdditionalInfo = ({ user }: AdditionalInfoProps) => {
       <div className="px-4">
         <div className="heading-2 mb-2.5">Discord member since</div>
         <div>
-          {user && format(user.creationTimestamp.toDate(), 'MMM d, yyyy')}
+          {user?.creationTimestamp &&
+            format(user.creationTimestamp.toDate(), 'MMM d, yyyy')}
         </div>
       </div>
     </PartialModalRoundedDiv>

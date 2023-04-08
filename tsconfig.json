@@ -16,10 +16,9 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "types": ["vitest/globals"],
-    "baseUrl": ".",
     "paths": {
-      "@test-utils": ["src/tests/utils"],
-      "@test-utils/*": ["src/tests/utils/*"]
+      "@test-utils": ["./src/tests/utils"],
+      "@test-utils/*": ["./src/tests/utils/*"]
     }
   },
   "include": ["src"],
