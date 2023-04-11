@@ -8,8 +8,8 @@ type UserPartialModalBannerProps = {
 
 const UserPartialModalBanner = ({ user }: UserPartialModalBannerProps) => {
   return (
-    <div className="relative mb-11 h-20 bg-slate-600">
-      <div className="absolute left-4 top-8 rounded-full bg-background-500 p-2">
+    <div className="relative mb-11 h-28 bg-slate-600">
+      <div className="absolute left-4 top-16 rounded-full bg-background-500 p-2">
         <ProfilePicture className="h-20 w-20 text-2xl" user={user} />
       </div>
     </div>
