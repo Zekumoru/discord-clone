@@ -1,8 +1,10 @@
 import { IconXMark } from '../../../assets/icons';
+import { useCurrentUser } from '../../../contexts/current-user/CurrentUserContext';
 import { PartialScreenModalMethods } from '../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import ProfilePicture from '../../../pages/channels/components/ProfilePicture';
 import IUser from '../../../types/user/User';
 import extractNameAndTag from '../../../utils/extractNameAndTag';
+import useRemoveFriend from '../hooks/useRemoveFriend';
 
 type RemoveFriendPartialModalProps = {
   user: IUser | undefined;
@@ -13,10 +15,17 @@ const RemoveFriendPartialModal = ({
   user,
   close,
 }: RemoveFriendPartialModalProps) => {
+  const [currentUser] = useCurrentUser();
+  const { mutate: removeFriend } = useRemoveFriend({
+    onSuccess: () => close(),
+  });
   const [name] = extractNameAndTag(user?.username ?? '');
 
-  const handleRemoveFriend = () => {
-    console.log(`Removing ${name} from friends...`);
+  const handleRemoveFriend = async () => {
+    await removeFriend({
+      currentUser: currentUser!,
+      friendToRemove: user!,
+    });
   };
 
   return (
