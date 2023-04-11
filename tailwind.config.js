@@ -11,7 +11,7 @@ export default {
       },
       boxShadow: {
         material:
-          'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px',
+          'rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(35, 36, 38, 0.15) 0px 2px 6px 2px',
       },
       gridTemplateColumns: {
         'center-3': '1fr 3fr 1fr',

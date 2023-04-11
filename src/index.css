@@ -30,6 +30,12 @@
     @apply gap-4;
   }
 
+  .sidebar {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    grid-template-rows: 1fr auto;
+  }
+
   .h-screen-toolbar {
     min-height: calc(100vh - 56px);
   }
