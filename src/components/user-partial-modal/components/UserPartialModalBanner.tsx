@@ -2,7 +2,7 @@ import ProfilePicture from '../../../pages/channels/components/ProfilePicture';
 import IUser from '../../../types/user/User';
 import { IconEllipsisHorizontal } from '../../../assets/icons';
 import { usePartialScreenModal } from '../../../contexts/partial-screen-modal/PartialScreenModalContext';
-import RemoveFriendPartialModal from './RemoveFriendPartialModal';
+import UserActionsPartialModal from './UserActionsPartialModal';
 
 type UserPartialModalBannerProps = {
   user: IUser | undefined;
@@ -13,7 +13,7 @@ const UserPartialModalBanner = ({ user }: UserPartialModalBannerProps) => {
 
   const openRemoveFriendModal = () => {
     openPartialModal(
-      <RemoveFriendPartialModal user={user} close={closePartialModal} />
+      <UserActionsPartialModal user={user} close={closePartialModal} />
     );
   };
 
