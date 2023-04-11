@@ -1,3 +1,5 @@
+import { useSidebarIsOpen } from '../../../../../contexts/sidebar/SidebarContext';
+
 type ChatInputProps = {
   value?: string;
   className?: string;
@@ -13,6 +15,8 @@ const ChatInput = ({
   onEnter,
   value,
 }: ChatInputProps) => {
+  const isSidebarOpen = useSidebarIsOpen();
+
   const handleKeyDown = (keyCode: string) => {
     if (keyCode === 'Enter') {
       onEnter?.();
@@ -23,7 +27,7 @@ const ChatInput = ({
     <div
       className={`fixed bottom-0 left-0 right-0 m-4 flex h-10 flex-col justify-center rounded bg-background-100 px-4 py-2 shadow-sm ${
         className ?? ''
-      }`}
+      } ${isSidebarOpen ? '!-right-80 !left-80' : ''}`}
     >
       <input
         className="bg-transparent outline-none placeholder:text-silvergrey-600"

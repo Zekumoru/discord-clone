@@ -7,8 +7,14 @@ const SidebarContext = createContext<SidebarMethods>(
   [] as unknown as SidebarMethods
 );
 
+const SidebarIsOpenContext = createContext(false);
+
 const useSidebar = () => {
   return useContext(SidebarContext);
+};
+
+const useSidebarIsOpen = () => {
+  return useContext(SidebarIsOpenContext);
 };
 
 type SidebarProviderProps = {
@@ -28,11 +34,13 @@ const SidebarProvider = ({ children }: SidebarProviderProps) => {
 
   return (
     <SidebarContext.Provider value={[open, close]}>
-      <Sidebar isOpen={isOpen} close={close} />
-      <div className={`relative ${isOpen ? 'left-80' : ''}`}>{children}</div>
+      <SidebarIsOpenContext.Provider value={isOpen}>
+        <Sidebar isOpen={isOpen} close={close} />
+        <div className={`relative ${isOpen ? 'left-80' : ''}`}>{children}</div>
+      </SidebarIsOpenContext.Provider>
     </SidebarContext.Provider>
   );
 };
 
 export default SidebarProvider;
-export { useSidebar };
+export { useSidebar, useSidebarIsOpen };
