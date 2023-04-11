@@ -5,6 +5,7 @@ import IconDiscord from './IconDiscord';
 import IconUserPlus from './IconUserPlus';
 import IconXMark from './IconXMark';
 import IconUsers from './IconUsers';
+import IconEllipsisHorizontal from './IconEllipsisHorizontal';
 
 export {
   IconBurger,
@@ -14,4 +15,5 @@ export {
   IconUserPlus,
   IconXMark,
   IconUsers,
+  IconEllipsisHorizontal,
 };

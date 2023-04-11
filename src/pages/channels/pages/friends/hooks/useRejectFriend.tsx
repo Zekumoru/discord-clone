@@ -34,3 +34,4 @@ const useRejectFriend = ({ onSuccess }: useRejectFriendProps = {}) => {
 };
 
 export default useRejectFriend;
+export { rejectFriend };

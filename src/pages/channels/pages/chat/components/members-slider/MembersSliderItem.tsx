@@ -1,3 +1,4 @@
+import useUserPartialModal from '../../../../../../components/user-partial-modal/hooks/useUserPartialModal';
 import { IParticipant } from '../../../../../../types/chat/Chat';
 import useUser from '../../../../../../types/user/hooks/useUser';
 import removeTagFromName from '../../../../../../utils/removeTagFromName';
@@ -9,9 +10,13 @@ type MembersSliderItemProps = {
 
 const MembersSliderItem = ({ member }: MembersSliderItemProps) => {
   const [user] = useUser(member?.userId);
+  const [openUserPartialModal] = useUserPartialModal();
 
   return (
-    <li className="h-15 flex items-center gap-2.5">
+    <li
+      onClick={() => openUserPartialModal(user?.id)}
+      className="h-15 flex items-center gap-2.5"
+    >
       <ProfilePicture className="h-9 w-9 shrink-0" user={user} />
       <div className="truncate font-medium">
         {removeTagFromName(user?.username ?? '')}

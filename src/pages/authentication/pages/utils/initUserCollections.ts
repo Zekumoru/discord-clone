@@ -1,47 +1,64 @@
-import { doc, getFirestore } from 'firebase/firestore';
+import { Timestamp, serverTimestamp } from 'firebase/firestore';
 import performBatch from '../../../../utils/performBatch';
 import snowflakeId from '../../../../utils/snowflake-id/snowflakeId';
-import { IFriendRequests, IFriends } from '../../../../types/friend/Friend';
-import { IUserGuilds } from '../../../../types/guild/Guild';
 import IUser from '../../../../types/user/User';
 import { User } from 'firebase/auth';
+import userChatsDoc from '../../../../types/user-chat/firebase/userChatsDoc';
+import friendsDoc from '../../../../types/friend/firebase/friendsDoc';
+import friendRequestsDoc from '../../../../types/friend/firebase/friendRequestsDoc';
+import userGuildsDoc from '../../../../types/user/firebase/userGuildsDoc';
+import userDoc from '../../../../types/user/firebase/userDoc';
 
-const initUserCollections = async (user: User, username: string) => {
+const initUserCollections = async (firebaseUser: User, username: string) => {
+  let user: IUser;
+
   await performBatch((batch) => {
     const userId = snowflakeId();
 
+    const userChatsId = snowflakeId();
+    batch.set(userChatsDoc(userChatsId), {
+      userId,
+      id: userChatsId,
+      chats: [],
+    });
+
     const friendsId = snowflakeId();
-    batch.set(doc(getFirestore(), `friends/${friendsId}`), {
+    batch.set(friendsDoc(friendsId), {
       userId,
       id: friendsId,
       friendsList: [],
-    } as IFriends);
+    });
 
     const friendRequestsId = snowflakeId();
-    batch.set(doc(getFirestore(), `friend-requests/${friendRequestsId}`), {
+    batch.set(friendRequestsDoc(friendRequestsId), {
       userId,
       id: friendRequestsId,
       requests: [],
-    } as IFriendRequests);
+    });
 
     const guildsId = snowflakeId();
-    batch.set(doc(getFirestore(), `user-guilds/${guildsId}`), {
+    batch.set(userGuildsDoc(guildsId), {
       userId,
       id: guildsId,
       guildsList: [],
-    } as IUserGuilds);
+    });
 
-    batch.set(doc(getFirestore(), `users/${userId}`), {
+    user = {
       id: userId,
-      email: user.email,
-      firebaseId: user.uid,
+      email: firebaseUser.email!,
+      firebaseId: firebaseUser.uid,
       pictureUrl: null,
+      creationTimestamp: serverTimestamp() as Timestamp,
+      userChatsId,
       username,
       friendsId,
       friendRequestsId,
       guildsId,
-    } as IUser);
+    };
+    batch.set(userDoc(userId), user);
   });
+
+  return user!;
 };
 
 export default initUserCollections;

@@ -8,9 +8,10 @@ import FriendItem from './FriendItem';
 
 type FriendRequestItemProps = {
   request: IFriendRequest;
+  onClick?: () => void;
 };
 
-const FriendRequestItem = ({ request }: FriendRequestItemProps) => {
+const FriendRequestItem = ({ request, onClick }: FriendRequestItemProps) => {
   const [user] = useCurrentUser();
   const { mutate: acceptFriend } = useAcceptFriend();
   const { mutate: rejectFriend } = useRejectFriend();
@@ -31,6 +32,7 @@ const FriendRequestItem = ({ request }: FriendRequestItemProps) => {
 
   return (
     <FriendItem
+      onClick={onClick}
       friendId={request.userId}
       buttons={
         <span className="flex gap-1.5">

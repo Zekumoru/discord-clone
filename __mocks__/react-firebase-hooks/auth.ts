@@ -1,24 +1,13 @@
 import { vi } from 'vitest';
-import * as reactFirebaseHooksAuth from 'react-firebase-hooks/auth';
-
-const useAuthState = vi.fn(reactFirebaseHooksAuth.useAuthState);
-
-const useCreateUserWithEmailAndPassword = vi.fn(
-  reactFirebaseHooksAuth.useCreateUserWithEmailAndPassword
-);
-
-const useSignInWithEmailAndPassword = vi.fn(
-  reactFirebaseHooksAuth.useSignInWithEmailAndPassword
-);
-
-const useSendPasswordResetEmail = vi.fn(
-  reactFirebaseHooksAuth.useSendPasswordResetEmail
-);
+import * as auth from 'react-firebase-hooks/auth';
 
 export * from 'react-firebase-hooks/auth';
-export {
-  useAuthState,
-  useCreateUserWithEmailAndPassword,
-  useSignInWithEmailAndPassword,
-  useSendPasswordResetEmail,
-};
+
+export const useAuthState = vi.fn(auth.useAuthState);
+export const useSendPasswordResetEmail = vi.fn(auth.useSendPasswordResetEmail);
+export const useCreateUserWithEmailAndPassword = vi.fn(
+  auth.useCreateUserWithEmailAndPassword
+);
+export const useSignInWithEmailAndPassword = vi.fn(
+  auth.useSignInWithEmailAndPassword
+);

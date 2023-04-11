@@ -1,6 +1,5 @@
 interface IFriend {
   userId: string;
-  chatId: string;
 }
 
 interface IFriends {
