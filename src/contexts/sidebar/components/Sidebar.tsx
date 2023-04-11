@@ -18,7 +18,7 @@ const Sidebar = ({ isOpen, close }: SidebarProps) => {
       <div className="sidebar w-80 bg-background-500 shadow-material">
         <SidebarGuildList />
 
-        <SidebarFriends />
+        <SidebarFriends close={close} />
 
         <SidebarProfile />
       </div>
