@@ -40,6 +40,7 @@ describe('Chat', () => {
     await user.keyboard('{Enter}');
 
     expect(await screen.findByText(/hello world/i)).toBeInTheDocument();
+    await cleanup();
   });
 
   it('should send multiple messages ', async () => {

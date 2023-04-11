@@ -5,6 +5,8 @@ import {
   deleteUser,
   getAuth,
 } from 'firebase/auth';
+import { deleteDoc, doc, getFirestore, setDoc } from 'firebase/firestore';
+import { nanoid } from 'nanoid';
 
 const clearFirestore = async () => {
   await fetch(
@@ -22,6 +24,13 @@ export const setup = async () => {
     testUserConfig.email,
     testUserConfig.password
   );
+
+  // the lines below fix the problem where firestore does not,
+  // for some reason, save docs from test cases
+  const testId = nanoid();
+  const testRef = doc(getFirestore(), `test/${testId}`);
+  await setDoc(testRef, { id: testId });
+  await deleteDoc(testRef);
 };
 
 export const teardown = async () => {
