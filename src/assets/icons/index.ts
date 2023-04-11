@@ -9,6 +9,7 @@ import IconUserGroup from './IconUserGroup';
 import IconUserGroupOutline from './IconUserGroupOutline';
 import IconUserBars from './IconUserBars';
 import IconCog6Tooth from './IconCog6Tooth';
+import IconEllipsisHorizontal from './IconEllipsisHorizontal';
 
 export {
   IconBurger,
@@ -22,4 +23,5 @@ export {
   IconUserGroupOutline,
   IconUserBars,
   IconCog6Tooth,
+  IconEllipsisHorizontal,
 };

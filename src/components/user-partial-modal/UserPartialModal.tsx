@@ -26,22 +26,16 @@ const UserPartialModal = ({ userId, close }: UserPartialModalProps) => {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center bg-background-700 bg-opacity-50">
-      <div className="min-h-[65vh] w-full flex-1" onClick={close} />
+    <div className="min-h-[85vh] w-full overflow-hidden rounded-t-lg bg-background-500">
+      <UserPartialModalBanner user={user} />
 
-      <div className="mb-3 h-1.5 w-16 rounded bg-silvergrey-300" />
+      <div className="flex flex-col gap-4 p-4">
+        <InfoAndActions
+          user={user}
+          onMessageIconClick={handleMessageIconClick}
+        />
 
-      <div className="min-h-[85vh] w-full overflow-hidden rounded-t-lg bg-background-500">
-        <UserPartialModalBanner user={user} />
-
-        <div className="flex flex-col gap-4 p-4">
-          <InfoAndActions
-            user={user}
-            onMessageIconClick={handleMessageIconClick}
-          />
-
-          <AdditionalInfo user={user} />
-        </div>
+        <AdditionalInfo user={user} />
       </div>
     </div>
   );
