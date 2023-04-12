@@ -26,7 +26,7 @@ const MembersSlider = ({
       }`}
     >
       <div onClick={onClose} className="grow" />
-      <div className="w-80 bg-background-300">
+      <div className="w-80 bg-background-300 shadow-material">
         <MembersSliderHeader prefix={headerProps.prefix}>
           {headerProps.title}
         </MembersSliderHeader>

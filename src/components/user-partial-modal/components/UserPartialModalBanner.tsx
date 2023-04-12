@@ -2,18 +2,20 @@ import ProfilePicture from '../../../pages/channels/components/ProfilePicture';
 import IUser from '../../../types/user/User';
 import { IconEllipsisHorizontal } from '../../../assets/icons';
 import { usePartialScreenModal } from '../../../contexts/partial-screen-modal/PartialScreenModalContext';
-import RemoveFriendPartialModal from './RemoveFriendPartialModal';
+import UserActionsPartialModal from './UserActionsPartialModal';
+import { useCurrentUser } from '../../../contexts/current-user/CurrentUserContext';
 
 type UserPartialModalBannerProps = {
   user: IUser | undefined;
 };
 
 const UserPartialModalBanner = ({ user }: UserPartialModalBannerProps) => {
+  const [currentUser] = useCurrentUser();
   const [openPartialModal, closePartialModal] = usePartialScreenModal();
 
   const openRemoveFriendModal = () => {
     openPartialModal(
-      <RemoveFriendPartialModal user={user} close={closePartialModal} />
+      <UserActionsPartialModal user={user} close={closePartialModal} />
     );
   };
 
@@ -23,12 +25,14 @@ const UserPartialModalBanner = ({ user }: UserPartialModalBannerProps) => {
         <ProfilePicture className="h-20 w-20 text-2xl" user={user} />
       </div>
 
-      <div
-        onClick={openRemoveFriendModal}
-        className="absolute right-4 top-4 rounded-full bg-background-300 p-0.5"
-      >
-        <IconEllipsisHorizontal className="h-6 w-6" />
-      </div>
+      {currentUser?.id !== user?.id && (
+        <div
+          onClick={openRemoveFriendModal}
+          className="absolute right-4 top-4 rounded-full bg-background-300 p-0.5"
+        >
+          <IconEllipsisHorizontal className="h-6 w-6" />
+        </div>
+      )}
     </div>
   );
 };

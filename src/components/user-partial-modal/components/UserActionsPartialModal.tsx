@@ -2,31 +2,26 @@ import { IconXMark } from '../../../assets/icons';
 import { useCurrentUser } from '../../../contexts/current-user/CurrentUserContext';
 import { PartialScreenModalMethods } from '../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import ProfilePicture from '../../../pages/channels/components/ProfilePicture';
+import useSendFriendRequest from '../../../pages/channels/pages/friends/components/add-friend-screen-modal/hooks/use-add-friend/useSendFriendRequest';
+import useRemoveFriendRequest from '../../../pages/channels/pages/friends/hooks/useRemoveFriendRequest';
+import useIsFriend from '../../../types/friend/hooks/useIsFriend';
+import useFriendRequest from '../../../types/friend/hooks/useFriendRequest';
 import IUser from '../../../types/user/User';
 import extractNameAndTag from '../../../utils/extractNameAndTag';
 import useRemoveFriend from '../hooks/useRemoveFriend';
+import useAcceptFriend from '../../../pages/channels/pages/friends/hooks/useAcceptFriend';
+import FriendAction from './FriendAction';
 
-type RemoveFriendPartialModalProps = {
+type UserActionsPartialModalProps = {
   user: IUser | undefined;
   close: PartialScreenModalMethods[1];
 };
 
-const RemoveFriendPartialModal = ({
+const UserActionsPartialModal = ({
   user,
   close,
-}: RemoveFriendPartialModalProps) => {
-  const [currentUser] = useCurrentUser();
-  const { mutate: removeFriend } = useRemoveFriend({
-    onSuccess: () => close(),
-  });
+}: UserActionsPartialModalProps) => {
   const [name] = extractNameAndTag(user?.username ?? '');
-
-  const handleRemoveFriend = async () => {
-    await removeFriend({
-      currentUser: currentUser!,
-      friendToRemove: user!,
-    });
-  };
 
   return (
     <div className="w-full overflow-hidden rounded-t-lg bg-background-700">
@@ -39,12 +34,10 @@ const RemoveFriendPartialModal = ({
       </div>
 
       <ul className="bg-background-500 font-semibold text-silvergrey-300">
-        <li onClick={handleRemoveFriend} className="p-4 text-salmon-100">
-          Remove Friend
-        </li>
+        <FriendAction friend={user!} onActionSuccess={close} />
       </ul>
     </div>
   );
 };
 
-export default RemoveFriendPartialModal;
+export default UserActionsPartialModal;

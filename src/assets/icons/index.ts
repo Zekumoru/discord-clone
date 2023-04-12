@@ -5,6 +5,10 @@ import IconDiscord from './IconDiscord';
 import IconUserPlus from './IconUserPlus';
 import IconXMark from './IconXMark';
 import IconUsers from './IconUsers';
+import IconUserGroup from './IconUserGroup';
+import IconUserGroupOutline from './IconUserGroupOutline';
+import IconUserBars from './IconUserBars';
+import IconCog6Tooth from './IconCog6Tooth';
 import IconEllipsisHorizontal from './IconEllipsisHorizontal';
 
 export {
@@ -15,5 +19,9 @@ export {
   IconUserPlus,
   IconXMark,
   IconUsers,
+  IconUserGroup,
+  IconUserGroupOutline,
+  IconUserBars,
+  IconCog6Tooth,
   IconEllipsisHorizontal,
 };
