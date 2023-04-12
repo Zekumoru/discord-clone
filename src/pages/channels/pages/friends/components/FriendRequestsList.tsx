@@ -10,10 +10,10 @@ type FriendRequestsListProps = {
 const FriendRequestsList = ({ requests }: FriendRequestsListProps) => {
   const [openUserPartialModal] = useUserPartialModal();
   const pendingAcceptances = requests.filter(
-    (request) => request.pendingType === 'request'
+    (request) => request.pendingType === 'acceptance'
   );
   const pendingRequests = requests.filter(
-    (request) => request.pendingType === 'acceptance'
+    (request) => request.pendingType === 'request'
   );
 
   return (
