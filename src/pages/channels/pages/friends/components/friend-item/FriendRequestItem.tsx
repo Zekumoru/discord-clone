@@ -1,8 +1,7 @@
-import { IconCheck, IconXMark } from '../../../../../../assets/icons';
+import { IconXMark } from '../../../../../../assets/icons';
 import { useCurrentUser } from '../../../../../../contexts/current-user/CurrentUserContext';
 import { IFriendRequest } from '../../../../../../types/friend/Friend';
-import useAcceptFriend from '../../hooks/useAcceptFriend';
-import useRejectFriend from '../../hooks/useRejectFriend';
+import useRemoveFriendRequest from '../../hooks/useRemoveFriendRequest';
 import CircledIconButton from '../CircledIconButton';
 import FriendItem from './FriendItem';
 
@@ -13,18 +12,10 @@ type FriendRequestItemProps = {
 
 const FriendRequestItem = ({ request, onClick }: FriendRequestItemProps) => {
   const [user] = useCurrentUser();
-  const { mutate: acceptFriend } = useAcceptFriend();
-  const { mutate: rejectFriend } = useRejectFriend();
+  const { mutate: removeFriendRequest } = useRemoveFriendRequest();
 
-  const handleAccept = () => {
-    acceptFriend({
-      currentUser: user!,
-      request,
-    });
-  };
-
-  const handleReject = () => {
-    rejectFriend({
+  const handleRemoveFriendRequest = () => {
+    removeFriendRequest({
       currentUser: user!,
       request,
     });
@@ -37,15 +28,8 @@ const FriendRequestItem = ({ request, onClick }: FriendRequestItemProps) => {
       buttons={
         <span className="flex gap-1.5">
           <CircledIconButton
-            testid="accept-btn"
-            onClick={handleAccept}
-            icon={
-              <IconCheck strokeWidth={2} className="h-4 w-4 text-jade-100" />
-            }
-          />
-          <CircledIconButton
             testid="reject-btn"
-            onClick={handleReject}
+            onClick={handleRemoveFriendRequest}
             icon={
               <IconXMark strokeWidth={2} className="h-4 w-4 text-crimson-100" />
             }

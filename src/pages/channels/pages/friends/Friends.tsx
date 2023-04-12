@@ -11,12 +11,8 @@ const Friends = () => {
   const [friends] = useFriends(user?.friendsId);
   const [friendRequests] = useFriendRequests(user?.friendRequestsId);
 
-  const pendingFriendAcceptances = friendRequests?.requests.filter(
-    (request) => request.pendingType === 'acceptance'
-  );
-
   const hasFriends = !!friends?.friendsList.length;
-  const hasRequests = !!pendingFriendAcceptances?.length;
+  const hasRequests = !!friendRequests?.requests.length;
 
   return (
     <>
@@ -29,7 +25,7 @@ const Friends = () => {
           {hasFriends && <FriendsList friends={friends.friendsList} />}
 
           {hasRequests && (
-            <FriendRequestsList pendingAcceptances={pendingFriendAcceptances} />
+            <FriendRequestsList requests={friendRequests.requests} />
           )}
         </div>
       )}
