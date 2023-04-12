@@ -45,8 +45,16 @@ const removeFriendRequest = async ({
   });
 };
 
-const useRemoveFriendRequest = () => {
-  return useMutation(removeFriendRequest);
+type UseRemoveFriendRequestProps = {
+  onSuccess?: () => void;
+};
+
+const useRemoveFriendRequest = ({
+  onSuccess,
+}: UseRemoveFriendRequestProps = {}) => {
+  return useMutation(removeFriendRequest, {
+    onSuccess,
+  });
 };
 
 export default useRemoveFriendRequest;

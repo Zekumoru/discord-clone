@@ -3,10 +3,14 @@ import { useCurrentUser } from '../../../contexts/current-user/CurrentUserContex
 import { PartialScreenModalMethods } from '../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import ProfilePicture from '../../../pages/channels/components/ProfilePicture';
 import useSendFriendRequest from '../../../pages/channels/pages/friends/components/add-friend-screen-modal/hooks/use-add-friend/useSendFriendRequest';
+import useRemoveFriendRequest from '../../../pages/channels/pages/friends/hooks/useRemoveFriendRequest';
 import useIsFriend from '../../../types/friend/hooks/useIsFriend';
+import useFriendRequest from '../../../types/friend/hooks/useFriendRequest';
 import IUser from '../../../types/user/User';
 import extractNameAndTag from '../../../utils/extractNameAndTag';
 import useRemoveFriend from '../hooks/useRemoveFriend';
+import useAcceptFriend from '../../../pages/channels/pages/friends/hooks/useAcceptFriend';
+import FriendAction from './FriendAction';
 
 type UserActionsPartialModalProps = {
   user: IUser | undefined;
@@ -18,25 +22,6 @@ const UserActionsPartialModal = ({
   close,
 }: UserActionsPartialModalProps) => {
   const [name] = extractNameAndTag(user?.username ?? '');
-  const [currentUser] = useCurrentUser();
-  const [isFriend] = useIsFriend(user?.id);
-  const { mutate: sendFriendRequest } = useSendFriendRequest({
-    onSuccess: close,
-  });
-  const { mutate: removeFriend } = useRemoveFriend({
-    onSuccess: close,
-  });
-
-  const handleSendFriendRequest = () => {
-    sendFriendRequest(user!.username);
-  };
-
-  const handleRemoveFriend = () => {
-    removeFriend({
-      currentUser: currentUser!,
-      friendToRemove: user!,
-    });
-  };
 
   return (
     <div className="w-full overflow-hidden rounded-t-lg bg-background-700">
@@ -49,15 +34,7 @@ const UserActionsPartialModal = ({
       </div>
 
       <ul className="bg-background-500 font-semibold text-silvergrey-300">
-        {isFriend ? (
-          <li onClick={handleRemoveFriend} className="p-4 text-salmon-100">
-            Remove Friend
-          </li>
-        ) : (
-          <li onClick={handleSendFriendRequest} className="p-4">
-            Add Friend
-          </li>
-        )}
+        <FriendAction friend={user!} onActionSuccess={close} />
       </ul>
     </div>
   );
