@@ -17,6 +17,7 @@ import AccountListItem from './components/AccountListItem';
 import EditProfileListItem from './components/EditProfileListItem';
 import { getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import BannerImage from './components/BannerImage';
 
 type ProfileModalProps = {
   close: ScreenModalMethods[1];
@@ -38,11 +39,11 @@ const ProfileModal = ({ close }: ProfileModalProps) => {
     <div className="min-h-screen bg-background-300">
       <ProfileToolbar close={close} />
 
-      <div className="relative h-48 bg-rose-900">
+      <BannerImage>
         <div className="absolute -bottom-12 left-4 rounded-full bg-background-800 p-2">
-          <ProfilePicture user={user} className="h-20 w-20" />
+          <ProfilePicture user={user} className="h-20 w-20 text-2xl" />
         </div>
-      </div>
+      </BannerImage>
 
       <div className="mb-6 bg-background-800 p-4 pt-14">
         <div className="text-2xl font-bold leading-6">{name}</div>

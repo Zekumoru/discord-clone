@@ -6,6 +6,9 @@ import ProfilePicture from '../../../pages/channels/components/ProfilePicture';
 import extractNameAndTag from '../../../utils/extractNameAndTag';
 import ModalChevronCloseButton from '../../modal-utils/ModalChevronCloseButton';
 import { IconPencil } from '../../../assets/icons';
+import EditBannerButton from './EditBannerButton';
+import EditPictureButton from './EditPictureButton';
+import BannerImage from './BannerImage';
 
 type EditProfileModalProps = {
   close: ScreenModalMethods[1];
@@ -27,18 +30,15 @@ const EditProfileModal = ({ close }: EditProfileModalProps) => {
         Profile
       </ScreenModalToolbar>
 
-      <div className="relative h-48 bg-rose-900">
-        <div className="absolute right-4 top-3 rounded-full bg-background-800 p-1.5 text-silvergrey-300">
-          <IconPencil className="relative -left-[0.5px] h-4 w-4" />
-        </div>
+      <BannerImage>
+        <EditBannerButton />
 
         <div className="absolute -bottom-12 left-4 rounded-full bg-background-300 p-2">
-          <div className="absolute right-2 top-1 rounded-full bg-background-800 p-1.5 text-silvergrey-300">
-            <IconPencil className="relative -left-[0.5px] h-4 w-4" />
-          </div>
-          <ProfilePicture user={user} className="h-20 w-20" />
+          <EditPictureButton />
+
+          <ProfilePicture user={user} className="h-20 w-20 text-2xl" />
         </div>
-      </div>
+      </BannerImage>
 
       <div className="mx-4 mt-14 rounded-2xl bg-background-800 py-4">
         <div className="px-4 text-xl font-bold">
