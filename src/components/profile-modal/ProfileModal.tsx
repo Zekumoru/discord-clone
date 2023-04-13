@@ -1,3 +1,4 @@
+import { useSignOut } from 'react-firebase-hooks/auth';
 import {
   IconChevronRight,
   IconPencil,
@@ -14,6 +15,8 @@ import InsetListItem from '../modal-utils/InsetListItem';
 import ProfileToolbar from './ProfileToolbar';
 import AccountListItem from './components/AccountListItem';
 import EditProfileListItem from './components/EditProfileListItem';
+import { getAuth } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 type ProfileModalProps = {
   close: ScreenModalMethods[1];
@@ -22,6 +25,14 @@ type ProfileModalProps = {
 const ProfileModal = ({ close }: ProfileModalProps) => {
   const [user] = useCurrentUser();
   const [name, tag] = extractNameAndTag(user?.username ?? '');
+  const [logout] = useSignOut(getAuth());
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    close();
+    navigate('/');
+  };
 
   return (
     <div className="min-h-screen bg-background-300">
@@ -46,7 +57,10 @@ const ProfileModal = ({ close }: ProfileModalProps) => {
       </ScreenModalProvider>
 
       <ul className="border-y border-background-700">
-        <InsetListItem className="mx-auto text-salmon-100">
+        <InsetListItem
+          onClick={handleLogout}
+          className="mx-auto text-salmon-100"
+        >
           Log out
         </InsetListItem>
       </ul>
