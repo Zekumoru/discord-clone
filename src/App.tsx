@@ -3,6 +3,8 @@ import Authentication from './pages/authentication/Authentication';
 import Channels from './pages/channels/Channels';
 import ScreenModalProvider from './contexts/screen-modal/ScreenModalContext';
 import CurrentUserProvider from './contexts/current-user/CurrentUserContext';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 function App() {
   return (
@@ -14,6 +16,11 @@ function App() {
             <Route path="/channels/*" element={<Channels />} />
           </Routes>
         </ScreenModalProvider>
+        <ToastContainer
+          toastClassName="bg-background-700 text-silvergrey-300"
+          autoClose={2000}
+          hideProgressBar
+        />
       </CurrentUserProvider>
     </div>
   );

@@ -22,6 +22,7 @@
     "react-firebase-hooks": "^5.1.1",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.10.0",
+    "react-toastify": "^9.1.2",
     "snowflake-id": "^1.1.0",
     "uniqolor": "^1.1.0"
   },
