@@ -4,6 +4,7 @@ import { ScreenModalMethods } from '../../../contexts/screen-modal/ScreenModalCo
 import ScreenModalToolbar from '../../../contexts/screen-modal/components/ScreenModalToolbar';
 import InsetList from '../../modal-utils/InsetList';
 import InsetListItem from '../../modal-utils/InsetListItem';
+import ModalChevronCloseButton from '../../modal-utils/ModalChevronCloseButton';
 
 type AccountModalProps = {
   close: ScreenModalMethods[1];
@@ -16,12 +17,9 @@ const AccountModal = ({ close }: AccountModalProps) => {
     <div className="min-h-screen bg-background-300">
       <ScreenModalToolbar
         leftElement={
-          <>
-            <button onClick={close} className="flex overflow-x-hidden">
-              <IconChevronLeft className="relative top-[1.1px] h-5 w-5" />
-              <span className="truncate font-medium">Overview</span>
-            </button>
-          </>
+          <ModalChevronCloseButton close={close}>
+            Overview
+          </ModalChevronCloseButton>
         }
       >
         Account

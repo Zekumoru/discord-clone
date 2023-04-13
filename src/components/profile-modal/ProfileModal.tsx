@@ -13,6 +13,7 @@ import InsetList from '../modal-utils/InsetList';
 import InsetListItem from '../modal-utils/InsetListItem';
 import ProfileToolbar from './ProfileToolbar';
 import AccountListItem from './components/AccountListItem';
+import EditProfileListItem from './components/EditProfileListItem';
 
 type ProfileModalProps = {
   close: ScreenModalMethods[1];
@@ -40,14 +41,7 @@ const ProfileModal = ({ close }: ProfileModalProps) => {
       <ScreenModalProvider>
         <InsetList className="mb-6">
           <AccountListItem />
-          <InsetListItem
-            prefix={<IconPencil className="h-6 w-6 text-silvergrey-600" />}
-            postfix={
-              <IconChevronRight className="ml-auto h-4 w-4" strokeWidth={3} />
-            }
-          >
-            Profile
-          </InsetListItem>
+          <EditProfileListItem />
         </InsetList>
       </ScreenModalProvider>
 
