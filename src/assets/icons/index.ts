@@ -13,6 +13,7 @@ import IconEllipsisHorizontal from './IconEllipsisHorizontal';
 import IconUserCircle from './IconUserCircle';
 import IconPencil from './IconPencil';
 import IconChevronRight from './IconChevronRight';
+import IconChevronLeft from './IconChevronLeft';
 
 export {
   IconBurger,
@@ -30,4 +31,5 @@ export {
   IconUserCircle,
   IconPencil,
   IconChevronRight,
+  IconChevronLeft,
 };

@@ -14,7 +14,7 @@ export default {
           'rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(35, 36, 38, 0.15) 0px 2px 6px 2px',
       },
       gridTemplateColumns: {
-        'center-3': '1fr 3fr 1fr',
+        'center-3': 'minmax(0, 1fr) 3fr minmax(0, 1fr)',
       },
       colors: {
         background: {
@@ -45,6 +45,7 @@ export default {
         },
         salmon: {
           100: '#FA777C',
+          400: '#DF4F4B',
         },
       },
     },

@@ -4,14 +4,15 @@ import {
   IconUserCircle,
 } from '../../assets/icons';
 import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
-import { ScreenModalMethods } from '../../contexts/screen-modal/ScreenModalContext';
-import ScreenModalToolbar from '../../contexts/screen-modal/components/ScreenModalToolbar';
+import ScreenModalProvider, {
+  ScreenModalMethods,
+} from '../../contexts/screen-modal/ScreenModalContext';
 import ProfilePicture from '../../pages/channels/components/ProfilePicture';
 import extractNameAndTag from '../../utils/extractNameAndTag';
 import InsetList from '../modal-utils/InsetList';
 import InsetListItem from '../modal-utils/InsetListItem';
-import ModalCloseButton from '../modal-utils/ModalCloseButton';
 import ProfileToolbar from './ProfileToolbar';
+import AccountListItem from './components/AccountListItem';
 
 type ProfileModalProps = {
   close: ScreenModalMethods[1];
@@ -36,20 +37,19 @@ const ProfileModal = ({ close }: ProfileModalProps) => {
         <div className="text-xl font-medium text-silvergrey-300">#{tag}</div>
       </div>
 
-      <InsetList className="mb-6">
-        <InsetListItem
-          prefix={<IconUserCircle className="h-6 w-6" />}
-          postfix={<IconChevronRight className="h-4 w-4" strokeWidth={3} />}
-        >
-          Account
-        </InsetListItem>
-        <InsetListItem
-          prefix={<IconPencil className="h-6 w-6" />}
-          postfix={<IconChevronRight className="h-4 w-4" strokeWidth={3} />}
-        >
-          Profile
-        </InsetListItem>
-      </InsetList>
+      <ScreenModalProvider>
+        <InsetList className="mb-6">
+          <AccountListItem />
+          <InsetListItem
+            prefix={<IconPencil className="h-6 w-6 text-silvergrey-600" />}
+            postfix={
+              <IconChevronRight className="ml-auto h-4 w-4" strokeWidth={3} />
+            }
+          >
+            Profile
+          </InsetListItem>
+        </InsetList>
+      </ScreenModalProvider>
 
       <ul className="border-y border-background-700">
         <InsetListItem className="mx-auto text-salmon-100">
