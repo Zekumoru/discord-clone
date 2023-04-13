@@ -16,7 +16,10 @@ const SidebarProfile = () => {
 
   return (
     <div className="col-span-2 flex items-center gap-3 border-t border-t-background-100 px-4 py-3 text-silvergrey-300">
-      <ProfilePicture user={user} className="h-10 w-10 shrink-0" />
+      <ProfilePicture
+        user={user}
+        className="h-10 w-10 shrink-0 text-lg text-white"
+      />
 
       <div className="min-w-0">
         <div className="truncate font-medium leading-none text-white">
