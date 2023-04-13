@@ -28,7 +28,7 @@ const ScreenModalProvider = ({ children }: ScreenModalProviderProps) => {
   return (
     <ScreenModalContext.Provider value={[open, close]}>
       {modal && (
-        <div className="fixed left-0 top-0 z-50 min-h-screen w-full">
+        <div className="fixed left-0 top-0 z-[300] min-h-screen w-full">
           {modal}
         </div>
       )}
