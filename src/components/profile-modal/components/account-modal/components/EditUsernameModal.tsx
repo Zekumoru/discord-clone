@@ -5,6 +5,7 @@ import ModalChevronCloseButton from '../../../../modal-utils/ModalChevronCloseBu
 import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
 import extractNameAndTag from '../../../../../utils/extractNameAndTag';
 import { IconXMark } from '../../../../../assets/icons';
+import useUpdateUsername from '../hooks/useUpdateUsername';
 
 type EditUsernameModalProps = {
   close: ScreenModalMethods[1];
@@ -20,6 +21,7 @@ const EditUsernameModal = ({ close }: EditUsernameModalProps) => {
   );
   const originalTag = `#${originalTagUnhashed}`;
   const hasChanges = originalName !== name.trim() || originalTag !== tag;
+  const { mutate: updateUsername } = useUpdateUsername({ onSuccess: close });
 
   useEffect(() => {
     if (!user) return;
@@ -46,8 +48,10 @@ const EditUsernameModal = ({ close }: EditUsernameModalProps) => {
   };
 
   const handleSave = () => {
-    const username = `${name.trim()}${tag}`;
-    console.log(username);
+    updateUsername({
+      user: user!,
+      newUsername: `${name.trim()}${tag}`,
+    });
   };
 
   return (
@@ -79,6 +83,7 @@ const EditUsernameModal = ({ close }: EditUsernameModalProps) => {
             ref={nameRef}
             type="text"
             value={name}
+            maxLength={32}
             className="min-w-0 flex-1 bg-transparent outline-none"
             onChange={(e) => handleNameChange(e.target.value)}
             required
