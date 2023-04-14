@@ -1,34 +1,34 @@
 import { useId } from 'react';
 import { toast } from 'react-toastify';
-import { useCurrentUser } from '../../../contexts/current-user/CurrentUserContext';
-import useUploadImage from '../../../hooks/useUploadImage';
+import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
+import useUploadImage from '../../../../../hooks/useUploadImage';
 import { setDoc } from 'firebase/firestore';
-import userDoc from '../../../types/user/firebase/userDoc';
-import { queryClient } from '../../QueryClientInitializer';
-import { IconPencil } from '../../../assets/icons';
+import userDoc from '../../../../../types/user/firebase/userDoc';
+import { queryClient } from '../../../../QueryClientInitializer';
+import { IconPencil } from '../../../../../assets/icons';
 
-const EditPictureButton = () => {
+const EditBannerButton = () => {
   const id = useId();
   const [user] = useCurrentUser();
   const { mutate: uploadImage } = useUploadImage({
     onSuccess: async ({ url }) => {
       if (!user) {
-        toast.error('Could not set profile picture!');
+        toast.error('Could not set banner!');
         return;
       }
 
       await setDoc(userDoc(user.id), {
         ...user,
-        pictureUrl: url,
+        bannerUrl: url,
       });
       await queryClient.invalidateQueries(['user', 'current']);
-      toast.success('Profile picture set successfully!');
+      toast.success('Banner set successfully!');
     },
   });
 
   const handleFileChange = (files: FileList | null) => {
     if (!user || !files || !files[0]) {
-      toast.error('Cannot load image...');
+      toast.error('Cannot load banner image...');
       return;
     }
 
@@ -41,25 +41,25 @@ const EditPictureButton = () => {
 
     // limit image to 5 MB
     if (file.size / 1024 / 1024 > 5) {
-      toast.error('Image must be below 5 MB!');
+      toast.error('Banner image must be below 5 MB!');
       return;
     }
 
     uploadImage({
-      path: `profile-pictures/${user.id}/picture.${extension}`,
+      path: `banners/${user.id}/banner.${extension}`,
       image: file,
     });
   };
 
   return (
     <label
-      htmlFor={`profile-picture-picker-${id}`}
-      className="absolute right-2 top-1 rounded-full bg-background-800 p-1.5 text-silvergrey-300"
+      htmlFor={`banner-picker-${id}`}
+      className="absolute right-4 top-3 rounded-full bg-background-800 p-1.5 text-silvergrey-300"
     >
       <input
         type="file"
         accept="images/*"
-        id={`profile-picture-picker-${id}`}
+        id={`banner-picker-${id}`}
         className="absolute h-0 w-0"
         onChange={async (e) => {
           handleFileChange(e.target.files);
@@ -71,4 +71,4 @@ const EditPictureButton = () => {
   );
 };
 
-export default EditPictureButton;
+export default EditBannerButton;

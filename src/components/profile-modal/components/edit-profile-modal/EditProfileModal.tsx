@@ -1,13 +1,13 @@
 import { format } from 'date-fns';
-import { useCurrentUser } from '../../../contexts/current-user/CurrentUserContext';
-import { ScreenModalMethods } from '../../../contexts/screen-modal/ScreenModalContext';
-import ScreenModalToolbar from '../../../contexts/screen-modal/components/ScreenModalToolbar';
-import ProfilePicture from '../../../pages/channels/components/ProfilePicture';
-import extractNameAndTag from '../../../utils/extractNameAndTag';
-import ModalChevronCloseButton from '../../modal-utils/ModalChevronCloseButton';
-import EditBannerButton from './EditBannerButton';
-import EditPictureButton from './EditPictureButton';
-import BannerImage from '../../BannerImage';
+import { useCurrentUser } from '../../../../contexts/current-user/CurrentUserContext';
+import { ScreenModalMethods } from '../../../../contexts/screen-modal/ScreenModalContext';
+import ScreenModalToolbar from '../../../../contexts/screen-modal/components/ScreenModalToolbar';
+import ProfilePicture from '../../../../pages/channels/components/ProfilePicture';
+import extractNameAndTag from '../../../../utils/extractNameAndTag';
+import ModalChevronCloseButton from '../../../modal-utils/ModalChevronCloseButton';
+import EditBannerButton from './components/EditBannerButton';
+import EditPictureButton from './components/EditPictureButton';
+import BannerImage from '../../../BannerImage';
 
 type EditProfileModalProps = {
   close: ScreenModalMethods[1];
