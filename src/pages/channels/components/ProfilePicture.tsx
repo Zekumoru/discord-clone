@@ -1,5 +1,6 @@
 import IUser from '../../../types/user/User';
 import uniqolor from 'uniqolor';
+import getStringColor from '../../../utils/getStringColor';
 
 type ProfilePictureProps = {
   user: IUser | undefined;
@@ -8,12 +9,9 @@ type ProfilePictureProps = {
 };
 
 const ProfilePicture = ({ user, className, onClick }: ProfilePictureProps) => {
-  const bgColor = uniqolor(user?.username ?? '', {
-    saturation: [30, 40],
-    lightness: [25, 40],
-  });
-
+  const bgColor = getStringColor(user?.username);
   const acronyms = [];
+
   if (user?.username) {
     const splits = user.username.split(' ').filter(Boolean);
     acronyms.push(splits[0].substring(0, 1));
@@ -25,7 +23,7 @@ const ProfilePicture = ({ user, className, onClick }: ProfilePictureProps) => {
       onClick={onClick}
       className={`grid h-10 w-10 place-content-center rounded-full bg-cover bg-center bg-no-repeat font-medium ${className}`}
       style={{
-        backgroundColor: bgColor.color,
+        backgroundColor: bgColor,
         backgroundImage: user?.pictureUrl ? `url(${user.pictureUrl})` : '',
       }}
     >

@@ -1,17 +1,21 @@
 import { ReactNode } from 'react';
-import { useCurrentUser } from '../../../contexts/current-user/CurrentUserContext';
+import getStringColor from '../../../utils/getStringColor';
+import IUser from '../../../types/user/User';
 
 type BannerImageProps = {
+  user: IUser | undefined;
+  className?: string;
   children?: ReactNode;
 };
 
-const BannerImage = ({ children }: BannerImageProps = {}) => {
-  const [user] = useCurrentUser();
+const BannerImage = ({ user, className, children }: BannerImageProps) => {
+  const bgColor = getStringColor(user?.username);
 
   return (
     <div
-      className="relative h-48 bg-slate-700 bg-cover bg-no-repeat"
+      className={`relative bg-cover bg-no-repeat ${className ?? ''}`}
       style={{
+        backgroundColor: bgColor,
         backgroundImage: user?.bannerUrl ? `url(${user.bannerUrl})` : '',
       }}
     >

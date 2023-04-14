@@ -5,7 +5,6 @@ import ScreenModalToolbar from '../../../contexts/screen-modal/components/Screen
 import ProfilePicture from '../../../pages/channels/components/ProfilePicture';
 import extractNameAndTag from '../../../utils/extractNameAndTag';
 import ModalChevronCloseButton from '../../modal-utils/ModalChevronCloseButton';
-import { IconPencil } from '../../../assets/icons';
 import EditBannerButton from './EditBannerButton';
 import EditPictureButton from './EditPictureButton';
 import BannerImage from './BannerImage';
@@ -30,7 +29,7 @@ const EditProfileModal = ({ close }: EditProfileModalProps) => {
         Profile
       </ScreenModalToolbar>
 
-      <BannerImage>
+      <BannerImage user={user} className="h-48">
         <EditBannerButton />
 
         <div className="absolute -bottom-12 left-4 rounded-full bg-background-300 p-2">

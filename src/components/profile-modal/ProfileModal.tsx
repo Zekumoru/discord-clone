@@ -1,9 +1,4 @@
 import { useSignOut } from 'react-firebase-hooks/auth';
-import {
-  IconChevronRight,
-  IconPencil,
-  IconUserCircle,
-} from '../../assets/icons';
 import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
 import ScreenModalProvider, {
   ScreenModalMethods,
@@ -39,7 +34,7 @@ const ProfileModal = ({ close }: ProfileModalProps) => {
     <div className="min-h-screen bg-background-300">
       <ProfileToolbar close={close} />
 
-      <BannerImage>
+      <BannerImage user={user} className="h-48">
         <div className="absolute -bottom-12 left-4 rounded-full bg-background-800 p-2">
           <ProfilePicture user={user} className="h-20 w-20 text-2xl" />
         </div>
