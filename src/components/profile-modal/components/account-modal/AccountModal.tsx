@@ -1,10 +1,10 @@
-import { IconChevronLeft, IconChevronRight } from '../../../assets/icons';
-import { useCurrentUser } from '../../../contexts/current-user/CurrentUserContext';
-import { ScreenModalMethods } from '../../../contexts/screen-modal/ScreenModalContext';
-import ScreenModalToolbar from '../../../contexts/screen-modal/components/ScreenModalToolbar';
-import InsetList from '../../modal-utils/InsetList';
-import InsetListItem from '../../modal-utils/InsetListItem';
-import ModalChevronCloseButton from '../../modal-utils/ModalChevronCloseButton';
+import { IconChevronLeft, IconChevronRight } from '../../../../assets/icons';
+import { useCurrentUser } from '../../../../contexts/current-user/CurrentUserContext';
+import { ScreenModalMethods } from '../../../../contexts/screen-modal/ScreenModalContext';
+import ScreenModalToolbar from '../../../../contexts/screen-modal/components/ScreenModalToolbar';
+import InsetList from '../../../modal-utils/InsetList';
+import InsetListItem from '../../../modal-utils/InsetListItem';
+import ModalChevronCloseButton from '../../../modal-utils/ModalChevronCloseButton';
 
 type AccountModalProps = {
   close: ScreenModalMethods[1];

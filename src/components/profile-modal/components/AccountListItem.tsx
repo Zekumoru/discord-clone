@@ -1,7 +1,7 @@
 import { IconChevronRight, IconUserCircle } from '../../../assets/icons';
 import { useScreenModal } from '../../../contexts/screen-modal/ScreenModalContext';
 import InsetListItem from '../../modal-utils/InsetListItem';
-import AccountModal from './AccountModal';
+import AccountModal from './account-modal/AccountModal';
 
 const AccountListItem = () => {
   const [openModal, closeModal] = useScreenModal();
