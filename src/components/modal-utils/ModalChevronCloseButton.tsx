@@ -13,7 +13,10 @@ const ModalChevronCloseButton = ({
   close,
 }: ModalChevronCloseButtonProps) => {
   return (
-    <button onClick={close} className="flex items-center overflow-x-hidden">
+    <button
+      onClick={() => close()}
+      className="flex items-center overflow-x-hidden"
+    >
       <IconChevronLeft
         strokeWidth={3}
         className="relative -top-[1px] mr-0.5 h-4 w-4"
