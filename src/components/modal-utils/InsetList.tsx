@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import ScreenModalProvider from '../../contexts/screen-modal/ScreenModalContext';
 
 type InsetListProps = {
   children?: ReactNode;
@@ -7,9 +8,11 @@ type InsetListProps = {
 
 const InsetList = ({ children, className }: InsetListProps = {}) => {
   return (
-    <ul className={`border-y border-background-700 ${className ?? ''}`}>
-      {children}
-    </ul>
+    <ScreenModalProvider>
+      <ul className={`border-y border-background-700 ${className ?? ''}`}>
+        {children}
+      </ul>
+    </ScreenModalProvider>
   );
 };
 

@@ -45,12 +45,10 @@ const ProfileModal = ({ close }: ProfileModalProps) => {
         <div className="text-xl font-medium text-silvergrey-300">#{tag}</div>
       </div>
 
-      <ScreenModalProvider>
-        <InsetList className="mb-6">
-          <AccountListItem />
-          <EditProfileListItem />
-        </InsetList>
-      </ScreenModalProvider>
+      <InsetList className="mb-6">
+        <AccountListItem />
+        <EditProfileListItem />
+      </InsetList>
 
       <ul className="border-y border-background-700">
         <InsetListItem
