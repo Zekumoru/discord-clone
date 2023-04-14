@@ -7,7 +7,7 @@ import extractNameAndTag from '../../../utils/extractNameAndTag';
 import ModalChevronCloseButton from '../../modal-utils/ModalChevronCloseButton';
 import EditBannerButton from './EditBannerButton';
 import EditPictureButton from './EditPictureButton';
-import BannerImage from './BannerImage';
+import BannerImage from '../../BannerImage';
 
 type EditProfileModalProps = {
   close: ScreenModalMethods[1];

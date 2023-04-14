@@ -4,7 +4,7 @@ import { IconEllipsisHorizontal } from '../../../assets/icons';
 import { usePartialScreenModal } from '../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import UserActionsPartialModal from './UserActionsPartialModal';
 import { useCurrentUser } from '../../../contexts/current-user/CurrentUserContext';
-import BannerImage from '../../profile-modal/components/BannerImage';
+import BannerImage from '../../BannerImage';
 
 type UserPartialModalBannerProps = {
   user: IUser | undefined;

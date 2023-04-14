@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import getStringColor from '../../../utils/getStringColor';
-import IUser from '../../../types/user/User';
+import getStringColor from '../utils/getStringColor';
+import IUser from '../types/user/User';
 
 type BannerImageProps = {
   user: IUser | undefined;

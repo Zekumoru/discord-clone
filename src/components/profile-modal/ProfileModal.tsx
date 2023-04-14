@@ -12,7 +12,7 @@ import AccountListItem from './components/AccountListItem';
 import EditProfileListItem from './components/EditProfileListItem';
 import { getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import BannerImage from './components/BannerImage';
+import BannerImage from '../BannerImage';
 
 type ProfileModalProps = {
   close: ScreenModalMethods[1];
