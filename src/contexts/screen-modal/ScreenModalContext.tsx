@@ -1,6 +1,9 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
 
-type ScreenModalMethods = [open: (modal: ReactNode) => void, close: () => void];
+type ScreenModalMethods = [
+  open: (modal: ReactNode) => void,
+  close: (propagate?: boolean) => void
+];
 
 const ScreenModalContext = createContext<ScreenModalMethods>(
   [] as unknown as ScreenModalMethods
@@ -12,17 +15,25 @@ const useScreenModal = () => {
 
 type ScreenModalProviderProps = {
   children: ReactNode;
+  previousCloseFn?: ScreenModalMethods[1];
 };
 
-const ScreenModalProvider = ({ children }: ScreenModalProviderProps) => {
+const ScreenModalProvider = ({
+  children,
+  previousCloseFn,
+}: ScreenModalProviderProps) => {
   const [modal, setModal] = useState<ReactNode>();
 
   const open = (modal: ReactNode) => {
     setModal(modal);
   };
 
-  const close = () => {
+  const close = (propagate?: boolean) => {
     setModal(undefined);
+
+    if (typeof propagate === 'boolean' && propagate) {
+      previousCloseFn?.(propagate);
+    }
   };
 
   return (

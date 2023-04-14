@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
-import ScreenModalProvider from '../../contexts/screen-modal/ScreenModalContext';
+import ScreenModalProvider, {
+  useScreenModal,
+} from '../../contexts/screen-modal/ScreenModalContext';
 
 type InsetListProps = {
   children?: ReactNode;
@@ -7,8 +9,10 @@ type InsetListProps = {
 };
 
 const InsetList = ({ children, className }: InsetListProps = {}) => {
+  const [_, closeModal] = useScreenModal();
+
   return (
-    <ScreenModalProvider>
+    <ScreenModalProvider previousCloseFn={closeModal}>
       <ul className={`border-y border-background-700 ${className ?? ''}`}>
         {children}
       </ul>

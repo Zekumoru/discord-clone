@@ -14,6 +14,7 @@ import userGuildsDoc from '../../../../../types/user/firebase/userGuildsDoc';
 import userChatsDoc from '../../../../../types/user-chat/firebase/userChatsDoc';
 import friendsDoc from '../../../../../types/friend/firebase/friendsDoc';
 import friendRequestsDoc from '../../../../../types/friend/firebase/friendRequestsDoc';
+import { useNavigate } from 'react-router-dom';
 
 type DeleteAccountModalProps = {
   close: ScreenModalMethods[1];
@@ -24,6 +25,7 @@ const DeleteAccountModal = ({ close }: DeleteAccountModalProps) => {
   const [deleteUser] = useDeleteUser(getAuth());
   const [user] = useCurrentUser();
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleDeleteAccount = async () => {
     if (!user) {
@@ -56,7 +58,8 @@ const DeleteAccountModal = ({ close }: DeleteAccountModalProps) => {
     });
 
     toast.success('Account deleted successfully!');
-    close();
+    close(true);
+    navigate('/');
   };
 
   return (
