@@ -51,6 +51,10 @@
   .btn {
     @apply w-full rounded bg-warmblue-100 p-2.5 font-medium capitalize;
   }
+
+  .btn:disabled {
+    @apply bg-warmblue-400 text-silvergrey-400;
+  }
 }
 
 @layer utilities {

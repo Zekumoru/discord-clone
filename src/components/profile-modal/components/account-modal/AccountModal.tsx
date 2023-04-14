@@ -5,6 +5,7 @@ import ScreenModalToolbar from '../../../../contexts/screen-modal/components/Scr
 import InsetList from '../../../modal-utils/InsetList';
 import InsetListItem from '../../../modal-utils/InsetListItem';
 import ModalChevronCloseButton from '../../../modal-utils/ModalChevronCloseButton';
+import EditPasswordListItem from './components/EditPasswordListItem';
 import EditUsernameListItem from './components/EditUsernameListItem';
 
 type AccountModalProps = {
@@ -36,11 +37,8 @@ const AccountModal = ({ close }: AccountModalProps) => {
         >
           {currentUser?.email}
         </InsetListItem>
-        <InsetListItem
-          className="ml-auto font-medium"
-          prefix={<span className="text-white">Password</span>}
-          postfix={<IconChevronRight className="h-4 w-4" strokeWidth={3} />}
-        />
+
+        <EditPasswordListItem />
       </InsetList>
 
       <div className="heading-2 mb-2 mt-8 px-4">Account Management</div>
