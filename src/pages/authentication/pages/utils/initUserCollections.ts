@@ -48,6 +48,7 @@ const initUserCollections = async (firebaseUser: User, username: string) => {
       email: firebaseUser.email!,
       firebaseId: firebaseUser.uid,
       pictureUrl: null,
+      bannerUrl: null,
       creationTimestamp: serverTimestamp() as Timestamp,
       userChatsId,
       username,
