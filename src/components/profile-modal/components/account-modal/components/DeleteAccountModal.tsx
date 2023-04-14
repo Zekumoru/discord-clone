@@ -43,12 +43,6 @@ const DeleteAccountModal = ({ close }: DeleteAccountModalProps) => {
       return;
     }
 
-    const success = await deleteUser();
-    if (!success) {
-      toast.error('Could not delete account!');
-      return;
-    }
-
     await performBatch(async (batch) => {
       batch.delete(userDoc(user.id));
       batch.delete(userGuildsDoc(user.guildsId));
@@ -56,6 +50,13 @@ const DeleteAccountModal = ({ close }: DeleteAccountModalProps) => {
       batch.delete(friendsDoc(user.friendsId));
       batch.delete(friendRequestsDoc(user.friendRequestsId));
     });
+
+    const success = await deleteUser();
+
+    if (!success) {
+      toast.error('Could not delete account!');
+      return;
+    }
 
     toast.success('Account deleted successfully!');
     close(true);
