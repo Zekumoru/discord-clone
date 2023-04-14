@@ -5,6 +5,7 @@ import ScreenModalToolbar from '../../../../contexts/screen-modal/components/Scr
 import InsetList from '../../../modal-utils/InsetList';
 import InsetListItem from '../../../modal-utils/InsetListItem';
 import ModalChevronCloseButton from '../../../modal-utils/ModalChevronCloseButton';
+import DeleteAccountListItem from './components/DeleteAccountListItem';
 import EditPasswordListItem from './components/EditPasswordListItem';
 import EditUsernameListItem from './components/EditUsernameListItem';
 
@@ -43,9 +44,7 @@ const AccountModal = ({ close }: AccountModalProps) => {
 
       <div className="heading-2 mb-2 mt-8 px-4">Account Management</div>
       <InsetList>
-        <InsetListItem className="text-salmon-400">
-          Delete Account
-        </InsetListItem>
+        <DeleteAccountListItem />
       </InsetList>
     </div>
   );
