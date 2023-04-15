@@ -1,4 +1,5 @@
 import { IconCheck, IconXMark } from '../../../../../../assets/icons';
+import LoadingScreen from '../../../../../../components/LoadingScreen';
 import { useCurrentUser } from '../../../../../../contexts/current-user/CurrentUserContext';
 import { IFriendRequest } from '../../../../../../types/friend/Friend';
 import useAcceptFriend from '../../hooks/useAcceptFriend';
@@ -16,8 +17,8 @@ const FriendAcceptanceItem = ({
   onClick,
 }: FriendAcceptanceItemProps) => {
   const [user] = useCurrentUser();
-  const { mutate: acceptFriend } = useAcceptFriend();
-  const { mutate: rejectFriend } = useRejectFriend();
+  const { mutate: acceptFriend, isLoading: acceptLoading } = useAcceptFriend();
+  const { mutate: rejectFriend, isLoading: rejectLoading } = useRejectFriend();
 
   const handleAccept = () => {
     acceptFriend({
@@ -34,28 +35,35 @@ const FriendAcceptanceItem = ({
   };
 
   return (
-    <FriendItem
-      onClick={onClick}
-      friendId={request.userId}
-      buttons={
-        <span className="flex gap-1.5">
-          <CircledIconButton
-            testid="accept-btn"
-            onClick={handleAccept}
-            icon={
-              <IconCheck strokeWidth={2} className="h-4 w-4 text-jade-100" />
-            }
-          />
-          <CircledIconButton
-            testid="reject-btn"
-            onClick={handleReject}
-            icon={
-              <IconXMark strokeWidth={2} className="h-4 w-4 text-crimson-100" />
-            }
-          />
-        </span>
-      }
-    />
+    <>
+      {(acceptLoading || rejectLoading) && <LoadingScreen />}
+
+      <FriendItem
+        onClick={onClick}
+        friendId={request.userId}
+        buttons={
+          <span className="flex gap-1.5">
+            <CircledIconButton
+              testid="accept-btn"
+              onClick={handleAccept}
+              icon={
+                <IconCheck strokeWidth={2} className="h-4 w-4 text-jade-100" />
+              }
+            />
+            <CircledIconButton
+              testid="reject-btn"
+              onClick={handleReject}
+              icon={
+                <IconXMark
+                  strokeWidth={2}
+                  className="h-4 w-4 text-crimson-100"
+                />
+              }
+            />
+          </span>
+        }
+      />
+    </>
   );
 };
 

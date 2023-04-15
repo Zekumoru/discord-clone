@@ -1,4 +1,5 @@
 import { IconXMark } from '../../../../../../assets/icons';
+import LoadingScreen from '../../../../../../components/LoadingScreen';
 import { useCurrentUser } from '../../../../../../contexts/current-user/CurrentUserContext';
 import { IFriendRequest } from '../../../../../../types/friend/Friend';
 import useRemoveFriendRequest from '../../hooks/useRemoveFriendRequest';
@@ -12,7 +13,7 @@ type FriendRequestItemProps = {
 
 const FriendRequestItem = ({ request, onClick }: FriendRequestItemProps) => {
   const [user] = useCurrentUser();
-  const { mutate: removeFriendRequest } = useRemoveFriendRequest();
+  const { mutate: removeFriendRequest, isLoading } = useRemoveFriendRequest();
 
   const handleRemoveFriendRequest = () => {
     removeFriendRequest({
@@ -22,21 +23,27 @@ const FriendRequestItem = ({ request, onClick }: FriendRequestItemProps) => {
   };
 
   return (
-    <FriendItem
-      onClick={onClick}
-      friendId={request.userId}
-      buttons={
-        <span className="flex gap-1.5">
-          <CircledIconButton
-            testid="reject-btn"
-            onClick={handleRemoveFriendRequest}
-            icon={
-              <IconXMark strokeWidth={2} className="h-4 w-4 text-crimson-100" />
-            }
-          />
-        </span>
-      }
-    />
+    <>
+      {isLoading && <LoadingScreen />}
+      <FriendItem
+        onClick={onClick}
+        friendId={request.userId}
+        buttons={
+          <span className="flex gap-1.5">
+            <CircledIconButton
+              testid="reject-btn"
+              onClick={handleRemoveFriendRequest}
+              icon={
+                <IconXMark
+                  strokeWidth={2}
+                  className="h-4 w-4 text-crimson-100"
+                />
+              }
+            />
+          </span>
+        }
+      />
+    </>
   );
 };
 
