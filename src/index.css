@@ -16,6 +16,24 @@
     @apply mb-1.5 text-2xl font-semibold;
   }
 
+  .loading-circle {
+    width: 90px;
+    height: 90px;
+    border: 8px solid;
+    border-top: 8px solid;
+    animation: spin 2s linear infinite;
+    @apply rounded-full border-silvergrey-300 border-t-background-100;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
   .toolbar {
     @apply sticky top-0 z-30 flex h-14 items-center gap-1 bg-background-500 px-4 py-2 shadow-material;
   }
