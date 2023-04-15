@@ -28,12 +28,17 @@ const CurrentUserProvider = ({ children }: CurrentUserProviderProps) => {
   const {
     data: user,
     isLoading,
+    isFetching,
     error,
   } = useGetCurrentUser(firebaseUser?.uid ?? '');
 
   return (
     <CurrentUserContext.Provider
-      value={[user, firebaseLoading || isLoading, firebaseError || error]}
+      value={[
+        user,
+        firebaseLoading || isLoading || isFetching,
+        firebaseError || error,
+      ]}
     >
       {children}
     </CurrentUserContext.Provider>

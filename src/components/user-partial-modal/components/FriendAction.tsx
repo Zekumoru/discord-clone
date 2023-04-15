@@ -9,13 +9,21 @@ import useRemoveFriend from '../hooks/useRemoveFriend';
 
 type FriendActionProps = {
   friend: IUser;
+  onAction?: () => void;
   onActionSuccess?: () => void;
 };
 
-const FriendAction = ({ friend, onActionSuccess }: FriendActionProps) => {
-  const [currentUser] = useCurrentUser();
-  const [isFriend] = useIsFriend(friend.id);
-  const [friendRequest] = useFriendRequest(currentUser, friend.id);
+const FriendAction = ({
+  friend,
+  onAction,
+  onActionSuccess,
+}: FriendActionProps) => {
+  const [currentUser, userLoading] = useCurrentUser();
+  const [isFriend, isFriendLoading] = useIsFriend(friend.id);
+  const [friendRequest, friendRequestLoading] = useFriendRequest(
+    currentUser,
+    friend.id
+  );
   const { mutate: sendFriendRequest } = useSendFriendRequest({
     onSuccess: onActionSuccess,
   });
@@ -30,10 +38,12 @@ const FriendAction = ({ friend, onActionSuccess }: FriendActionProps) => {
   });
 
   const handleSendFriendRequest = () => {
+    onAction?.();
     sendFriendRequest(friend.username);
   };
 
   const handleAcceptFriendRequest = () => {
+    onAction?.();
     acceptFriendRequest({
       currentUser: currentUser!,
       request: friendRequest!,
@@ -41,6 +51,7 @@ const FriendAction = ({ friend, onActionSuccess }: FriendActionProps) => {
   };
 
   const handleRemoveFriendRequest = () => {
+    onAction?.();
     removeFriendRequest({
       currentUser: currentUser!,
       request: friendRequest!,
@@ -48,11 +59,16 @@ const FriendAction = ({ friend, onActionSuccess }: FriendActionProps) => {
   };
 
   const handleRemoveFriend = () => {
+    onAction?.();
     removeFriend({
       currentUser: currentUser!,
       friendToRemove: friend,
     });
   };
+
+  if (userLoading || isFriendLoading || friendRequestLoading) {
+    return <li></li>;
+  }
 
   if (isFriend) {
     return (

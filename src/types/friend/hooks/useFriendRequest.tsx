@@ -20,6 +20,7 @@ const useFriendRequest = (
   const {
     data: friendRequest,
     isLoading,
+    isFetching,
     error,
   } = useQuery(
     ['friend-request', user!.id, otherUserId],
@@ -29,7 +30,7 @@ const useFriendRequest = (
     }
   );
 
-  return [friendRequest, isLoading, error] as const;
+  return [friendRequest, isLoading || isFetching, error] as const;
 };
 
 export default useFriendRequest;

@@ -5,20 +5,26 @@ import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { getAuth, updateProfile } from 'firebase/auth';
 import initUserCollections from './utils/initUserCollections';
 import generateTag from './utils/generateTag';
+import LoadingScreen from '../../../components/LoadingScreen';
 
 const SignUp = () => {
   const id = useId();
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [createUserWithEmailAndPassword, user, loading, error] =
+  const [createUserWithEmailAndPassword, _user, loading, error] =
     useCreateUserWithEmailAndPassword(getAuth());
   const navigate = useNavigate();
+
+  const handleUsernameChange = (username: string) => {
+    const unhashedUsername = username.replaceAll('#', '');
+    setUsername(unhashedUsername);
+  };
 
   const handleSubmit = async () => {
     const response = await createUserWithEmailAndPassword(email, password);
     if (response?.user) {
-      const taggedUsername = `${username}#${generateTag()}`;
+      const taggedUsername = `${username.trim()}#${generateTag()}`;
       await updateProfile(response.user, { displayName: taggedUsername });
       await initUserCollections(response.user, taggedUsername);
       navigate('/channels/@me');
@@ -27,6 +33,8 @@ const SignUp = () => {
 
   return (
     <>
+      {loading && <LoadingScreen />}
+
       <div className="auth-title mb-7">Create an account</div>
 
       <form
@@ -54,7 +62,7 @@ const SignUp = () => {
           className="mb-5"
           value={username}
           label="Username"
-          onChange={setUsername}
+          onChange={handleUsernameChange}
           minLength={3}
           maxLength={32}
           hideAsterisk={true}

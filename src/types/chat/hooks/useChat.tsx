@@ -16,7 +16,6 @@ const useChat = (chatId: string | undefined) => {
     error,
   } = useQuery(['chat', chatId], async () => await getChat(chatId), {
     enabled: !!chatId,
-    refetchOnWindowFocus: false,
   });
 
   return [user, isLoading, error] as const;

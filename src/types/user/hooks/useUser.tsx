@@ -16,7 +16,6 @@ const useUser = (userId: string | undefined) => {
     error,
   } = useQuery(['user', userId], async () => await getUser(userId), {
     enabled: !!userId,
-    refetchOnWindowFocus: false,
   });
 
   return [user, isLoading, error] as const;

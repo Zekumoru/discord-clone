@@ -10,6 +10,11 @@ import IconUserGroupOutline from './IconUserGroupOutline';
 import IconUserBars from './IconUserBars';
 import IconCog6Tooth from './IconCog6Tooth';
 import IconEllipsisHorizontal from './IconEllipsisHorizontal';
+import IconUserCircle from './IconUserCircle';
+import IconPencil from './IconPencil';
+import IconChevronRight from './IconChevronRight';
+import IconChevronLeft from './IconChevronLeft';
+import IconPaperAirplane from './IconPaperAirplane';
 
 export {
   IconBurger,
@@ -24,4 +29,9 @@ export {
   IconUserBars,
   IconCog6Tooth,
   IconEllipsisHorizontal,
+  IconUserCircle,
+  IconPencil,
+  IconChevronRight,
+  IconChevronLeft,
+  IconPaperAirplane,
 };

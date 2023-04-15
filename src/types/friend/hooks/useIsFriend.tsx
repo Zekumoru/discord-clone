@@ -15,6 +15,7 @@ const useIsFriend = (friendId: string | undefined) => {
   const {
     data: isFriend,
     isLoading,
+    isFetching,
     error,
   } = useQuery(
     ['is-friend', user?.id, friendId],
@@ -24,7 +25,7 @@ const useIsFriend = (friendId: string | undefined) => {
     }
   );
 
-  return [isFriend, isLoading, error] as const;
+  return [isFriend, isLoading || isFetching, error] as const;
 };
 
 export default useIsFriend;

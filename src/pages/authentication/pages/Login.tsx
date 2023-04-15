@@ -1,4 +1,4 @@
-import { useId, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import TextInput from '../components/TextInput';
 import { Link, useNavigate } from 'react-router-dom';
 import {
@@ -6,16 +6,28 @@ import {
   useSendPasswordResetEmail,
 } from 'react-firebase-hooks/auth';
 import { getAuth } from 'firebase/auth';
+import { toast } from 'react-toastify';
+import LoadingScreen from '../../../components/LoadingScreen';
 
 const Login = () => {
   const id = useId();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [signInWithEmailAndPassword, user, loading, error] =
+  const [signInWithEmailAndPassword, _user, signInLoading, error] =
     useSignInWithEmailAndPassword(getAuth());
-  const [sendPasswordResetEmail, sending, sendError] =
+  const [sendPasswordResetEmail, resetLoading, resetError] =
     useSendPasswordResetEmail(getAuth());
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!resetError) return;
+    if (email === '') {
+      toast.error('Email field is empty!');
+      return;
+    }
+
+    toast.error('Could not send reset email!');
+  }, [resetError]);
 
   const handleSubmit = async () => {
     const response = await signInWithEmailAndPassword(email, password);
@@ -34,6 +46,8 @@ const Login = () => {
 
   return (
     <>
+      {(signInLoading || resetLoading) && <LoadingScreen />}
+
       <div className="auth-title">Welcome back!</div>
       <div className="mb-5 text-silvergrey-300">
         We're so excited to see you again!

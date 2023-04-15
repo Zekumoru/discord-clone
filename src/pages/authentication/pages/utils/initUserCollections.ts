@@ -8,6 +8,7 @@ import friendsDoc from '../../../../types/friend/firebase/friendsDoc';
 import friendRequestsDoc from '../../../../types/friend/firebase/friendRequestsDoc';
 import userGuildsDoc from '../../../../types/user/firebase/userGuildsDoc';
 import userDoc from '../../../../types/user/firebase/userDoc';
+import { queryClient } from '../../../../components/QueryClientInitializer';
 
 const initUserCollections = async (firebaseUser: User, username: string) => {
   let user: IUser;
@@ -48,6 +49,7 @@ const initUserCollections = async (firebaseUser: User, username: string) => {
       email: firebaseUser.email!,
       firebaseId: firebaseUser.uid,
       pictureUrl: null,
+      bannerUrl: null,
       creationTimestamp: serverTimestamp() as Timestamp,
       userChatsId,
       username,
@@ -57,6 +59,8 @@ const initUserCollections = async (firebaseUser: User, username: string) => {
     };
     batch.set(userDoc(userId), user);
   });
+
+  await queryClient.invalidateQueries(['user', 'current']);
 
   return user!;
 };

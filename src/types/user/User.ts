@@ -5,6 +5,7 @@ interface IUser {
   firebaseId: string;
   email: string;
   pictureUrl: string | null;
+  bannerUrl: string | null;
   username: string;
   userChatsId: string;
   friendsId: string;
