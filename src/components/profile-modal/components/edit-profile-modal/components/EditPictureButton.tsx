@@ -1,27 +1,15 @@
 import { useId } from 'react';
 import { toast } from 'react-toastify';
 import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
-import useUploadImage from '../../../../../hooks/useUploadImage';
-import { setDoc } from 'firebase/firestore';
-import userDoc from '../../../../../types/user/firebase/userDoc';
-import { queryClient } from '../../../../QueryClientInitializer';
 import { IconPencil } from '../../../../../assets/icons';
+import useUpdatePicture from '../hooks/useUpdatePicture';
+import LoadingScreen from '../../../../LoadingScreen';
 
 const EditPictureButton = () => {
   const id = useId();
   const [user] = useCurrentUser();
-  const { mutate: uploadImage } = useUploadImage({
-    onSuccess: async ({ url }) => {
-      if (!user) {
-        toast.error('Could not set profile picture!');
-        return;
-      }
-
-      await setDoc(userDoc(user.id), {
-        ...user,
-        pictureUrl: url,
-      });
-      await queryClient.invalidateQueries(['user', 'current']);
+  const { mutate: updatePicture, isLoading } = useUpdatePicture({
+    onSuccess: () => {
       toast.success('Profile picture set successfully!');
     },
   });
@@ -45,7 +33,8 @@ const EditPictureButton = () => {
       return;
     }
 
-    uploadImage({
+    updatePicture({
+      user: user!,
       path: `profile-pictures/${user.id}/picture.${extension}`,
       image: file,
     });
@@ -56,6 +45,8 @@ const EditPictureButton = () => {
       htmlFor={`profile-picture-picker-${id}`}
       className="absolute right-2 top-1 rounded-full bg-background-800 p-1.5 text-silvergrey-300"
     >
+      {isLoading && <LoadingScreen />}
+
       <input
         type="file"
         accept="images/*"

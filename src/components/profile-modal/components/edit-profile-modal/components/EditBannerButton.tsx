@@ -1,27 +1,15 @@
 import { useId } from 'react';
 import { toast } from 'react-toastify';
 import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
-import useUploadImage from '../../../../../hooks/useUploadImage';
-import { setDoc } from 'firebase/firestore';
-import userDoc from '../../../../../types/user/firebase/userDoc';
-import { queryClient } from '../../../../QueryClientInitializer';
 import { IconPencil } from '../../../../../assets/icons';
+import useUpdateBanner from '../hooks/useUpdateBanner';
+import LoadingScreen from '../../../../LoadingScreen';
 
 const EditBannerButton = () => {
   const id = useId();
   const [user] = useCurrentUser();
-  const { mutate: uploadImage } = useUploadImage({
-    onSuccess: async ({ url }) => {
-      if (!user) {
-        toast.error('Could not set banner!');
-        return;
-      }
-
-      await setDoc(userDoc(user.id), {
-        ...user,
-        bannerUrl: url,
-      });
-      await queryClient.invalidateQueries(['user', 'current']);
+  const { mutate: updateBanner, isLoading } = useUpdateBanner({
+    onSuccess: () => {
       toast.success('Banner set successfully!');
     },
   });
@@ -45,7 +33,8 @@ const EditBannerButton = () => {
       return;
     }
 
-    uploadImage({
+    updateBanner({
+      user: user!,
       path: `banners/${user.id}/banner.${extension}`,
       image: file,
     });
@@ -56,6 +45,8 @@ const EditBannerButton = () => {
       htmlFor={`banner-picker-${id}`}
       className="absolute right-4 top-3 rounded-full bg-background-800 p-1.5 text-silvergrey-300"
     >
+      {isLoading && <LoadingScreen />}
+
       <input
         type="file"
         accept="images/*"

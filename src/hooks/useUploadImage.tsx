@@ -6,12 +6,12 @@ import {
   uploadBytesResumable,
 } from 'firebase/storage';
 
-type UploadImageProps = {
+type UploadImageArgs = {
   image: File;
   path: string;
 };
 
-const uploadImage = async ({ image, path }: UploadImageProps) => {
+const uploadImage = async ({ image, path }: UploadImageArgs) => {
   const imageRef = ref(getStorage(), path);
   const imageSnapshot = await uploadBytesResumable(imageRef, image);
   const publicImageUrl = await getDownloadURL(imageRef);
@@ -35,3 +35,5 @@ const useUploadImage = ({ onSuccess }: UseUploadImageProps = {}) => {
 };
 
 export default useUploadImage;
+export { uploadImage };
+export type { UploadImageArgs };
