@@ -14,6 +14,7 @@ import IconUserCircle from './IconUserCircle';
 import IconPencil from './IconPencil';
 import IconChevronRight from './IconChevronRight';
 import IconChevronLeft from './IconChevronLeft';
+import IconPaperAirplane from './IconPaperAirplane';
 
 export {
   IconBurger,
@@ -32,4 +33,5 @@ export {
   IconPencil,
   IconChevronRight,
   IconChevronLeft,
+  IconPaperAirplane,
 };
