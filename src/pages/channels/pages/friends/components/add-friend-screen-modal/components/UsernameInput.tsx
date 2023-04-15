@@ -18,9 +18,14 @@ const UsernameInput = ({
   }
 
   const handleUsernameChange = (username: string) => {
-    const tagLength = username.match(/#\d*$/)?.[0].length ?? 0;
-    if (tagLength > 5 || username.length > 32 + tagLength) return;
-    if (!tagLength && username.includes('#')) return;
+    const hashIndex = username.indexOf('#');
+    const valid =
+      hashIndex >= 0
+        ? !!username.match(/^[^#]*#\d{0,4}$/)?.[0]
+        : !!username.match(/^[^#]*$/)?.[0];
+
+    if (!valid && username !== '') return;
+    if (hashIndex === -1 && username.length > 32) return;
 
     onChange(username);
   };
@@ -35,7 +40,7 @@ const UsernameInput = ({
         type="text"
         className="text-input w-full text-white"
         value={username}
-        onChange={(e) => handleUsernameChange(e.target.value)}
+        onChange={(e) => handleUsernameChange(e.target.value.trim())}
         placeholder={placeholder}
         required={required}
       />

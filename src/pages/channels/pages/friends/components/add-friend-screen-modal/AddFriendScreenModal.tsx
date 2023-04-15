@@ -46,7 +46,22 @@ const AddFriendScreenModal = ({ close }: AddFriendScreenModalProps) => {
   });
 
   const handleSubmit = () => {
-    addFriend(username);
+    let taggedUsername: string;
+
+    const tag = username.match(/#\d*$/)?.[0];
+    if (tag === undefined) {
+      taggedUsername = username.concat('#0000');
+    } else {
+      const totalLength = username.length + (5 - tag.length);
+      taggedUsername = username.padEnd(totalLength, '0');
+    }
+
+    if (!taggedUsername.match(/^[^#]*#\d{4}$/)?.[0]) {
+      toast.error('Invalid username!');
+      return;
+    }
+
+    addFriend(taggedUsername);
   };
 
   return (
