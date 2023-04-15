@@ -16,6 +16,11 @@ const SignUp = () => {
     useCreateUserWithEmailAndPassword(getAuth());
   const navigate = useNavigate();
 
+  const handleUsernameChange = (username: string) => {
+    const unhashedUsername = username.replaceAll('#', '');
+    setUsername(unhashedUsername);
+  };
+
   const handleSubmit = async () => {
     const response = await createUserWithEmailAndPassword(email, password);
     if (response?.user) {
@@ -57,7 +62,7 @@ const SignUp = () => {
           className="mb-5"
           value={username}
           label="Username"
-          onChange={setUsername}
+          onChange={handleUsernameChange}
           minLength={3}
           maxLength={32}
           hideAsterisk={true}
