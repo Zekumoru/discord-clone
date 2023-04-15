@@ -13,6 +13,7 @@ import EditProfileListItem from './components/EditProfileListItem';
 import { getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import BannerImage from '../BannerImage';
+import LoadingScreen from '../LoadingScreen';
 
 type ProfileModalProps = {
   close: ScreenModalMethods[1];
@@ -21,7 +22,7 @@ type ProfileModalProps = {
 const ProfileModal = ({ close }: ProfileModalProps) => {
   const [user] = useCurrentUser();
   const [name, tag] = extractNameAndTag(user?.username ?? '');
-  const [logout] = useSignOut(getAuth());
+  const [logout, logoutLoading] = useSignOut(getAuth());
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -32,6 +33,8 @@ const ProfileModal = ({ close }: ProfileModalProps) => {
 
   return (
     <div className="min-h-screen bg-background-300">
+      {logoutLoading && <LoadingScreen />}
+
       <ProfileToolbar close={close} />
 
       <BannerImage user={user} className="h-48">
