@@ -8,14 +8,16 @@ import {
 import { getAuth } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
+import LoadingScreen from '../../../../LoadingScreen';
 
 type EditPasswordModalProps = {
   close: ScreenModalMethods[1];
 };
 
 const EditPasswordModal = ({ close }: EditPasswordModalProps) => {
-  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(getAuth());
-  const [updatePassword] = useUpdatePassword(getAuth());
+  const [signInWithEmailAndPassword, _user, signInLoading] =
+    useSignInWithEmailAndPassword(getAuth());
+  const [updatePassword, updateLoading] = useUpdatePassword(getAuth());
   const [currentPassword, setCurrentPassword] = useState('');
   const [password, setPassword] = useState('');
   const [user] = useCurrentUser();
@@ -49,6 +51,8 @@ const EditPasswordModal = ({ close }: EditPasswordModalProps) => {
 
   return (
     <div className="min-h-screen bg-background-300">
+      {(signInLoading || updateLoading) && <LoadingScreen />}
+
       <div className="flex h-[56px] items-center px-4">
         <ModalChevronCloseButton close={close}>Account</ModalChevronCloseButton>
       </div>

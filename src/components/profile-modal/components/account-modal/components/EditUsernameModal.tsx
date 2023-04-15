@@ -6,6 +6,7 @@ import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUser
 import extractNameAndTag from '../../../../../utils/extractNameAndTag';
 import { IconXMark } from '../../../../../assets/icons';
 import useUpdateUsername from '../hooks/useUpdateUsername';
+import LoadingScreen from '../../../../LoadingScreen';
 
 type EditUsernameModalProps = {
   close: ScreenModalMethods[1];
@@ -21,7 +22,9 @@ const EditUsernameModal = ({ close }: EditUsernameModalProps) => {
   );
   const originalTag = `#${originalTagUnhashed}`;
   const hasChanges = originalName !== name.trim() || originalTag !== tag;
-  const { mutate: updateUsername } = useUpdateUsername({ onSuccess: close });
+  const { mutate: updateUsername, isLoading } = useUpdateUsername({
+    onSuccess: close,
+  });
 
   useEffect(() => {
     if (!user) return;
@@ -56,6 +59,8 @@ const EditUsernameModal = ({ close }: EditUsernameModalProps) => {
 
   return (
     <div className="min-h-screen bg-background-300">
+      {isLoading && <LoadingScreen />}
+
       <ScreenModalToolbar
         leftElement={
           <ModalChevronCloseButton close={close}>

@@ -15,14 +15,16 @@ import userChatsDoc from '../../../../../types/user-chat/firebase/userChatsDoc';
 import friendsDoc from '../../../../../types/friend/firebase/friendsDoc';
 import friendRequestsDoc from '../../../../../types/friend/firebase/friendRequestsDoc';
 import { useNavigate } from 'react-router-dom';
+import LoadingScreen from '../../../../LoadingScreen';
 
 type DeleteAccountModalProps = {
   close: ScreenModalMethods[1];
 };
 
 const DeleteAccountModal = ({ close }: DeleteAccountModalProps) => {
-  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(getAuth());
-  const [deleteUser] = useDeleteUser(getAuth());
+  const [signInWithEmailAndPassword, _user, signInLoading] =
+    useSignInWithEmailAndPassword(getAuth());
+  const [deleteUser, deleteLoading] = useDeleteUser(getAuth());
   const [user] = useCurrentUser();
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -65,6 +67,8 @@ const DeleteAccountModal = ({ close }: DeleteAccountModalProps) => {
 
   return (
     <div className="min-h-screen bg-background-300">
+      {(signInLoading || deleteLoading) && <LoadingScreen />}
+
       <div className="flex h-[56px] items-center px-4">
         <ModalChevronCloseButton close={close}>Account</ModalChevronCloseButton>
       </div>
