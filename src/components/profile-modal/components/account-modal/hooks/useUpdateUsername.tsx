@@ -3,6 +3,8 @@ import IUser from '../../../../../types/user/User';
 import { queryClient } from '../../../../QueryClientInitializer';
 import userDoc from '../../../../../types/user/firebase/userDoc';
 import { setDoc } from 'firebase/firestore';
+import findUserByUsername from '../../../../../types/user/firebase/findUserByUsername';
+import DiscordError from '../../../../../utils/DiscordError';
 
 type UpdateUsernameArgs = {
   user: IUser;
@@ -11,6 +13,14 @@ type UpdateUsernameArgs = {
 
 const updateUsername = async ({ user, newUsername }: UpdateUsernameArgs) => {
   const userRef = userDoc(user.id);
+  const taken = !!(await findUserByUsername(newUsername));
+
+  if (taken) {
+    throw new DiscordError(
+      'username-taken',
+      `Could not update username! The new username is already taken: ${newUsername}`
+    );
+  }
 
   await setDoc(userRef, {
     ...user,
@@ -22,11 +32,16 @@ const updateUsername = async ({ user, newUsername }: UpdateUsernameArgs) => {
 
 type UseUpdateUsernameProps = {
   onSuccess?: () => void;
+  onError?: (error: unknown) => void;
 };
 
-const useUpdateUsername = ({ onSuccess }: UseUpdateUsernameProps = {}) => {
+const useUpdateUsername = ({
+  onSuccess,
+  onError,
+}: UseUpdateUsernameProps = {}) => {
   return useMutation(updateUsername, {
     onSuccess,
+    onError,
   });
 };
 

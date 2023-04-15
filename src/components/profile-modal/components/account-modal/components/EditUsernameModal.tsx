@@ -7,6 +7,8 @@ import extractNameAndTag from '../../../../../utils/extractNameAndTag';
 import { IconXMark } from '../../../../../assets/icons';
 import useUpdateUsername from '../hooks/useUpdateUsername';
 import LoadingScreen from '../../../../LoadingScreen';
+import DiscordError from '../../../../../utils/DiscordError';
+import { toast } from 'react-toastify';
 
 type EditUsernameModalProps = {
   close: ScreenModalMethods[1];
@@ -24,6 +26,18 @@ const EditUsernameModal = ({ close }: EditUsernameModalProps) => {
   const hasChanges = originalName !== name.trim() || originalTag !== tag;
   const { mutate: updateUsername, isLoading } = useUpdateUsername({
     onSuccess: close,
+    onError: (error) => {
+      if (!(error instanceof DiscordError)) {
+        toast.error('An unknown error has occurred!');
+        return;
+      }
+
+      if (error.code === 'username-taken') {
+        toast.error('Username is already taken!');
+      } else {
+        toast.error(error.message);
+      }
+    },
   });
 
   useEffect(() => {
