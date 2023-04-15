@@ -5,13 +5,14 @@ import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { getAuth, updateProfile } from 'firebase/auth';
 import initUserCollections from './utils/initUserCollections';
 import generateTag from './utils/generateTag';
+import LoadingScreen from '../../../components/LoadingScreen';
 
 const SignUp = () => {
   const id = useId();
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [createUserWithEmailAndPassword, user, loading, error] =
+  const [createUserWithEmailAndPassword, _user, loading, error] =
     useCreateUserWithEmailAndPassword(getAuth());
   const navigate = useNavigate();
 
@@ -27,6 +28,8 @@ const SignUp = () => {
 
   return (
     <>
+      {loading && <LoadingScreen />}
+
       <div className="auth-title mb-7">Create an account</div>
 
       <form
