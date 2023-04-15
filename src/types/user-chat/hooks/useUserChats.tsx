@@ -19,7 +19,6 @@ const useUserChats = (userChatsId: string | undefined) => {
     async () => await getUserChats(userChatsId),
     {
       enabled: !!userChatsId,
-      refetchOnWindowFocus: false,
     }
   );
 

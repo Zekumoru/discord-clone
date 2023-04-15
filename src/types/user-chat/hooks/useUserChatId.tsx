@@ -97,7 +97,6 @@ const useUserChatId = (
     async () => await getUserChatId(userChats, otherUserId),
     {
       enabled: !!userChatsId && !!otherUserId && !isSelf,
-      refetchOnWindowFocus: false,
     }
   );
 

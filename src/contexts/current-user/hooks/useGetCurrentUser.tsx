@@ -11,7 +11,6 @@ const useGetCurrentUser = (firebaseId: string) => {
     async () => await getCurrentUser(firebaseId),
     {
       enabled: !!firebaseId,
-      refetchOnWindowFocus: false,
     }
   );
 };
