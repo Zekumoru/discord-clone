@@ -10,6 +10,7 @@ import {
   IFriendRequests,
 } from '../../../../../../../../types/friend/Friend';
 import { getDoc } from 'firebase/firestore';
+import DiscordError from '../../../../../../../../utils/DiscordError';
 
 const alreadyHasRequest = (userId: string, requests: IFriendRequest[]) => {
   return requests.some((request) => request.userId === userId);
@@ -27,13 +28,17 @@ const sendFriendRequest = async (
     const otherUser = await findUserByUsername(username);
 
     if (otherUser === undefined) {
-      throw new Error(
+      throw new DiscordError(
+        'user-not-found',
         `Cannot add friend! The user does not exist: ${username}`
       );
     }
 
     if (otherUser.id === currentUser.id) {
-      throw new Error(`You cannot add yourself as a friend!`);
+      throw new DiscordError(
+        'action-on-self',
+        `You cannot add yourself as a friend!`
+      );
     }
 
     const currentUserFriendsRef = createDoc<IFriendRequests>(
@@ -47,7 +52,8 @@ const sendFriendRequest = async (
     const otherUserFriends = (await getDoc(otherUserFriendsRef)).data()!;
 
     if (alreadyHasRequest(otherUser.id, currentUserFriends.requests)) {
-      throw new Error(
+      throw new DiscordError(
+        'already-sent',
         `Cannot add friend! You already sent a friend request to this user.`
       );
     }
@@ -73,14 +79,17 @@ const sendFriendRequest = async (
 
 type UseSendFriendRequestProps = {
   onSuccess?: () => void;
+  onError?: (error: unknown) => void;
 };
 
 const useSendFriendRequest = ({
   onSuccess,
+  onError,
 }: UseSendFriendRequestProps = {}) => {
   const [user] = useCurrentUser();
   return useMutation(sendFriendRequest.bind(undefined, user), {
     onSuccess,
+    onError,
   });
 };
 

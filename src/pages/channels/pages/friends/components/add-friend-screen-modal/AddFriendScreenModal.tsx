@@ -4,6 +4,9 @@ import AddFriendModalToolbar from './components/AddFriendModalToolbar';
 import { ScreenModalMethods } from '../../../../../../contexts/screen-modal/ScreenModalContext';
 import useSendFriendRequest from './hooks/use-add-friend/useSendFriendRequest';
 import { useCurrentUser } from '../../../../../../contexts/current-user/CurrentUserContext';
+import DiscordError from '../../../../../../utils/DiscordError';
+import { toast } from 'react-toastify';
+import LoadingScreen from '../../../../../../components/LoadingScreen';
 
 type AddFriendScreenModalProps = {
   close: ScreenModalMethods[1];
@@ -12,9 +15,33 @@ type AddFriendScreenModalProps = {
 const AddFriendScreenModal = ({ close }: AddFriendScreenModalProps) => {
   const [username, setUsername] = useState('');
   const [user] = useCurrentUser();
-  const { mutate: addFriend } = useSendFriendRequest({
+  const { mutate: addFriend, isLoading } = useSendFriendRequest({
     onSuccess: () => {
       close();
+    },
+    onError: (error) => {
+      if (!(error instanceof DiscordError)) {
+        toast.error('An unknown error has occurred.');
+        return;
+      }
+
+      switch (error.code) {
+        case 'action-on-self': {
+          toast.error('You cannot add yourself!');
+          break;
+        }
+        case 'already-sent': {
+          toast.error('Request already sent!');
+          break;
+        }
+        case 'user-not-found': {
+          toast.error('User not found!');
+          break;
+        }
+        default: {
+          toast.error(error.message);
+        }
+      }
     },
   });
 
@@ -24,6 +51,8 @@ const AddFriendScreenModal = ({ close }: AddFriendScreenModalProps) => {
 
   return (
     <div className="min-h-screen bg-background-300">
+      {isLoading && <LoadingScreen />}
+
       <AddFriendModalToolbar close={close} />
 
       <div className="mb-1 mt-2 p-4">
