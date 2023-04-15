@@ -19,7 +19,7 @@ const SignUp = () => {
   const handleSubmit = async () => {
     const response = await createUserWithEmailAndPassword(email, password);
     if (response?.user) {
-      const taggedUsername = `${username}#${generateTag()}`;
+      const taggedUsername = `${username.trim()}#${generateTag()}`;
       await updateProfile(response.user, { displayName: taggedUsername });
       await initUserCollections(response.user, taggedUsername);
       navigate('/channels/@me');
