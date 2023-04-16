@@ -1,12 +1,7 @@
 import { useQuery } from 'react-query';
 import useUserChats from './useUserChats';
 import IUserChats from '../userChat';
-import snowflakeId from '../../../utils/snowflake-id/snowflakeId';
-import performBatch from '../../../utils/performBatch';
-import chatDoc from '../../chat/firebase/chatDoc';
-import userChatsDoc from '../firebase/userChatsDoc';
-import userDoc from '../../user/firebase/userDoc';
-import { getDoc } from 'firebase/firestore';
+import createChat from '../utils/createChat';
 
 const getUserChatId = async (
   userChats: IUserChats | undefined,
@@ -19,64 +14,7 @@ const getUserChatId = async (
     );
   }
 
-  const userChat = userChats.chats.find(
-    (userChat) => userChat.userId === otherUserId
-  );
-
-  // chat already exists
-  if (userChat) {
-    return userChat.chatId;
-  }
-
-  // start a new chat
-  const chatId = snowflakeId();
-  const otherUser = (await getDoc(userDoc(otherUserId))).data()!;
-
-  await performBatch(async (batch) => {
-    const chatRef = chatDoc(chatId);
-    const messagesId = snowflakeId();
-
-    batch.set(chatRef, {
-      id: chatId,
-      messagesId,
-      participants: [
-        {
-          userId: userChats.userId,
-        },
-        {
-          userId: otherUserId,
-        },
-      ],
-    });
-
-    const userChatsRef = userChatsDoc(userChats.id);
-    const otherUserChatsRef = userChatsDoc(otherUser.userChatsId);
-    const otherUserChats = (await getDoc(otherUserChatsRef)).data()!;
-
-    batch.set(userChatsRef, {
-      ...userChats,
-      chats: [
-        ...userChats.chats,
-        {
-          chatId,
-          userId: otherUserId,
-        },
-      ],
-    });
-
-    batch.set(otherUserChatsRef, {
-      ...otherUserChats,
-      chats: [
-        ...otherUserChats.chats,
-        {
-          chatId,
-          userId: userChats.userId,
-        },
-      ],
-    });
-  });
-
-  return chatId;
+  return await createChat(userChats.id, otherUserId);
 };
 
 const useUserChatId = (

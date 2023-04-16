@@ -37,7 +37,7 @@ const SidebarFriends = ({ close }: SidebarFriendsProps) => {
       <ul>
         {userChats?.chats.map((chat) => (
           <SidebarFriendItem
-            key={chat.userId}
+            key={chat.chatId}
             chatId={chat.chatId}
             friendId={chat.userId}
             close={close}

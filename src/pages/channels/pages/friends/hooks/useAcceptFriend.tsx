@@ -5,10 +5,8 @@ import performBatch from '../../../../../utils/performBatch';
 import userDoc from '../../../../../types/user/firebase/userDoc';
 import { getDoc } from 'firebase/firestore';
 import friendsDoc from '../../../../../types/friend/firebase/friendsDoc';
-import snowflakeId from '../../../../../utils/snowflake-id/snowflakeId';
 import removeFriendRequests from './utils/removeFriendRequests';
-import IChat from '../../../../../types/chat/Chat';
-import chatDoc from '../../../../../types/chat/firebase/chatDoc';
+import createChat from '../../../../../types/user-chat/utils/createChat';
 
 type AcceptFriendArgs = {
   currentUser: IUser;
@@ -53,6 +51,8 @@ const acceptFriend = async ({ currentUser, request }: AcceptFriendArgs) => {
         },
       ],
     });
+
+    await createChat(currentUser.userChatsId, otherUser.id);
   });
 };
 
