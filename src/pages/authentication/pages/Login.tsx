@@ -40,7 +40,9 @@ const Login = () => {
     const success = await sendPasswordResetEmail(email);
 
     if (success) {
-      alert('Sent password reset to email');
+      toast.success('Reset email sent!');
+    } else {
+      toast.error('Could not send reset email!');
     }
   };
 
