@@ -36,7 +36,13 @@ const SidebarProvider = ({ children }: SidebarProviderProps) => {
     <SidebarContext.Provider value={[open, close]}>
       <SidebarIsOpenContext.Provider value={isOpen}>
         <Sidebar isOpen={isOpen} close={close} />
-        <div className={`relative ${isOpen ? 'left-80' : ''}`}>{children}</div>
+
+        <div className="flex">
+          <div className="md:w-80" />
+          <div className={`relative flex-1 ${isOpen ? 'left-80' : ''}`}>
+            {children}
+          </div>
+        </div>
       </SidebarIsOpenContext.Provider>
     </SidebarContext.Provider>
   );

@@ -10,8 +10,9 @@ type ChatToolbarProps = {
 const ChatToolbar = ({ onMembersSlide, children }: ChatToolbarProps) => {
   return (
     <Toolbar
+      className="xl-w-sidebar"
       buttons={
-        <div onClick={onMembersSlide}>
+        <div className="xl:hidden" onClick={onMembersSlide}>
           <IconUsers className="h-6 w-6" />
         </div>
       }

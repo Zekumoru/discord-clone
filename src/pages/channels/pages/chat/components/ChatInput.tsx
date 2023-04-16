@@ -38,9 +38,9 @@ const ChatInput = ({
         handleSend();
         e.preventDefault();
       }}
-      className={`fixed -bottom-[1px] left-0 right-0 bg-background-300 p-4 pt-0 ${
+      className={`md-w-sidebar xl-w-sidebar fixed -bottom-[1px] right-0 w-full bg-background-300 p-4 pt-0 ${
         className ?? ''
-      } ${isSidebarOpen ? '!-right-80 !left-80' : ''}`}
+      } ${isSidebarOpen ? '!-right-80 !left-80' : ''} xl:right-80`}
     >
       <div className="flex h-10 items-center gap-1 rounded bg-background-100 px-4 py-2 shadow-sm">
         <input

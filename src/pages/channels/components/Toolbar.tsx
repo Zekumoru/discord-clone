@@ -6,16 +6,17 @@ type ToolbarProps = {
   children?: ReactNode;
   prefix?: ReactNode;
   buttons?: ReactNode;
+  className?: string;
 };
 
-const Toolbar = ({ prefix, buttons, children }: ToolbarProps) => {
+const Toolbar = ({ prefix, buttons, children, className }: ToolbarProps) => {
   const [openSidebar] = useSidebar();
 
   return (
     <>
       <div className="h-toolbar" />
-      <nav className="toolbar">
-        <div onClick={openSidebar}>
+      <nav className={`toolbar md-w-sidebar ${className ?? ''}`}>
+        <div className="md:hidden" onClick={openSidebar}>
           <IconBurger
             className="mr-1 h-6 w-6 text-silvergrey-300"
             strokeWidth={1.8}

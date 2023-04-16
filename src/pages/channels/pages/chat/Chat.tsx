@@ -74,21 +74,29 @@ const Chat = () => {
         }}
       />
 
-      <div className={`relative ${isMembersSlideOpen ? '-left-80' : ''}`}>
-        <ChatToolbar onMembersSlide={() => setIsMembersSlideOpen(true)}>
-          <span onClick={handleOpenUserPartialModal}>{friendName}</span>
-        </ChatToolbar>
+      <div className="flex">
+        <div
+          className={`relative flex-1 ${isMembersSlideOpen ? '-left-80' : ''}`}
+        >
+          <ChatToolbar onMembersSlide={() => setIsMembersSlideOpen(true)}>
+            <span onClick={handleOpenUserPartialModal}>{friendName}</span>
+          </ChatToolbar>
 
-        {isOwnChat && <ChatMessages user={friend} chatId={chatId} />}
+          {isOwnChat && <ChatMessages user={friend} chatId={chatId} />}
 
-        <ChatInput
-          className={`${isMembersSlideOpen ? '!-left-80 !right-80' : ''}`}
-          value={input}
-          onChange={setInput}
-          onEnter={handleSendMessage}
-          placeholder={`Message @${friendName}`}
-          disabled={loading || !isOwnChat}
-        />
+          <ChatInput
+            className={`${
+              isMembersSlideOpen ? '!-left-80 !right-80 !w-full' : ''
+            }`}
+            value={input}
+            onChange={setInput}
+            onEnter={handleSendMessage}
+            placeholder={`Message @${friendName}`}
+            disabled={loading || !isOwnChat}
+          />
+        </div>
+
+        <div className="xl:w-80" />
       </div>
     </div>
   );

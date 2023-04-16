@@ -13,9 +13,9 @@ const Sidebar = ({ isOpen, close }: SidebarProps) => {
     <div
       className={`fixed bottom-0 top-0 z-50 flex ${
         isOpen ? 'left-0 right-0' : '-left-full'
-      }`}
+      } md:left-0`}
     >
-      <div className="sidebar w-80 bg-background-500 shadow-material">
+      <div className="sidebar w-80 bg-background-500 shadow-material md:shadow">
         <SidebarGuildList />
 
         <SidebarFriends close={close} />

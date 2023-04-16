@@ -38,6 +38,18 @@
     @apply fixed top-0 z-30 flex h-14 w-full items-center gap-1 bg-background-500 px-4 py-2 shadow-material;
   }
 
+  @media screen(md) {
+    .md-w-sidebar {
+      width: calc(theme(width.full) - theme(width.80)) !important;
+    }
+  }
+
+  @media screen(xl) {
+    .xl-w-sidebar {
+      width: calc(theme(width.full) - 2 * theme(width.80)) !important;
+    }
+  }
+
   .text-input {
     @apply rounded bg-background-700 p-2.5 leading-none text-silvergrey-300 outline-none placeholder:text-silvergrey-400;
   }
@@ -86,7 +98,8 @@
 
   .li-rule-85::after {
     content: '';
-    @apply absolute bottom-0 right-0 w-[85%] border-b border-neutral-600;
+    width: calc(theme(width.full) - 52px);
+    @apply absolute bottom-0 right-0 border-b border-neutral-600;
   }
 
   .li-rule-85:last-of-type::after {
