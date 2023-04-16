@@ -16,7 +16,7 @@ describe('Chat/ChatMessages', () => {
     const chatId = snowflakeId();
     render(
       <NoRetryQueryClientProvider>
-        <ChatMessages chatId={chatId} />
+        <ChatMessages user={otherUser} chatId={chatId} />
       </NoRetryQueryClientProvider>
     );
 

@@ -79,7 +79,7 @@ const Chat = () => {
           <span onClick={handleOpenUserPartialModal}>{friendName}</span>
         </ChatToolbar>
 
-        {isOwnChat && <ChatMessages chatId={chatId} />}
+        {isOwnChat && <ChatMessages user={friend} chatId={chatId} />}
 
         <ChatInput
           className={`${isMembersSlideOpen ? '!-left-80 !right-80' : ''}`}
