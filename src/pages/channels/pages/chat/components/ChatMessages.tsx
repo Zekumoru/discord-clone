@@ -4,7 +4,7 @@ import extractNameAndTag from '../../../../../utils/extractNameAndTag';
 import ProfilePicture from '../../../components/ProfilePicture';
 import useMessages from '../hooks/useMessages';
 import ChatMessage from './ChatMessage';
-import { ReactNode } from 'react';
+import { Fragment, ReactNode } from 'react';
 
 type ChatMessagesProps = {
   user: IUser | undefined;
@@ -39,21 +39,21 @@ const ChatMessages = ({ user, chatId }: ChatMessagesProps) => {
           if (dateString !== currentDateString) {
             currentDateString = dateString;
             dateHeader = (
-              <div className="my-2.5 flex items-center gap-2">
+              <li className="my-2.5 flex items-center gap-2">
                 <div className="flex-1 border-b border-silvergrey-800" />
                 <div className="text-xs font-semibold text-silvergrey-400">
                   {currentDateString}
                 </div>
                 <div className="flex-1 border-b border-silvergrey-800" />
-              </div>
+              </li>
             );
           }
 
           return (
-            <>
+            <Fragment key={message.id}>
               {dateHeader}
-              <ChatMessage key={message.id} message={message} />
-            </>
+              <ChatMessage message={message} />
+            </Fragment>
           );
         })}
       </ul>
