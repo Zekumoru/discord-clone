@@ -10,9 +10,12 @@ import ChatMessages from './components/ChatMessages';
 import ChatToolbar from './components/ChatToolbar';
 import MembersSlider from './components/members-slider/MembersSlider';
 import useUserChats from '../../../../types/user-chat/hooks/useUserChats';
+import { usePartialScreenModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
+import UserPartialModal from '../../../../components/user-partial-modal/UserPartialModal';
 
 const Chat = () => {
   const { id: chatId } = useParams();
+  const [openPartialModal, closePartialModal] = usePartialScreenModal();
   const [currentUser, currentUserLoading] = useCurrentUser();
   const [chat] = useChat(chatId);
   let friendId: string | undefined;
@@ -51,6 +54,14 @@ const Chat = () => {
     setInput('');
   };
 
+  const handleOpenUserPartialModal = () => {
+    openPartialModal(
+      !!friend && (
+        <UserPartialModal userId={friend.id} close={closePartialModal} />
+      )
+    );
+  };
+
   return (
     <div>
       <MembersSlider
@@ -65,7 +76,7 @@ const Chat = () => {
 
       <div className={`relative ${isMembersSlideOpen ? '-left-80' : ''}`}>
         <ChatToolbar onMembersSlide={() => setIsMembersSlideOpen(true)}>
-          {friendName}
+          <span onClick={handleOpenUserPartialModal}>{friendName}</span>
         </ChatToolbar>
 
         {isOwnChat && <ChatMessages chatId={chatId} />}
