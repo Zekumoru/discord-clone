@@ -14,7 +14,7 @@ const ChatMessages = ({ user, chatId }: ChatMessagesProps) => {
   const [name] = extractNameAndTag(user?.username ?? '');
 
   return (
-    <div className="h-screen-toolbar mb-14 flex flex-col justify-end p-4">
+    <div className="h-screen-toolbar flex flex-col justify-end p-4">
       <div className="mb-2">
         <ProfilePicture user={user} className="mb-2 h-20 w-20" />
 
@@ -30,7 +30,7 @@ const ChatMessages = ({ user, chatId }: ChatMessagesProps) => {
         <div className="mb-2.5 border-b-2 border-background-100" />
       )}
 
-      <ul>
+      <ul className="mb-14">
         {messages.map((message) => (
           <ChatMessage key={message.id} message={message} />
         ))}
