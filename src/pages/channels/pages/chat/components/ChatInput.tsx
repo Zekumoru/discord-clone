@@ -7,6 +7,7 @@ type ChatInputProps = {
   onChange?: (value: string) => void;
   onEnter?: () => void;
   placeholder?: string;
+  disabled?: boolean;
 };
 
 const ChatInput = ({
@@ -15,6 +16,7 @@ const ChatInput = ({
   onChange,
   onEnter,
   value,
+  disabled,
 }: ChatInputProps) => {
   const isSidebarOpen = useSidebarIsOpen();
 
@@ -47,6 +49,7 @@ const ChatInput = ({
         onKeyUp={(e) => handleKeyDown(e.code)}
         type="text"
         placeholder={placeholder ?? ''}
+        disabled={disabled}
       />
 
       <button>
