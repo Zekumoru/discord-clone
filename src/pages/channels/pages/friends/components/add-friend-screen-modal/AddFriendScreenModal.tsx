@@ -7,6 +7,7 @@ import { useCurrentUser } from '../../../../../../contexts/current-user/CurrentU
 import DiscordError from '../../../../../../utils/DiscordError';
 import { toast } from 'react-toastify';
 import LoadingScreen from '../../../../../../components/LoadingScreen';
+import extractNameAndTag from '../../../../../../utils/extractNameAndTag';
 
 type AddFriendScreenModalProps = {
   close: ScreenModalMethods[1];
@@ -61,7 +62,8 @@ const AddFriendScreenModal = ({ close }: AddFriendScreenModalProps) => {
       return;
     }
 
-    addFriend(taggedUsername);
+    const [name, tagNumber] = extractNameAndTag(taggedUsername);
+    addFriend(`${name.trim()}#${tagNumber}`);
   };
 
   return (
