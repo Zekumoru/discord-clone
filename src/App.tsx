@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 
 function App() {
   return (
-    <div className="App overflow-x-hidden">
+    <div className="App">
       <CurrentUserProvider>
         <ScreenModalProvider>
           <Routes>
