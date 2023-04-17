@@ -1,7 +1,13 @@
 import IRole from '../role/Role';
 
 interface IGuild {
-  // Stub!
+  id: string;
+  name: string;
+  pictureUrl: string | null;
+  categoriesId: string;
+  membersId: string;
+  rolesId: string;
+  systemMessagesChannelId: string;
 }
 
 interface IUserGuild {
