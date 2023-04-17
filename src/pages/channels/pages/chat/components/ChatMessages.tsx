@@ -12,7 +12,7 @@ type ChatMessagesProps = {
 };
 
 const ChatMessages = ({ user, chatId }: ChatMessagesProps) => {
-  const [messages] = useMessages(chatId);
+  const [messages] = useMessages('chat', chatId);
   const [name] = extractNameAndTag(user?.username ?? '');
   let currentDateString = '';
 
