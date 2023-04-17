@@ -5,30 +5,63 @@ import useSendMessage from './hooks/useSendMessage';
 import { useIsOpenMembersSlider } from '../../../../contexts/members-slider/MembersSliderContext';
 import { toast } from 'react-toastify';
 
-type ChatProps = {
-  children: ReactNode;
+type Chat = {
+  type: 'chat';
   chatId: string | undefined;
-  placeholder?: string;
-  disabled?: boolean;
 };
 
-const Chat = ({ children, placeholder, disabled, chatId }: ChatProps) => {
+type Channel = {
+  type: 'channel';
+  channelId: string | undefined;
+};
+
+type ChatProps = {
+  children: ReactNode;
+  placeholder?: string;
+  disabled?: boolean;
+} & (Chat | Channel);
+
+const Chat = (props: ChatProps) => {
+  const { type, children, placeholder, disabled } = props;
   const [currentUser] = useCurrentUser();
   const isOpenMembersSlide = useIsOpenMembersSlider();
   const [input, setInput] = useState('');
   const { mutate: sendMessage } = useSendMessage();
 
   const handleSendMessage = () => {
-    if (!currentUser || !chatId) {
-      toast.error('Could not send message!');
+    if (!currentUser) {
+      toast.error('User is not logged in!');
       return;
     }
 
-    sendMessage({
-      userId: currentUser.id,
-      chatId: chatId,
-      content: input,
-    });
+    if (type === 'chat') {
+      const chatId = props.chatId;
+      if (!chatId) {
+        toast.error('Could not send message!');
+        return;
+      }
+
+      sendMessage({
+        type,
+        chatId,
+        userId: currentUser.id,
+        content: input,
+      });
+    } else {
+      const channelId = props.channelId;
+      if (!channelId) {
+        toast.error('Could not send message!');
+        return;
+      }
+
+      sendMessage({
+        type,
+        channelId,
+        userId: currentUser.id,
+        content: input,
+      });
+    }
+
     setInput('');
   };
 

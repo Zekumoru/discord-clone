@@ -6,6 +6,7 @@ import IChannel from '../../types/channel/Channel';
 import { useMembersSlider } from '../../contexts/members-slider/MembersSliderContext';
 import useMembers from '../../types/member/hooks/useMembers';
 import { toast } from 'react-toastify';
+import Chat from './pages/chat/Chat';
 
 const Channel = () => {
   const { guildId, channelId } = useParams();
@@ -39,11 +40,11 @@ const Channel = () => {
   };
 
   return (
-    <div>
+    <Chat type="channel" channelId={channelId}>
       <ChatToolbar prefix="#" onOpenMembersSlider={handleOpenMembersSlider}>
         {channel?.name}
       </ChatToolbar>
-    </div>
+    </Chat>
   );
 };
 

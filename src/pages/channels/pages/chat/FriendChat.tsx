@@ -48,6 +48,7 @@ const FriendChat = () => {
 
   return (
     <Chat
+      type="chat"
       chatId={chatId}
       disabled={!ownsChat || ownsChat === undefined}
       placeholder={`Message @${friendName}`}

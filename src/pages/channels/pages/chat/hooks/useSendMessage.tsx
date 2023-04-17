@@ -3,18 +3,32 @@ import performBatch from '../../../../../utils/performBatch';
 import chatMessageDoc from '../../../../../types/chat/firebase/chatMessageDoc';
 import snowflakeId from '../../../../../utils/snowflake-id/snowflakeId';
 import { serverTimestamp } from 'firebase/firestore';
+import channelMessagesDoc from '../../../../../types/channel/firebase/channelMessagesDoc';
 
-type SendMessageArgs = {
-  content: string;
+type ChatOptions = {
+  type: 'chat';
   chatId: string;
-  userId: string;
 };
 
-const sendMessage = async ({ chatId, userId, content }: SendMessageArgs) => {
+type MessageOptions = {
+  type: 'channel';
+  channelId: string;
+};
+
+type SendMessageOptions = {
+  content: string;
+  userId: string;
+} & (ChatOptions | MessageOptions);
+
+const sendMessage = async (options: SendMessageOptions) => {
   await performBatch(async (batch) => {
     // add message to chat's messages collection
+    const { userId, content } = options;
     const messageId = snowflakeId();
-    const messageRef = chatMessageDoc(chatId, messageId);
+    const messageRef =
+      options.type === 'chat'
+        ? chatMessageDoc(options.chatId, messageId)
+        : channelMessagesDoc(options.channelId, messageId);
 
     batch.set(messageRef, {
       content,
