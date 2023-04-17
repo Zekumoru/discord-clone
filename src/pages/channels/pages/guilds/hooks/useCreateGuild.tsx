@@ -7,6 +7,7 @@ import performBatch from '../../../../../utils/performBatch';
 import IUser from '../../../../../types/user/User';
 import userGuildsDoc from '../../../../../types/user/firebase/userGuildsDoc';
 import { getDoc } from 'firebase/firestore';
+import { queryClient } from '../../../../../components/QueryClientInitializer';
 
 type CreateGuildArgs = {
   name: string;
@@ -28,7 +29,7 @@ const createGuild = async ({ name, picture, owner }: CreateGuildArgs) => {
     pictureUrl = url;
   }
 
-  return await performBatch(async (batch) => {
+  const guild = await performBatch(async (batch) => {
     const { guild } = initGuildCollections(batch, {
       owner,
       guildId,
@@ -50,6 +51,10 @@ const createGuild = async ({ name, picture, owner }: CreateGuildArgs) => {
 
     return guild;
   });
+
+  await queryClient.invalidateQueries(['user-guilds']);
+
+  return guild;
 };
 
 type UseCreateGuildOptions = {

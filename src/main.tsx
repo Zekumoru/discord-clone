@@ -9,7 +9,7 @@ import QueryClientInitializer from './components/QueryClientInitializer';
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
-      <QueryClientInitializer>
+      <QueryClientInitializer devtoolsEnabled>
         <App />
       </QueryClientInitializer>
     </BrowserRouter>

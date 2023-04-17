@@ -1,6 +1,5 @@
-import { IconCog6Tooth, IconUserBars } from '../../../assets/icons';
 import SidebarFriends from './SidebarFriends';
-import SidebarGuildList from './SidebarGuildList';
+import SidebarGuilds from './SidebarGuilds';
 import SidebarProfile from './SidebarProfile';
 
 type SidebarProps = {
@@ -16,7 +15,7 @@ const Sidebar = ({ isOpen, close }: SidebarProps) => {
       } md:left-0`}
     >
       <div className="sidebar w-80 bg-background-500 shadow-material md:shadow">
-        <SidebarGuildList />
+        <SidebarGuilds />
 
         <SidebarFriends close={close} />
 
