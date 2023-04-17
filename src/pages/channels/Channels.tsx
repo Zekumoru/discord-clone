@@ -5,6 +5,8 @@ import PartialScreenModalProvider from '../../contexts/partial-screen-modal/Part
 import SidebarProvider from '../../contexts/sidebar/SidebarContext';
 import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
 import { useEffect } from 'react';
+import Channel from './Channel';
+import Guild from './pages/guilds/Guild';
 
 const Channels = () => {
   const [user, loading] = useCurrentUser();
@@ -23,6 +25,8 @@ const Channels = () => {
         <Routes>
           <Route path="/@me" element={<Friends />} />
           <Route path="/@me/:id" element={<Chat />} />
+          <Route path="/:guildId" element={<Guild />} />
+          <Route path="/:guildId/:channelId" element={<Channel />} />
         </Routes>
       </SidebarProvider>
     </PartialScreenModalProvider>

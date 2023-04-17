@@ -22,7 +22,7 @@ const Toolbar = ({ prefix, buttons, children, className }: ToolbarProps) => {
             strokeWidth={1.8}
           />
         </div>
-        <div className="mr-auto text-lg font-bold capitalize">
+        <div className="mr-auto text-lg font-bold">
           {prefix} {children}
         </div>
         <div className="text-silvergrey-300">{buttons}</div>

@@ -3,11 +3,16 @@ import { IconUsers } from '../../../../../assets/icons';
 import Toolbar from '../../../components/Toolbar';
 
 type ChatToolbarProps = {
-  children: ReactNode;
+  children?: ReactNode;
+  prefix?: ReactNode;
   onMembersSlide?: () => void;
 };
 
-const ChatToolbar = ({ onMembersSlide, children }: ChatToolbarProps) => {
+const ChatToolbar = ({
+  onMembersSlide,
+  children,
+  prefix,
+}: ChatToolbarProps) => {
   return (
     <Toolbar
       className="xl-w-sidebar"
@@ -16,7 +21,7 @@ const ChatToolbar = ({ onMembersSlide, children }: ChatToolbarProps) => {
           <IconUsers className="h-6 w-6" />
         </div>
       }
-      prefix={<span className="text-silvergrey-400">@</span>}
+      prefix={prefix}
     >
       {children}
     </Toolbar>

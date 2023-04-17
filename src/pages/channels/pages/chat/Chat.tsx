@@ -78,7 +78,10 @@ const Chat = () => {
         <div
           className={`relative flex-1 ${isMembersSlideOpen ? '-left-80' : ''}`}
         >
-          <ChatToolbar onMembersSlide={() => setIsMembersSlideOpen(true)}>
+          <ChatToolbar
+            onMembersSlide={() => setIsMembersSlideOpen(true)}
+            prefix={<span className="text-silvergrey-400">@</span>}
+          >
             <span onClick={handleOpenUserPartialModal}>{friendName}</span>
           </ChatToolbar>
 
