@@ -1,9 +1,16 @@
 import { useLocation } from 'react-router-dom';
 import { IconUserGroupOutline } from '../../../assets/icons';
+import { useScreenModal } from '../../screen-modal/ScreenModalContext';
+import CreateGuildModal from '../../../pages/channels/pages/guilds/components/modals/create-guild/CreateGuildModal';
 
 const SidebarGuildList = () => {
+  const [openModal, closeModal] = useScreenModal();
   const location = useLocation().pathname;
   const isMePage = location.includes('/channels/@me');
+
+  const openCreateGuildModal = () => {
+    openModal(<CreateGuildModal close={closeModal} />);
+  };
 
   return (
     <div className="flex flex-col items-center bg-background-700 px-2.5 py-4">
@@ -19,7 +26,10 @@ const SidebarGuildList = () => {
 
       <ul className="mb-2 flex flex-col gap-2 empty:mb-0"></ul>
 
-      <div className="grid h-11 w-11 place-items-center rounded-full bg-background-100">
+      <div
+        onClick={openCreateGuildModal}
+        className="grid h-11 w-11 place-items-center rounded-full bg-background-100"
+      >
         <span className="font-base text-3xl text-jade-100">+</span>
       </div>
     </div>

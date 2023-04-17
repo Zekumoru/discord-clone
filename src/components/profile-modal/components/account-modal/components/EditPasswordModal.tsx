@@ -64,9 +64,7 @@ const EditPasswordModal = ({ close }: EditPasswordModalProps) => {
           e.preventDefault();
         }}
       >
-        <h2 className="mb-2.5 mt-4 text-center text-xl font-bold">
-          Update your password
-        </h2>
+        <h2 className="heading-1 mb-2.5 mt-4">Update your password</h2>
         <p className="mx-4 mb-5 text-center font-medium text-silvergrey-300">
           Please enter your existing password and your new password.
         </p>

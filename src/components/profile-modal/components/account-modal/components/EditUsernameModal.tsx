@@ -9,6 +9,7 @@ import useUpdateUsername from '../hooks/useUpdateUsername';
 import LoadingScreen from '../../../../LoadingScreen';
 import DiscordError from '../../../../../utils/DiscordError';
 import { toast } from 'react-toastify';
+import CircledXButton from '../../../../CircledXButton';
 
 type EditUsernameModalProps = {
   close: ScreenModalMethods[1];
@@ -107,15 +108,7 @@ const EditUsernameModal = ({ close }: EditUsernameModalProps) => {
             onChange={(e) => handleNameChange(e.target.value)}
             required
           />
-          <div
-            onClick={handleClearName}
-            className="grid h-5 w-5 place-content-center rounded-full bg-silvergrey-300"
-          >
-            <IconXMark
-              strokeWidth={3}
-              className="h-3.5 w-3.5 text-background-700"
-            />
-          </div>
+          <CircledXButton onClick={handleClearName} />
           <div className="mx-3 h-6 border-l-2 border-background-300" />
           <input
             type="text"

@@ -5,6 +5,10 @@ type ScreenModalMethods = [
   close: (propagate?: boolean) => void
 ];
 
+type ScreenModalProps = {
+  close: ScreenModalMethods[1];
+};
+
 const ScreenModalContext = createContext<ScreenModalMethods>(
   [] as unknown as ScreenModalMethods
 );
@@ -50,4 +54,4 @@ const ScreenModalProvider = ({
 
 export default ScreenModalProvider;
 export { useScreenModal };
-export type { ScreenModalMethods };
+export type { ScreenModalMethods, ScreenModalProps };

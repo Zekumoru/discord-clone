@@ -78,6 +78,10 @@
     height: calc(100vh - 60px);
   }
 
+  .heading-1 {
+    @apply text-center text-xl font-bold;
+  }
+
   .heading-2 {
     @apply text-xs font-bold uppercase text-silvergrey-300;
   }
