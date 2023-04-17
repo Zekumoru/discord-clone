@@ -13,7 +13,7 @@ const EditUsernameListItem = () => {
       onClick={() => {
         openModal(<EditUsernameModal close={closeModal} />);
       }}
-      className="ml-auto font-medium"
+      className="ml-auto text-right font-medium"
       prefix={<span className="text-white">Username</span>}
       postfix={<IconChevronRight className="h-4 w-4" strokeWidth={3} />}
     >
