@@ -1,38 +1,35 @@
-import { IParticipant } from '../../../../../../types/chat/Chat';
+import IMember from '../../../types/member/Member';
+import {
+  useIsOpenMembersSlider,
+  useMembersSlider,
+} from '../MembersSliderContext';
 import MembersSliderHeader, {
-  MembersSliderHeaderProps,
+  MembersSliderPrefix,
 } from './MembersSliderHeader';
 import MembersSliderItem from './MembersSliderItem';
 
 type MembersSliderProps = {
-  isOpen: boolean;
-  headerProps: Omit<MembersSliderHeaderProps, 'children'> & {
-    title: string;
-  };
-  members: IParticipant[];
-  onClose?: () => void;
+  title: string;
+  titlePrefix: MembersSliderPrefix;
+  members: IMember[];
 };
 
-const MembersSlider = ({
-  isOpen,
-  onClose,
-  headerProps,
-  members,
-}: MembersSliderProps) => {
+const MembersSlider = ({ title, titlePrefix, members }: MembersSliderProps) => {
+  const [_open, close] = useMembersSlider();
+  const isOpen = useIsOpenMembersSlider();
+
   return (
     <div
       className={`fixed bottom-0 top-0 z-50 flex ${
         isOpen ? 'left-0 right-0' : '-right-full'
       } xl:right-0`}
     >
-      <div onClick={onClose} className="grow" />
+      <div onClick={close} className="grow" />
       <div className="w-80 bg-background-300 shadow-material xl:shadow-md">
-        <MembersSliderHeader prefix={headerProps.prefix}>
-          {headerProps.title}
-        </MembersSliderHeader>
+        <MembersSliderHeader prefix={titlePrefix}>{title}</MembersSliderHeader>
 
         <div className="h-screen-slide-header overflow-y-auto p-4">
-          <div className="heading-2 mb-3">Members — 2</div>
+          <div className="heading-2 mb-3">Members — {members.length}</div>
           <ul className="flex flex-col gap-2.5">
             {members.map((member) => (
               <MembersSliderItem key={member.userId} member={member} />
@@ -45,3 +42,4 @@ const MembersSlider = ({
 };
 
 export default MembersSlider;
+export type { MembersSliderProps };

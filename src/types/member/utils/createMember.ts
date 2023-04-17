@@ -1,6 +1,9 @@
 import IMember from '../Member';
 
-const createMember = (userId: string, roleId: string): IMember => {
+const createMember = (
+  userId: string,
+  roleId: string | null = null
+): IMember => {
   return {
     userId,
     roleId,

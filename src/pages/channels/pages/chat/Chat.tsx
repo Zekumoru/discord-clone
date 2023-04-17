@@ -1,49 +1,44 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import useUser from '../../../../types/user/hooks/useUser';
-import useChat from '../../../../types/chat/hooks/useChat';
 import { useCurrentUser } from '../../../../contexts/current-user/CurrentUserContext';
 import ChatInput from './components/ChatInput';
-import removeTagFromName from '../../../../utils/removeTagFromName';
 import { useEffect, useState } from 'react';
 import useSendMessage from './hooks/useSendMessage';
 import ChatMessages from './components/ChatMessages';
 import ChatToolbar from './components/ChatToolbar';
-import MembersSlider from './components/members-slider/MembersSlider';
 import useUserChats from '../../../../types/user-chat/hooks/useUserChats';
 import { usePartialScreenModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import UserPartialModal from '../../../../components/user-partial-modal/UserPartialModal';
+import MembersSliderProvider, {
+  useIsOpenMembersSlider,
+  useMembersSlider,
+} from '../../../../contexts/members-slider/MembersSliderContext';
+import extractNameAndTag from '../../../../utils/extractNameAndTag';
+import useOwnsChat from './hooks/useOwnsChat';
+import useFriend from './hooks/useFriend';
+import useChat from '../../../../types/chat/hooks/useChat';
 
-const Chat = () => {
+type ChatProps = {};
+
+const Chat = ({}: ChatProps) => {
   const { id: chatId } = useParams();
+  const [currentUser] = useCurrentUser();
   const [openPartialModal, closePartialModal] = usePartialScreenModal();
-  const [currentUser, currentUserLoading] = useCurrentUser();
+  const [openMembersSlider] = useMembersSlider();
+  const isOpenMembersSlide = useIsOpenMembersSlider();
+  const [ownsChat, loading] = useOwnsChat(chatId);
   const [chat] = useChat(chatId);
-  let friendId: string | undefined;
-  if (chat && currentUser) {
-    friendId = chat.participants.filter(
-      (participant) => participant.userId !== currentUser.id
-    )[0].userId;
-  }
-  const [friend, friendLoading] = useUser(friendId);
-  const friendName = removeTagFromName(friend?.username ?? '');
+  const [friend] = useFriend(currentUser, chatId);
+  const [friendName] = extractNameAndTag(friend?.username ?? '');
   const [input, setInput] = useState('');
   const { mutate: sendMessage } = useSendMessage();
-  const [isMembersSlideOpen, setIsMembersSlideOpen] = useState(false);
-  const [userChats, userChatsLoading] = useUserChats(currentUser?.userChatsId);
-  const [isOwnChat, setIsOwnChat] = useState(false);
   const navigate = useNavigate();
-  const loading = currentUserLoading || friendLoading || userChatsLoading;
 
   useEffect(() => {
-    if (!userChats) return;
+    if (ownsChat === undefined) return;
+    if (ownsChat) return;
 
-    const ownChat = userChats.chats.some((chat) => chat.chatId === chatId);
-    if (!ownChat) {
-      navigate('/channels/@me');
-    } else {
-      setIsOwnChat(true);
-    }
-  }, [userChats]);
+    navigate('/channels/@me');
+  }, [ownsChat]);
 
   const handleSendMessage = () => {
     sendMessage({
@@ -52,6 +47,14 @@ const Chat = () => {
       content: input,
     });
     setInput('');
+  };
+
+  const handleOpenMembersSlider = () => {
+    openMembersSlider({
+      titlePrefix: '@',
+      title: friendName,
+      members: chat?.participants ?? [],
+    });
   };
 
   const handleOpenUserPartialModal = () => {
@@ -63,44 +66,32 @@ const Chat = () => {
   };
 
   return (
-    <div>
-      <MembersSlider
-        isOpen={isMembersSlideOpen}
-        members={chat?.participants ?? []}
-        onClose={() => setIsMembersSlideOpen(false)}
-        headerProps={{
-          title: removeTagFromName(friend?.username ?? ''),
-          prefix: '@',
-        }}
-      />
-
-      <div className="flex">
-        <div
-          className={`relative flex-1 ${isMembersSlideOpen ? '-left-80' : ''}`}
+    <div className="flex">
+      <div
+        className={`relative flex-1 ${isOpenMembersSlide ? '-left-80' : ''}`}
+      >
+        <ChatToolbar
+          onOpenMembersSlider={handleOpenMembersSlider}
+          prefix={<span className="text-silvergrey-400">@</span>}
         >
-          <ChatToolbar
-            onMembersSlide={() => setIsMembersSlideOpen(true)}
-            prefix={<span className="text-silvergrey-400">@</span>}
-          >
-            <span onClick={handleOpenUserPartialModal}>{friendName}</span>
-          </ChatToolbar>
+          <span onClick={handleOpenUserPartialModal}>{friendName}</span>
+        </ChatToolbar>
 
-          {isOwnChat && <ChatMessages user={friend} chatId={chatId} />}
+        {ownsChat && <ChatMessages user={friend} chatId={chatId} />}
 
-          <ChatInput
-            className={`${
-              isMembersSlideOpen ? '!-left-80 !right-80 !w-full' : ''
-            }`}
-            value={input}
-            onChange={setInput}
-            onEnter={handleSendMessage}
-            placeholder={`Message @${friendName}`}
-            disabled={loading || !isOwnChat}
-          />
-        </div>
-
-        <div className="xl:w-80" />
+        <ChatInput
+          className={`${
+            isOpenMembersSlide ? '!-left-80 !right-80 !w-full' : ''
+          }`}
+          value={input}
+          onChange={setInput}
+          onEnter={handleSendMessage}
+          placeholder={`Message @${friendName}`}
+          disabled={loading || !ownsChat}
+        />
       </div>
+
+      <div className="xl:w-80" />
     </div>
   );
 };

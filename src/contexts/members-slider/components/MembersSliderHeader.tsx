@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
 
+type MembersSliderPrefix = '@' | '#' | undefined;
 type MembersSliderHeaderProps = {
-  prefix?: string;
+  prefix?: MembersSliderPrefix;
   children: ReactNode;
 };
 
@@ -18,4 +19,4 @@ const MembersSliderHeader = ({
 };
 
 export default MembersSliderHeader;
-export type { MembersSliderHeaderProps };
+export type { MembersSliderPrefix };

@@ -7,6 +7,7 @@ import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
 import { useEffect } from 'react';
 import Channel from './Channel';
 import Guild from './pages/guilds/Guild';
+import MembersSliderProvider from '../../contexts/members-slider/MembersSliderContext';
 
 const Channels = () => {
   const [user, loading] = useCurrentUser();
@@ -22,12 +23,14 @@ const Channels = () => {
   return (
     <PartialScreenModalProvider>
       <SidebarProvider>
-        <Routes>
-          <Route path="/@me" element={<Friends />} />
-          <Route path="/@me/:id" element={<Chat />} />
-          <Route path="/:guildId" element={<Guild />} />
-          <Route path="/:guildId/:channelId" element={<Channel />} />
-        </Routes>
+        <MembersSliderProvider>
+          <Routes>
+            <Route path="/@me" element={<Friends />} />
+            <Route path="/@me/:id" element={<Chat />} />
+            <Route path="/:guildId" element={<Guild />} />
+            <Route path="/:guildId/:channelId" element={<Channel />} />
+          </Routes>
+        </MembersSliderProvider>
       </SidebarProvider>
     </PartialScreenModalProvider>
   );
