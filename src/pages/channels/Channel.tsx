@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import Chat from './pages/chat/Chat';
 import usePartOfGuild from './pages/guilds/hooks/usePartOfGuild';
 import { useEffect } from 'react';
+import ChannelMessages from './components/ChannelMessages';
 
 const Channel = () => {
   const { guildId, channelId } = useParams();
@@ -51,10 +52,17 @@ const Channel = () => {
   };
 
   return (
-    <Chat type="channel" channelId={channelId}>
+    <Chat
+      type="channel"
+      channelId={channelId}
+      disabled={!partOfGuild || partOfGuild === undefined}
+      placeholder={`Message #${channel?.name}`}
+    >
       <ChatToolbar prefix="#" onOpenMembersSlider={handleOpenMembersSlider}>
         {channel?.name}
       </ChatToolbar>
+
+      {partOfGuild && <ChannelMessages channel={channel} />}
     </Chat>
   );
 };
