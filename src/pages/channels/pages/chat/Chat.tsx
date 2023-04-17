@@ -5,10 +5,9 @@ import { useEffect, useState } from 'react';
 import useSendMessage from './hooks/useSendMessage';
 import ChatMessages from './components/ChatMessages';
 import ChatToolbar from './components/ChatToolbar';
-import useUserChats from '../../../../types/user-chat/hooks/useUserChats';
 import { usePartialScreenModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import UserPartialModal from '../../../../components/user-partial-modal/UserPartialModal';
-import MembersSliderProvider, {
+import {
   useIsOpenMembersSlider,
   useMembersSlider,
 } from '../../../../contexts/members-slider/MembersSliderContext';
@@ -70,10 +69,7 @@ const Chat = ({}: ChatProps) => {
       <div
         className={`relative flex-1 ${isOpenMembersSlide ? '-left-80' : ''}`}
       >
-        <ChatToolbar
-          onOpenMembersSlider={handleOpenMembersSlider}
-          prefix={<span className="text-silvergrey-400">@</span>}
-        >
+        <ChatToolbar onOpenMembersSlider={handleOpenMembersSlider} prefix="@">
           <span onClick={handleOpenUserPartialModal}>{friendName}</span>
         </ChatToolbar>
 

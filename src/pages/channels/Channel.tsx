@@ -41,14 +41,7 @@ const Channel = () => {
 
   return (
     <div>
-      <ChatToolbar
-        prefix={
-          <span className="relative top-[1px] ml-2 mr-1 text-xl font-medium text-silvergrey-400">
-            #
-          </span>
-        }
-        onOpenMembersSlider={handleOpenMembersSlider}
-      >
+      <ChatToolbar prefix="#" onOpenMembersSlider={handleOpenMembersSlider}>
         {channel?.name}
       </ChatToolbar>
     </div>
