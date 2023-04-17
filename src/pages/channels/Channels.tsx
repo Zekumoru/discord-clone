@@ -1,6 +1,5 @@
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import Friends from './pages/friends/Friends';
-import Chat from './pages/chat/Chat';
 import PartialScreenModalProvider from '../../contexts/partial-screen-modal/PartialScreenModalContext';
 import SidebarProvider from '../../contexts/sidebar/SidebarContext';
 import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
@@ -8,6 +7,7 @@ import { useEffect } from 'react';
 import Channel from './Channel';
 import Guild from './pages/guilds/Guild';
 import MembersSliderProvider from '../../contexts/members-slider/MembersSliderContext';
+import FriendChat from './pages/chat/FriendChat';
 
 const Channels = () => {
   const [user, loading] = useCurrentUser();
@@ -26,7 +26,7 @@ const Channels = () => {
         <MembersSliderProvider>
           <Routes>
             <Route path="/@me" element={<Friends />} />
-            <Route path="/@me/:id" element={<Chat />} />
+            <Route path="/@me/:id" element={<FriendChat />} />
             <Route path="/:guildId" element={<Guild />} />
             <Route path="/:guildId/:channelId" element={<Channel />} />
           </Routes>

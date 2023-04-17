@@ -1,67 +1,35 @@
-import { useNavigate, useParams } from 'react-router-dom';
 import { useCurrentUser } from '../../../../contexts/current-user/CurrentUserContext';
 import ChatInput from './components/ChatInput';
-import { useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import useSendMessage from './hooks/useSendMessage';
-import ChatMessages from './components/ChatMessages';
-import ChatToolbar from './components/ChatToolbar';
-import { usePartialScreenModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
-import UserPartialModal from '../../../../components/user-partial-modal/UserPartialModal';
-import {
-  useIsOpenMembersSlider,
-  useMembersSlider,
-} from '../../../../contexts/members-slider/MembersSliderContext';
-import extractNameAndTag from '../../../../utils/extractNameAndTag';
-import useOwnsChat from './hooks/useOwnsChat';
-import useFriend from './hooks/useFriend';
-import useChat from '../../../../types/chat/hooks/useChat';
+import { useIsOpenMembersSlider } from '../../../../contexts/members-slider/MembersSliderContext';
+import { toast } from 'react-toastify';
 
-type ChatProps = {};
+type ChatProps = {
+  children: ReactNode;
+  chatId: string | undefined;
+  placeholder?: string;
+  disabled?: boolean;
+};
 
-const Chat = ({}: ChatProps) => {
-  const { id: chatId } = useParams();
+const Chat = ({ children, placeholder, disabled, chatId }: ChatProps) => {
   const [currentUser] = useCurrentUser();
-  const [openPartialModal, closePartialModal] = usePartialScreenModal();
-  const [openMembersSlider] = useMembersSlider();
   const isOpenMembersSlide = useIsOpenMembersSlider();
-  const [ownsChat, loading] = useOwnsChat(chatId);
-  const [chat] = useChat(chatId);
-  const [friend] = useFriend(currentUser, chatId);
-  const [friendName] = extractNameAndTag(friend?.username ?? '');
   const [input, setInput] = useState('');
   const { mutate: sendMessage } = useSendMessage();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (ownsChat === undefined) return;
-    if (ownsChat) return;
-
-    navigate('/channels/@me');
-  }, [ownsChat]);
 
   const handleSendMessage = () => {
+    if (!currentUser || !chatId) {
+      toast.error('Could not send message!');
+      return;
+    }
+
     sendMessage({
-      userId: currentUser!.id,
-      chatId: chatId!,
+      userId: currentUser.id,
+      chatId: chatId,
       content: input,
     });
     setInput('');
-  };
-
-  const handleOpenMembersSlider = () => {
-    openMembersSlider({
-      titlePrefix: '@',
-      title: friendName,
-      members: chat?.participants ?? [],
-    });
-  };
-
-  const handleOpenUserPartialModal = () => {
-    openPartialModal(
-      !!friend && (
-        <UserPartialModal userId={friend.id} close={closePartialModal} />
-      )
-    );
   };
 
   return (
@@ -69,11 +37,7 @@ const Chat = ({}: ChatProps) => {
       <div
         className={`relative flex-1 ${isOpenMembersSlide ? '-left-80' : ''}`}
       >
-        <ChatToolbar onOpenMembersSlider={handleOpenMembersSlider} prefix="@">
-          <span onClick={handleOpenUserPartialModal}>{friendName}</span>
-        </ChatToolbar>
-
-        {ownsChat && <ChatMessages user={friend} chatId={chatId} />}
+        {children}
 
         <ChatInput
           className={`${
@@ -82,8 +46,8 @@ const Chat = ({}: ChatProps) => {
           value={input}
           onChange={setInput}
           onEnter={handleSendMessage}
-          placeholder={`Message @${friendName}`}
-          disabled={loading || !ownsChat}
+          placeholder={placeholder}
+          disabled={disabled}
         />
       </div>
 

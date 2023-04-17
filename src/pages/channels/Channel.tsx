@@ -1,5 +1,4 @@
 import { useParams } from 'react-router-dom';
-import Toolbar from './components/Toolbar';
 import ChatToolbar from './pages/chat/components/ChatToolbar';
 import useGuild from '../../types/guild/hooks/useGuild';
 import useCategories from '../../types/category/hooks/useCategories';
