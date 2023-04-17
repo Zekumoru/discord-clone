@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ChatToolbar from './pages/chat/components/ChatToolbar';
 import useGuild from '../../types/guild/hooks/useGuild';
 import useCategories from '../../types/category/hooks/useCategories';
@@ -7,6 +7,8 @@ import { useMembersSlider } from '../../contexts/members-slider/MembersSliderCon
 import useMembers from '../../types/member/hooks/useMembers';
 import { toast } from 'react-toastify';
 import Chat from './pages/chat/Chat';
+import usePartOfGuild from './pages/guilds/hooks/usePartOfGuild';
+import { useEffect } from 'react';
 
 const Channel = () => {
   const { guildId, channelId } = useParams();
@@ -14,6 +16,8 @@ const Channel = () => {
   const [categories] = useCategories(guild?.categoriesId);
   const [members] = useMembers(guild?.membersId);
   const [openMembersSlider] = useMembersSlider();
+  const [partOfGuild] = usePartOfGuild(guild?.id);
+  const navigate = useNavigate();
   let channel: IChannel | undefined;
 
   if (categories) {
@@ -25,6 +29,13 @@ const Channel = () => {
       });
     });
   }
+
+  useEffect(() => {
+    if (partOfGuild === undefined) return;
+    if (partOfGuild) return;
+
+    navigate('/channels/@me');
+  }, [partOfGuild]);
 
   const handleOpenMembersSlider = () => {
     if (!channel || !members) {
