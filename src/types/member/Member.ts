@@ -1,6 +1,6 @@
 interface IMember {
   userId: string;
-  role: string;
+  roleId: string;
 }
 
 interface IMembers {

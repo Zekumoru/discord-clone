@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { IconUserGroupOutline } from '../../../assets/icons';
 import { useScreenModal } from '../../screen-modal/ScreenModalContext';
-import CreateGuildModal from '../../../pages/channels/pages/guilds/components/modals/create-guild/CreateGuildModal';
+import CreateGuildModal from '../../../pages/channels/pages/guilds/components/modals/CreateGuildModal';
 
 const SidebarGuildList = () => {
   const [openModal, closeModal] = useScreenModal();

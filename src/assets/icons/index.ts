@@ -16,6 +16,7 @@ import IconChevronRight from './IconChevronRight';
 import IconChevronLeft from './IconChevronLeft';
 import IconPaperAirplane from './IconPaperAirplane';
 import IconCamera from './IconCamera';
+import IconLink from './IconLink';
 
 export {
   IconBurger,
@@ -36,4 +37,5 @@ export {
   IconChevronLeft,
   IconPaperAirplane,
   IconCamera,
+  IconLink,
 };

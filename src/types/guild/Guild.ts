@@ -11,8 +11,7 @@ interface IGuild {
 }
 
 interface IUserGuild {
-  id: string;
-  role: IRole;
+  guildId: string;
 }
 
 interface IUserGuilds {

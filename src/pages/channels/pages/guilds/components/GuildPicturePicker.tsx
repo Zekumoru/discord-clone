@@ -1,6 +1,6 @@
 import { useId, useState } from 'react';
 import { toast } from 'react-toastify';
-import { IconCamera } from '../../../../../../../assets/icons';
+import { IconCamera } from '../../../../../assets/icons';
 
 type GuildPicturePickerProps = {
   onPick: (image: File) => void;
