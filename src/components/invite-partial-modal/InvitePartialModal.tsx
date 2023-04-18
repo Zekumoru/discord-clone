@@ -2,7 +2,10 @@ import { IconLink, IconMagnifyingGlass, IconXMark } from '../../assets/icons';
 import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
 import { PartialScreenModalProps } from '../../contexts/partial-screen-modal/PartialScreenModalContext';
 import ProfilePicture from '../../pages/channels/components/ProfilePicture';
+import useFriends from '../../pages/channels/pages/friends/hooks/useFriends';
 import IGuild from '../../types/guild/Guild';
+import InviteUserItem from './InviteUserItem';
+import useInvitableFriends from './hooks/useInvitableFriends';
 
 type InvitePartialModalProps = {
   guild: IGuild | undefined;
@@ -10,6 +13,7 @@ type InvitePartialModalProps = {
 
 const InvitePartialModal = ({ guild, close }: InvitePartialModalProps) => {
   const [currentUser] = useCurrentUser();
+  const [invitableFriends] = useInvitableFriends(currentUser, guild);
 
   return (
     <div className="min-h-[85vh] w-full overflow-hidden rounded-t-lg bg-background-500">
@@ -47,22 +51,17 @@ const InvitePartialModal = ({ guild, close }: InvitePartialModalProps) => {
           />
         </div>
 
-        <ul className="mx-4">
-          <li className="flex items-center gap-4 font-medium">
-            <ProfilePicture user={currentUser} className="h-9 w-9 shrink-0" />
-
-            <div className="flex min-w-0 flex-1 items-center gap-2">
-              <div className="truncate">
-                <span className="text-white">Zekumoru Dragonhart</span>
-                <span>#0914</span>
-              </div>
-
-              <button className="ml-auto rounded-sm bg-background-100 px-4 py-1.5 text-sm font-semibold text-white">
-                Invite
-              </button>
-            </div>
-          </li>
-        </ul>
+        {!invitableFriends || invitableFriends.length === 0 ? (
+          <div className="mx-4 text-center">
+            You currently have no friends to invite.
+          </div>
+        ) : (
+          <ul className="mx-4">
+            {invitableFriends.map((friend) => (
+              <InviteUserItem key={friend.userId} userId={friend.userId} />
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
