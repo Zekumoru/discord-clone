@@ -4,6 +4,8 @@ import IGuild from '../../../types/guild/Guild';
 import { getDoc } from 'firebase/firestore';
 import friendsDoc from '../../../types/friend/firebase/friendsDoc';
 import membersDoc from '../../../types/member/firebase/membersDoc';
+import { queryClient } from '../../QueryClientInitializer';
+import userDoc from '../../../types/user/firebase/userDoc';
 
 const getInvitableFriends = async (user: IUser, guild: IGuild) => {
   const { friendsList: friends } = (
@@ -14,8 +16,16 @@ const getInvitableFriends = async (user: IUser, guild: IGuild) => {
 
   members.forEach((member) => membersMap.set(member.userId, member.userId));
 
-  return friends.filter(
-    ({ userId: friendId }) => friendId !== membersMap.get(friendId)
+  return await Promise.all(
+    friends
+      .filter(({ userId: friendId }) => friendId !== membersMap.get(friendId))
+      .map(async ({ userId: friendId }) => {
+        const friend = queryClient.getQueryData<IUser>(['user', friendId]);
+        if (friend) return friend;
+
+        const friendRef = userDoc(friendId);
+        return (await getDoc(friendRef)).data()!;
+      })
   );
 };
 

@@ -1,17 +1,18 @@
 import ProfilePicture from '../../pages/channels/components/ProfilePicture';
-import useUser from '../../types/user/hooks/useUser';
+import IUser from '../../types/user/User';
 import extractNameAndTag from '../../utils/extractNameAndTag';
 
 type InviteUserItemProps = {
-  userId: string | undefined;
+  user: IUser | undefined;
 };
 
-const InviteUserItem = ({ userId }: InviteUserItemProps) => {
-  const [user] = useUser(userId);
+const InviteUserItem = ({ user }: InviteUserItemProps) => {
   const [name, tag] = extractNameAndTag(user?.username ?? '');
 
   return (
-    <li className="mb-2.5 flex items-center gap-4 font-medium last-of-type:mb-0">
+    <li
+      className={`mb-2.5 flex items-center gap-4 font-medium last-of-type:mb-0`}
+    >
       <ProfilePicture user={user} className="h-9 w-9 shrink-0" />
 
       <div className="flex min-w-0 flex-1 items-center gap-2">
