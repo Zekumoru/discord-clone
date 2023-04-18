@@ -4,6 +4,8 @@ import SidebarCategory from './SidebarCategory';
 import { useMemo } from 'react';
 import useGuild from '../../../types/guild/hooks/useGuild';
 import useCategories from '../../../types/category/hooks/useCategories';
+import { usePartialScreenModal } from '../../partial-screen-modal/PartialScreenModalContext';
+import InvitePartialModal from '../../../components/invite-partial-modal/InvitePartialModal';
 
 const SidebarGuild = () => {
   const location = useLocation().pathname;
@@ -13,6 +15,7 @@ const SidebarGuild = () => {
   );
   const [guild] = useGuild(guildId);
   const [categories] = useCategories(guild?.categoriesId);
+  const [openPartialModal, closePartialModal] = usePartialScreenModal();
 
   return (
     <div className="overflow-x-hidden py-4">
@@ -24,7 +27,14 @@ const SidebarGuild = () => {
           </button>
         </div>
 
-        <button className="flex w-full items-center justify-center gap-1.5 rounded bg-background-100 px-4 py-1 font-semibold">
+        <button
+          onClick={() =>
+            openPartialModal(
+              <InvitePartialModal guild={guild} close={closePartialModal} />
+            )
+          }
+          className="flex w-full items-center justify-center gap-1.5 rounded bg-background-100 px-4 py-1 font-semibold"
+        >
           <IconUserPlus className="h-4 w-4" />
           Invite
         </button>

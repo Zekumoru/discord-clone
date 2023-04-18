@@ -5,6 +5,10 @@ type PartialScreenModalMethods = [
   close: () => void
 ];
 
+type PartialScreenModalProps = {
+  close: PartialScreenModalMethods[1];
+};
+
 const PartialScreenModalContext = createContext<PartialScreenModalMethods>(
   [] as unknown as PartialScreenModalMethods
 );
@@ -48,4 +52,4 @@ const PartialScreenModalProvider = ({
 
 export default PartialScreenModalProvider;
 export { usePartialScreenModal };
-export type { PartialScreenModalMethods };
+export type { PartialScreenModalMethods, PartialScreenModalProps };
