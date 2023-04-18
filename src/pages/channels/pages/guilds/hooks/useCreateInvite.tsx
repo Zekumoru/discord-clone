@@ -3,12 +3,18 @@ import inviteDoc from '../../../../../types/invite/firebase/inviteDoc';
 import generateInviteId from '../../../../../utils/generateInviteId';
 import { setDoc } from 'firebase/firestore';
 
-const createInvite = async (guildId: string) => {
+type CreateInviteOptions = {
+  guildId: string;
+  inviterId: string;
+};
+
+const createInvite = async ({ guildId, inviterId }: CreateInviteOptions) => {
   const inviteId = generateInviteId();
   const inviteRef = inviteDoc(inviteId);
 
   await setDoc(inviteRef, {
     guildId,
+    inviterId,
     id: inviteId,
     expiration: '',
   });

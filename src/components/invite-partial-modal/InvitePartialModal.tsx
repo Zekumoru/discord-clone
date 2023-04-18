@@ -6,6 +6,7 @@ import IGuild from '../../types/guild/Guild';
 import InviteUserItem from './InviteUserItem';
 import useInvitableFriends from './hooks/useInvitableFriends';
 import IUser from '../../types/user/User';
+import useInviteFromGuildId from '../../types/invite/hooks/useInviteFromGuildId';
 
 type InvitePartialModalProps = {
   guild: IGuild | undefined;
@@ -16,6 +17,15 @@ const InvitePartialModal = ({ guild, close }: InvitePartialModalProps) => {
   const [currentUser] = useCurrentUser();
   const [invitableFriends] = useInvitableFriends(currentUser, guild);
   const [filteredFriends, setFilteredFriends] = useState<IUser[]>([]);
+  const [invite] = useInviteFromGuildId(guild?.id);
+
+  const handleCopyLink = () => {
+    if (!invite) return;
+
+    navigator.clipboard.writeText(
+      `https://${import.meta.env.VITE_APP_URL}/${invite.id}`
+    );
+  };
 
   const handleFilter = (filter: string) => {
     if (!invitableFriends) return;
@@ -44,7 +54,10 @@ const InvitePartialModal = ({ guild, close }: InvitePartialModalProps) => {
 
       <div className="text-silvergrey-300">
         <div className="m-4">
-          <button className="flex flex-col items-center gap-1.5 font-medium">
+          <button
+            onClick={handleCopyLink}
+            className="flex flex-col items-center gap-1.5 font-medium"
+          >
             <div className="grid h-14 w-14 place-content-center rounded-full bg-background-100">
               <IconLink className="h-8 w-8 text-white" strokeWidth={2} />
             </div>

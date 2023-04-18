@@ -28,7 +28,11 @@ const CreateGuildModal = ({ close }: ScreenModalProps) => {
     });
   const { mutate: createGuild, isLoading: createGuildLoading } = useCreateGuild(
     {
-      onSuccess: (guild) => createInvite(guild.id),
+      onSuccess: ({ guild, owner }) =>
+        createInvite({
+          guildId: guild.id,
+          inviterId: owner.id,
+        }),
     }
   );
 

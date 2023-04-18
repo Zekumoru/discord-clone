@@ -54,11 +54,11 @@ const createGuild = async ({ name, picture, owner }: CreateGuildArgs) => {
 
   await queryClient.invalidateQueries(['user-guilds']);
 
-  return guild;
+  return { guild, owner };
 };
 
 type UseCreateGuildOptions = {
-  onSuccess?: (guild: IGuild) => void;
+  onSuccess?: (data: Awaited<ReturnType<typeof createGuild>>) => void;
 };
 
 const useCreateGuild = ({ onSuccess }: UseCreateGuildOptions = {}) => {
