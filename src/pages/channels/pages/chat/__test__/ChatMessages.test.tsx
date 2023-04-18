@@ -1,5 +1,5 @@
 import '@test-utils/initialize';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import ChatMessages from '../components/ChatMessages';
 import NoRetryQueryClientProvider from '../../../../../tests/NoRetryQueryClientProvider';
 import { sendMessage } from '../hooks/useSendMessage';
@@ -21,11 +21,13 @@ describe('Chat/ChatMessages', () => {
     );
 
     await sendMessage({
+      type: 'chat',
       chatId: chatId,
       userId: currentUser.id,
       content: 'Hello world!',
     });
     await sendMessage({
+      type: 'chat',
       chatId: chatId,
       userId: otherUser.id,
       content: 'Hey! How are you doing!',

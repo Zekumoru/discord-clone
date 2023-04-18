@@ -1,12 +1,12 @@
 import '@test-utils/initialize';
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NoRetryQueryClientProvider from '../../../../../tests/NoRetryQueryClientProvider';
-import Chat from '../Chat';
 import { Params, useParams } from 'react-router-dom';
 import CurrentUserProvider from '../../../../../contexts/current-user/CurrentUserContext';
 import { setupBeforeAll, setupTest } from '@test-utils';
 import { nanoid } from 'nanoid';
+import FriendChat from '../FriendChat';
 
 vi.mock('react-firebase-hooks/auth');
 vi.mock('react-router-dom');
@@ -29,7 +29,7 @@ describe('Chat', () => {
     render(
       <NoRetryQueryClientProvider>
         <CurrentUserProvider>
-          <Chat />
+          <FriendChat />
         </CurrentUserProvider>
       </NoRetryQueryClientProvider>
     );
@@ -53,7 +53,8 @@ describe('Chat', () => {
     render(
       <NoRetryQueryClientProvider>
         <CurrentUserProvider>
-          <Chat />
+          {' '}
+          <FriendChat />
         </CurrentUserProvider>
       </NoRetryQueryClientProvider>
     );

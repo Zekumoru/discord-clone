@@ -1,9 +1,11 @@
 import '@test-utils/initialize';
 import { render, screen, waitFor } from '@testing-library/react';
-import MembersSlider from '../components/members-slider/MembersSlider';
 import NoRetryQueryClientProvider from '../../../../../tests/NoRetryQueryClientProvider';
 import { setupBeforeAll, setupTest } from '@test-utils';
 import removeTagFromName from '../../../../../utils/removeTagFromName';
+import MembersSliderProvider from '../../../../../contexts/members-slider/MembersSliderContext';
+import MembersSlider from '../../../../../contexts/members-slider/components/MembersSlider';
+import createMember from '../../../../../types/member/utils/createMember';
 
 beforeAll(setupBeforeAll);
 
@@ -11,11 +13,9 @@ describe('MembersSlider', () => {
   it("should show the title with the other user's name", async () => {
     const [cleanup] = await setupTest();
     render(
-      <MembersSlider
-        isOpen={true}
-        headerProps={{ title: 'User', prefix: '@' }}
-        members={[]}
-      />
+      <MembersSliderProvider>
+        <MembersSlider title="User" titlePrefix="@" members={[]} />
+      </MembersSliderProvider>
     );
 
     expect(screen.getByText('@')).toBeInTheDocument();
@@ -29,11 +29,13 @@ describe('MembersSlider', () => {
     });
     render(
       <NoRetryQueryClientProvider>
-        <MembersSlider
-          isOpen={true}
-          headerProps={{ title: otherUser.username, prefix: '@' }}
-          members={[{ userId: currentUser.id }, { userId: otherUser.id }]}
-        />
+        <MembersSliderProvider>
+          <MembersSlider
+            title={otherUser.username}
+            titlePrefix="@"
+            members={[createMember(currentUser.id), createMember(otherUser.id)]}
+          />
+        </MembersSliderProvider>
       </NoRetryQueryClientProvider>
     );
 
