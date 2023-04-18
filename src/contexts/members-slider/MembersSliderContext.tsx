@@ -2,11 +2,14 @@ import { ReactNode, createContext, useContext, useState } from 'react';
 import MembersSlider, { MembersSliderProps } from './components/MembersSlider';
 import { MembersSliderPrefix } from './components/MembersSliderHeader';
 import IMember from '../../types/member/Member';
+import IGuild from '../../types/guild/Guild';
+import GuildProvider from '../../types/guild/contexts/GuildContext';
 
 const noop = () => {};
 
 type MembersSliderOpenOptions = {
   title: string;
+  guild?: IGuild;
   titlePrefix: MembersSliderPrefix;
   members: IMember[];
 };
@@ -37,12 +40,19 @@ const MembersSliderProvider = ({ children }: MembersSliderProviderProps) => {
   const [title, setTitle] = useState('');
   const [titlePrefix, setTitlePrefix] = useState<MembersSliderPrefix>();
   const [members, setMembers] = useState<IMember[]>([]);
+  const [guild, setGuild] = useState<IGuild>();
 
-  const open = ({ title, titlePrefix, members }: MembersSliderOpenOptions) => {
+  const open = ({
+    title,
+    titlePrefix,
+    members,
+    guild,
+  }: MembersSliderOpenOptions) => {
     setIsOpen(true);
     setTitle(title);
     setTitlePrefix(titlePrefix);
     setMembers(members);
+    setGuild(guild);
   };
 
   const close = () => {
@@ -50,19 +60,22 @@ const MembersSliderProvider = ({ children }: MembersSliderProviderProps) => {
     setTitle('');
     setTitlePrefix(undefined);
     setMembers([]);
+    setGuild(undefined);
   };
 
   return (
     <MembersSliderContext.Provider value={[open, close]}>
       <IsOpenMembersSliderContext.Provider value={isOpen}>
-        {isOpen && (
-          <MembersSlider
-            title={title}
-            titlePrefix={titlePrefix}
-            members={members}
-          />
-        )}
-        {children}
+        <GuildProvider guild={guild}>
+          {isOpen && (
+            <MembersSlider
+              title={title}
+              titlePrefix={titlePrefix}
+              members={members}
+            />
+          )}
+          {children}
+        </GuildProvider>
       </IsOpenMembersSliderContext.Provider>
     </MembersSliderContext.Provider>
   );

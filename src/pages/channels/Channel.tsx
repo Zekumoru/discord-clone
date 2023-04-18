@@ -48,6 +48,7 @@ const Channel = () => {
       title: channel.name,
       titlePrefix: '#',
       members: members.members,
+      guild: guild,
     });
   };
 
