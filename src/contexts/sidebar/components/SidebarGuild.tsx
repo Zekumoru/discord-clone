@@ -31,9 +31,14 @@ const SidebarGuild = () => {
       </header>
 
       <ul>
-        {categories &&
+        {guild &&
+          categories &&
           categories.categories.map((category) => (
-            <SidebarCategory key={category.name} category={category} />
+            <SidebarCategory
+              key={`${category.name}-${guild.id}`}
+              guild={guild}
+              category={category}
+            />
           ))}
       </ul>
     </div>

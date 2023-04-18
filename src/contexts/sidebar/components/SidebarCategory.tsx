@@ -6,13 +6,19 @@ import {
 } from '../../../assets/icons';
 import ICategory from '../../../types/category/Category';
 import SidebarChannel from './SidebarChannel';
+import useLocalStorage from '../../../hooks/useLocalStorage';
+import IGuild from '../../../types/guild/Guild';
 
 type SidebarCategoryProps = {
+  guild: IGuild;
   category: ICategory;
 };
 
-const SidebarCategory = ({ category }: SidebarCategoryProps) => {
-  const [collapsed, setCollapsed] = useState(false);
+const SidebarCategory = ({ guild, category }: SidebarCategoryProps) => {
+  const [collapsed, setCollapsed] = useLocalStorage(
+    `collapsed-${category.name}-${guild.id}`,
+    false
+  );
 
   const collapseChannels = () => {
     setCollapsed(!collapsed);
