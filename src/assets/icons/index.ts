@@ -21,6 +21,7 @@ import IconChevronDown from './IconChevronDown';
 import IconChevronUp from './IconChevronUp';
 import IconPlus from './IconPlus';
 import IconMagnifyingGlass from './IconMagnifyingGlass';
+import IconCrown from './IconCrown';
 
 export {
   IconBurger,
@@ -46,4 +47,5 @@ export {
   IconChevronUp,
   IconPlus,
   IconMagnifyingGlass,
+  IconCrown,
 };

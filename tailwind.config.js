@@ -44,6 +44,9 @@ export default {
         crimson: {
           100: '#F23F42',
         },
+        gold: {
+          100: '#F0B132',
+        },
         salmon: {
           100: '#FA777C',
           400: '#DF4F4B',

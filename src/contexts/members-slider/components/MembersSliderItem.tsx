@@ -1,3 +1,4 @@
+import { IconCrown } from '../../../assets/icons';
 import useUserPartialModal from '../../../components/user-partial-modal/hooks/useUserPartialModal';
 import ProfilePicture from '../../../pages/channels/components/ProfilePicture';
 import IMember from '../../../types/member/Member';
@@ -20,6 +21,7 @@ const MembersSliderItem = ({ member }: MembersSliderItemProps) => {
     >
       <ProfilePicture className="h-9 w-9 shrink-0" user={user} />
       <div className="truncate font-medium">{name}</div>
+      <IconCrown className="ml-auto h-5 w-5 text-gold-100" />
     </li>
   );
 };
