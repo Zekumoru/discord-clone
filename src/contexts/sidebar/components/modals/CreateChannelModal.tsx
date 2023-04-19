@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { ScreenModalProps } from '../contexts/screen-modal/ScreenModalContext';
-import ScreenModalToolbar from '../contexts/screen-modal/components/ScreenModalToolbar';
-import InsetList from './modal-utils/InsetList';
-import InsetListItem from './modal-utils/InsetListItem';
-import ModalCloseButton from './modal-utils/ModalCloseButton';
-import useCreateChannel from '../types/channel/hooks/useCreateChannel';
-import LoadingScreen from './LoadingScreen';
-import DiscordError from '../utils/DiscordError';
+import { ScreenModalProps } from '../../../screen-modal/ScreenModalContext';
+import ScreenModalToolbar from '../../../screen-modal/components/ScreenModalToolbar';
+import InsetList from '../../../../components/modal-utils/InsetList';
+import InsetListItem from '../../../../components/modal-utils/InsetListItem';
+import ModalCloseButton from '../../../../components/modal-utils/ModalCloseButton';
+import useCreateChannel from '../../../../types/channel/hooks/useCreateChannel';
+import LoadingScreen from '../../../../components/LoadingScreen';
+import DiscordError from '../../../../utils/DiscordError';
 import { toast } from 'react-toastify';
 
 type CreateChannelModalProps = {

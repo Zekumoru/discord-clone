@@ -8,7 +8,7 @@ import SidebarChannel from './SidebarChannel';
 import useLocalStorage from '../../../hooks/useLocalStorage';
 import IGuild from '../../../types/guild/Guild';
 import { useScreenModal } from '../../screen-modal/ScreenModalContext';
-import CreateChannelModal from '../../../components/CreateChannelModal';
+import CreateChannelModal from './modals/CreateChannelModal';
 import useIsCurrentUserGuildOwner from '../../../types/guild/hooks/useIsCurrentUserGuildOwner';
 
 type SidebarCategoryProps = {
