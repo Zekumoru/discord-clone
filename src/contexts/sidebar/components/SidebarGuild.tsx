@@ -6,6 +6,7 @@ import useGuild from '../../../types/guild/hooks/useGuild';
 import useCategories from '../../../types/category/hooks/useCategories';
 import { usePartialScreenModal } from '../../partial-screen-modal/PartialScreenModalContext';
 import InvitePartialModal from '../../../components/invite-partial-modal/InvitePartialModal';
+import MembersUpdatesListener from '../../../pages/channels/pages/guilds/components/MembersUpdatesListener';
 
 const SidebarGuild = () => {
   const location = useLocation().pathname;
@@ -19,6 +20,8 @@ const SidebarGuild = () => {
 
   return (
     <div className="overflow-x-hidden py-4">
+      <MembersUpdatesListener membersId={guild?.membersId} />
+
       <header className="mx-4 mb-6">
         <div className="mb-4 flex items-center gap-2">
           <div className="text-lg font-bold">{guild?.name}</div>

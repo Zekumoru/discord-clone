@@ -4,7 +4,6 @@ import useGuild from '../../types/guild/hooks/useGuild';
 import useCategories from '../../types/category/hooks/useCategories';
 import IChannel from '../../types/channel/Channel';
 import { useMembersSlider } from '../../contexts/members-slider/MembersSliderContext';
-import useMembers from '../../types/member/hooks/useMembers';
 import { toast } from 'react-toastify';
 import Chat from './pages/chat/Chat';
 import usePartOfGuild from './pages/guilds/hooks/usePartOfGuild';
@@ -17,7 +16,6 @@ const Channel = () => {
   const [user] = useCurrentUser();
   const [guild] = useGuild(guildId);
   const [categories] = useCategories(guild?.categoriesId);
-  const [members] = useMembers(guild?.membersId);
   const [openMembersSlider] = useMembersSlider();
   const [partOfGuild] = usePartOfGuild(guild, user);
   const navigate = useNavigate();
@@ -41,7 +39,7 @@ const Channel = () => {
   }, [partOfGuild]);
 
   const handleOpenMembersSlider = () => {
-    if (!channel || !members) {
+    if (!channel || !guild) {
       toast.error('Could not open members slider!');
       return;
     }
@@ -49,7 +47,7 @@ const Channel = () => {
     openMembersSlider({
       title: channel.name,
       titlePrefix: '#',
-      members: members.members,
+      membersId: guild.membersId,
       guild: guild,
     });
   };
