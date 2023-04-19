@@ -78,12 +78,12 @@ const CreateChannelModal = ({
 
       <div className="heading-2 mx-4 mb-2 mt-8">Channel name</div>
       <InsetList>
-        <InsetListItem>
+        <InsetListItem className="w-full">
           <input
             type="text"
             value={channelName}
             onChange={(e) => handleChannelNameChange(e.target.value)}
-            className="bg-transparent font-medium text-white outline-none placeholder:text-silvergrey-400"
+            className="w-full bg-transparent font-medium text-white outline-none placeholder:text-silvergrey-400"
             placeholder="new-channel"
           />
         </InsetListItem>
