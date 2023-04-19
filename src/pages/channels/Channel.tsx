@@ -10,14 +10,16 @@ import Chat from './pages/chat/Chat';
 import usePartOfGuild from './pages/guilds/hooks/usePartOfGuild';
 import { useEffect } from 'react';
 import ChannelMessages from './components/ChannelMessages';
+import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
 
 const Channel = () => {
   const { guildId, channelId } = useParams();
+  const [user] = useCurrentUser();
   const [guild] = useGuild(guildId);
   const [categories] = useCategories(guild?.categoriesId);
   const [members] = useMembers(guild?.membersId);
   const [openMembersSlider] = useMembersSlider();
-  const [partOfGuild] = usePartOfGuild(guild?.id);
+  const [partOfGuild] = usePartOfGuild(guild, user);
   const navigate = useNavigate();
   let channel: IChannel | undefined;
 

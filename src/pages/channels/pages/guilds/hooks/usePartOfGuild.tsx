@@ -1,28 +1,23 @@
 import { useEffect, useState } from 'react';
-import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
-import useGuild from '../../../../../types/guild/hooks/useGuild';
 import useMembers from '../../../../../types/member/hooks/useMembers';
+import IGuild from '../../../../../types/guild/Guild';
+import IUser from '../../../../../types/user/User';
 
-const usePartOfGuild = (guildId: string | undefined) => {
-  const [currentUser, currentUserLoading] = useCurrentUser();
-  const [guild, guildLoading] = useGuild(guildId);
+const usePartOfGuild = (guild: IGuild | undefined, user: IUser | undefined) => {
   const [members, membersLoading] = useMembers(guild?.membersId);
   const [partOfGuild, setPartOfGuild] = useState<boolean>();
 
   useEffect(() => {
-    if (!currentUser) return;
+    if (!user) return;
     if (!members) return;
 
     const partOfGuild = members.members.some(
-      (member) => member.userId === currentUser.id
+      (member) => member.userId === user.id
     );
     setPartOfGuild(partOfGuild);
-  }, [currentUser, members]);
+  }, [user, members]);
 
-  return [
-    partOfGuild,
-    currentUserLoading || guildLoading || membersLoading,
-  ] as const;
+  return [partOfGuild, membersLoading] as const;
 };
 
 export default usePartOfGuild;

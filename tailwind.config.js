@@ -40,6 +40,7 @@ export default {
         },
         jade: {
           100: '#23A55A',
+          400: '#248046',
         },
         crimson: {
           100: '#F23F42',

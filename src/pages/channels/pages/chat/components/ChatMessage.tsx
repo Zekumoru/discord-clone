@@ -4,6 +4,7 @@ import useUser from '../../../../../types/user/hooks/useUser';
 import removeTagFromName from '../../../../../utils/removeTagFromName';
 import ProfilePicture from '../../../components/ProfilePicture';
 import useUserPartialModal from '../../../../../components/user-partial-modal/hooks/useUserPartialModal';
+import ChatInvite from './ChatInvite';
 
 type ChatMessageProps = {
   message: IMessage;
@@ -37,7 +38,11 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
               </div>
             </div>
 
-            <div className="text-silvergrey-100">{message.content}</div>
+            {message.inviteId !== undefined ? (
+              <ChatInvite message={message} />
+            ) : (
+              <div className="text-silvergrey-100">{message.content}</div>
+            )}
           </div>
         </>
       )}
