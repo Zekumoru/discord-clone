@@ -7,6 +7,7 @@ import InviteUserItem from './InviteUserItem';
 import useInvitableFriends from './hooks/useInvitableFriends';
 import IUser from '../../types/user/User';
 import useInviteFromGuildId from '../../types/invite/hooks/useInviteFromGuildId';
+import { toast } from 'react-toastify';
 
 type InvitePartialModalProps = {
   guild: IGuild | undefined;
@@ -25,6 +26,7 @@ const InvitePartialModal = ({ guild, close }: InvitePartialModalProps) => {
     navigator.clipboard.writeText(
       `${import.meta.env.VITE_APP_URL}/invite/${invite.id}`
     );
+    toast.success('Invite link copied!');
   };
 
   const handleFilter = (filter: string) => {
