@@ -23,7 +23,7 @@ const InvitePartialModal = ({ guild, close }: InvitePartialModalProps) => {
     if (!invite) return;
 
     navigator.clipboard.writeText(
-      `https://${import.meta.env.VITE_APP_URL}/invite/${invite.id}`
+      `${import.meta.env.VITE_APP_URL}/invite/${invite.id}`
     );
   };
 
