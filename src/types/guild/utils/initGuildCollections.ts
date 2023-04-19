@@ -1,4 +1,4 @@
-import { WriteBatch } from 'firebase/firestore';
+import { WriteBatch, serverTimestamp } from 'firebase/firestore';
 import performBatch from '../../../utils/performBatch';
 import snowflakeId from '../../../utils/snowflake-id/snowflakeId';
 import categoriesDoc from '../../category/firebase/categoriesDoc';
@@ -66,8 +66,12 @@ const initGuildCollections = (
     id: guildId,
     name: guildName,
     systemMessagesChannelId: categories[0].channels[0].id,
+    creationTimestamp: null,
   };
-  batch.set(guildDoc(guildId), guild);
+  batch.set(guildDoc(guildId), {
+    ...guild,
+    creationTimestamp: serverTimestamp(),
+  });
 
   return { guild, categories, members, roles };
 };

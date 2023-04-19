@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase/firestore';
+
 interface IGuild {
   id: string;
   name: string;
@@ -6,6 +8,7 @@ interface IGuild {
   membersId: string;
   rolesId: string;
   systemMessagesChannelId: string;
+  creationTimestamp: Timestamp | null;
 }
 
 interface IUserGuild {
