@@ -44,12 +44,6 @@
     }
   }
 
-  @media screen(xl) {
-    .xl-w-sidebar {
-      width: calc(theme(width.full) - 2 * theme(width.80)) !important;
-    }
-  }
-
   .text-input {
     @apply rounded bg-background-700 p-2.5 leading-none text-silvergrey-300 outline-none placeholder:text-silvergrey-400;
   }

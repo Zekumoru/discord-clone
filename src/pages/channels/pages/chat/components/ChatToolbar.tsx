@@ -29,10 +29,9 @@ const ChatToolbar = ({
 
   return (
     <Toolbar
-      className="xl-w-sidebar"
       prefix={prefixElement}
       buttons={
-        <div className="xl:hidden" onClick={onOpenMembersSlider}>
+        <div onClick={onOpenMembersSlider}>
           <IconUsers className="h-6 w-6" />
         </div>
       }

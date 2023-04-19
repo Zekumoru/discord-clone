@@ -27,10 +27,10 @@ const MembersSlider = ({
     <div
       className={`fixed bottom-0 top-0 z-50 flex ${
         isOpen ? 'left-0 right-0' : '-right-full'
-      } xl:right-0`}
+      }`}
     >
       <div onClick={close} className="grow" />
-      <div className="w-80 bg-background-300 shadow-material xl:shadow-md">
+      <div className="w-80 bg-background-300 shadow-material">
         <MembersSliderHeader prefix={titlePrefix}>{title}</MembersSliderHeader>
 
         <div className="h-screen-slide-header overflow-y-auto p-4">

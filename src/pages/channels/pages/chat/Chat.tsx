@@ -83,8 +83,6 @@ const Chat = (props: ChatProps) => {
           disabled={disabled}
         />
       </div>
-
-      <div className="xl:w-80" />
     </div>
   );
 };
