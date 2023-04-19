@@ -40,28 +40,30 @@ const SidebarCategory = ({ guild, category }: SidebarCategoryProps) => {
 
   return (
     <li className="mb-6 last-of-type:mb-2">
-      <div className="mb-2 ml-1 mr-2 flex items-center gap-0.5 text-silvergrey-400">
-        <button onClick={collapseChannels}>
-          {collapsed ? (
-            <IconChevronRight className="h-3 w-3" strokeWidth={2} />
-          ) : (
-            <IconChevronDown className="h-3 w-3" strokeWidth={2} />
-          )}
-        </button>
-
-        <div
-          onClick={collapseChannels}
-          className="heading-2 flex-1 text-silvergrey-400"
-        >
-          {category.name}
-        </div>
-
-        {isOwner && (
-          <button onClick={openCreateChannelModal} className="ml-auto">
-            <IconPlus className="h-4 w-4" strokeWidth={3} />
+      {category.name !== '' && (
+        <div className="mb-2 ml-1 mr-2 flex items-center gap-0.5 text-silvergrey-400">
+          <button onClick={collapseChannels}>
+            {collapsed ? (
+              <IconChevronRight className="h-3 w-3" strokeWidth={2} />
+            ) : (
+              <IconChevronDown className="h-3 w-3" strokeWidth={2} />
+            )}
           </button>
-        )}
-      </div>
+
+          <div
+            onClick={collapseChannels}
+            className="heading-2 flex-1 text-silvergrey-400"
+          >
+            {category.name}
+          </div>
+
+          {isOwner && (
+            <button onClick={openCreateChannelModal} className="ml-auto">
+              <IconPlus className="h-4 w-4" strokeWidth={3} />
+            </button>
+          )}
+        </div>
+      )}
 
       <ul>
         {category.channels.map((channel) => (
