@@ -4,20 +4,20 @@ import Logo from '../authentication/components/Logo';
 import ProfilePicture from '../channels/components/ProfilePicture';
 import useInvite from '../../types/invite/hooks/useInvite';
 import useGuild from '../../types/guild/hooks/useGuild';
-import useUser from '../../types/user/hooks/useUser';
 import GuildPicture from '../../components/GuildPicture';
 import useMembers from '../../types/member/hooks/useMembers';
 import useJoinGuild from '../../types/guild/hooks/useJoinGuild';
 import DiscordError from '../../utils/DiscordError';
 import { toast } from 'react-toastify';
 import LoadingScreen from '../../components/LoadingScreen';
+import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
 
 const Invite = () => {
   const { id: inviteId } = useParams();
   const [invite, inviteLoading] = useInvite(inviteId);
   const [guild, guildLoading] = useGuild(invite?.guildId);
   const [members, membersLoading] = useMembers(guild?.membersId);
-  const [user, userLoading] = useUser(invite?.inviterId);
+  const [user, userLoading] = useCurrentUser();
   const [name] = extractNameAndTag(user?.username ?? '');
   const navigate = useNavigate();
   const membersLength = members?.members.length ?? 0;
