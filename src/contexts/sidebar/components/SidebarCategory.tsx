@@ -59,13 +59,16 @@ const SidebarCategory = ({ guild, category }: SidebarCategoryProps) => {
         </button>
       </div>
 
-      {!collapsed && (
-        <ul>
-          {category.channels.map((channel) => (
-            <SidebarChannel key={channel.id} channel={channel} />
-          ))}
-        </ul>
-      )}
+      <ul>
+        {category.channels.map((channel) => (
+          <SidebarChannel
+            key={channel.id}
+            guildId={guild.id}
+            channel={channel}
+            hidden={collapsed}
+          />
+        ))}
+      </ul>
     </li>
   );
 };
