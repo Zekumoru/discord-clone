@@ -21,7 +21,7 @@ const InfoAndActions = ({ user, onMessageIconClick }: InfoAndActionsProps) => {
   };
 
   return (
-    <PartialModalRoundedDiv>
+    <PartialModalRoundedDiv className="py-4">
       <div className="px-4 text-xl font-semibold">
         <span className="">{name}</span>{' '}
         <span className="font-medium text-silvergrey-300">#{tag}</span>
