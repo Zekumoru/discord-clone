@@ -5,7 +5,8 @@ interface IMember {
 
 interface IMembers {
   id: string;
-  guildId: string;
+  guildId?: string;
+  chatId?: string;
   members: IMember[];
 }
 

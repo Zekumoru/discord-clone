@@ -11,6 +11,7 @@ import UserPartialModal from '../../../../components/user-partial-modal/UserPart
 import ChatMessages from './components/ChatMessages';
 import { useEffect } from 'react';
 import useOwnsChat from './hooks/useOwnsChat';
+import { toast } from 'react-toastify';
 
 const FriendChat = () => {
   const { id: chatId } = useParams();
@@ -31,10 +32,15 @@ const FriendChat = () => {
   }, [ownsChat]);
 
   const handleOpenMembersSlider = () => {
+    if (!chat) {
+      toast.error('Could not open slider!');
+      return;
+    }
+
     openMembersSlider({
       titlePrefix: '@',
       title: friendName,
-      members: chat?.participants ?? [],
+      membersId: chat.membersId,
     });
   };
 

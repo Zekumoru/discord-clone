@@ -5,6 +5,7 @@ import chatDoc from '../../chat/firebase/chatDoc';
 import userDoc from '../../user/firebase/userDoc';
 import userChatsDoc from '../firebase/userChatsDoc';
 import createMember from '../../member/utils/createMember';
+import membersDoc from '../../member/firebase/membersDoc';
 
 const createChat = async (userChatsId: string, otherUserId: string) => {
   const chatId = snowflakeId();
@@ -23,11 +24,19 @@ const createChat = async (userChatsId: string, otherUserId: string) => {
   await performBatch(async (batch) => {
     const chatRef = chatDoc(chatId);
     const messagesId = snowflakeId();
+    const membersId = snowflakeId();
+    const membersRef = membersDoc(membersId);
+
+    batch.set(membersRef, {
+      chatId,
+      id: membersId,
+      members: [createMember(userChats.userId), createMember(otherUserId)],
+    });
 
     batch.set(chatRef, {
-      id: chatId,
       messagesId,
-      participants: [createMember(userChats.userId), createMember(otherUserId)],
+      membersId,
+      id: chatId,
     });
 
     const userChatsRef = userChatsDoc(userChats.id);
