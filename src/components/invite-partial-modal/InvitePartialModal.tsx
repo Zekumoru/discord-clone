@@ -95,12 +95,16 @@ const InvitePartialModal = ({ guild, close }: InvitePartialModalProps) => {
                 <div className="mx-4 text-center">No friends found!</div>
               ) : (
                 filteredFriends.map((friend) => (
-                  <InviteUserItem key={friend.id} user={friend} />
+                  <InviteUserItem
+                    key={friend.id}
+                    user={friend}
+                    invite={invite}
+                  />
                 ))
               )
             ) : (
               invitableFriends.map((friend) => (
-                <InviteUserItem key={friend.id} user={friend} />
+                <InviteUserItem key={friend.id} user={friend} invite={invite} />
               ))
             )}
           </ul>
