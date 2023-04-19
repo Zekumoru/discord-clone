@@ -11,6 +11,7 @@ import {
 import PartialModalRoundedDiv from '../../../partial-screen-modal/components/PartialModalRoundedDiv';
 import { useScreenModal } from '../../../screen-modal/ScreenModalContext';
 import CreateChannelModal from './CreateChannelModal';
+import CreateCategoryModal from './CreateCategoryModal';
 
 type GuildPartialModalProps = {
   guildId: string | undefined;
@@ -39,6 +40,21 @@ const GuildPartialModal = ({ guildId, close }: GuildPartialModalProps) => {
       <CreateChannelModal
         categoriesId={guild.categoriesId}
         categoryName={''}
+        close={closeModal}
+      />
+    );
+    close();
+  };
+
+  const openCreateCategoryModal = () => {
+    if (!guild) {
+      toast.error('Could not open category modal!');
+      return;
+    }
+
+    openModal(
+      <CreateCategoryModal
+        categoriesId={guild.categoriesId}
         close={closeModal}
       />
     );
@@ -86,7 +102,9 @@ const GuildPartialModal = ({ guildId, close }: GuildPartialModalProps) => {
 
           <div className="border-b border-background-100" />
 
-          <button className="text-left">Create Category</button>
+          <button onClick={openCreateCategoryModal} className="text-left">
+            Create Category
+          </button>
         </PartialModalRoundedDiv>
       </div>
     </div>
