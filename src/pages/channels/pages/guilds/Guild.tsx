@@ -22,9 +22,11 @@ const Guild = () => {
   useEffect(() => {
     if (!categories) return;
 
-    navigate(
-      `/channels/${guild!.id}/${categories.categories[0].channels[0].id}`
-    );
+    const category = categories.categories.find(
+      (category) => category.channels.length !== 0
+    )!;
+
+    navigate(`/channels/${guild!.id}/${category.channels[0].id}`);
   }, [categories]);
 
   return (

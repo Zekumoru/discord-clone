@@ -26,7 +26,10 @@ const initGuildCollections = (
   let guild: IGuild | undefined;
 
   const categoriesId = snowflakeId();
-  const categories = [createCategory('text channels', ['general'])];
+  const categories = [
+    createCategory('', []),
+    createCategory('text channels', ['general']),
+  ];
   batch.set(categoriesDoc(categoriesId), {
     guildId,
     categories,
