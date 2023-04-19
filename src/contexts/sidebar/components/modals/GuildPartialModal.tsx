@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { IconCog6Tooth, IconUserPlus } from '../../../../assets/icons';
 import GuildPicture from '../../../../components/GuildPicture';
 import InvitePartialModal from '../../../../components/invite-partial-modal/InvitePartialModal';
@@ -8,13 +9,16 @@ import {
   usePartialScreenModal,
 } from '../../../partial-screen-modal/PartialScreenModalContext';
 import PartialModalRoundedDiv from '../../../partial-screen-modal/components/PartialModalRoundedDiv';
+import { useScreenModal } from '../../../screen-modal/ScreenModalContext';
+import CreateChannelModal from './CreateChannelModal';
 
 type GuildPartialModalProps = {
   guildId: string | undefined;
 } & PartialScreenModalProps;
 
-const GuildPartialModal = ({ guildId }: GuildPartialModalProps) => {
+const GuildPartialModal = ({ guildId, close }: GuildPartialModalProps) => {
   const [openPartialModal, closePartialModal] = usePartialScreenModal();
+  const [openModal, closeModal] = useScreenModal();
   const [guild] = useGuild(guildId);
   const [members] = useMembers(guild?.membersId);
   const membersLength = members?.members.length ?? 0;
@@ -23,6 +27,22 @@ const GuildPartialModal = ({ guildId }: GuildPartialModalProps) => {
     openPartialModal(
       <InvitePartialModal guild={guild} close={closePartialModal} />
     );
+  };
+
+  const openCreateChannelModal = () => {
+    if (!guild) {
+      toast.error('Could not open channel modal!');
+      return;
+    }
+
+    openModal(
+      <CreateChannelModal
+        categoriesId={guild.categoriesId}
+        categoryName={''}
+        close={closeModal}
+      />
+    );
+    close();
   };
 
   return (
@@ -60,7 +80,9 @@ const GuildPartialModal = ({ guildId }: GuildPartialModalProps) => {
 
       <div className="p-4">
         <PartialModalRoundedDiv className="flex flex-col gap-3 p-4 font-medium">
-          <button className="text-left">Create Channel</button>
+          <button onClick={openCreateChannelModal} className="text-left">
+            Create Channel
+          </button>
 
           <div className="border-b border-background-100" />
 
