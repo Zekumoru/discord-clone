@@ -21,7 +21,9 @@ const SidebarChannel = ({ guildId, channel, hidden }: SidebarChannelProps) => {
         }`}
       >
         <span className="text-lg text-silvergrey-400">#</span>
-        <span className={isSelected ? 'font-semibold text-white' : ''}>
+        <span
+          className={`truncate ${isSelected ? 'font-semibold text-white' : ''}`}
+        >
           {channel.name}
         </span>
       </Link>

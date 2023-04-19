@@ -52,7 +52,7 @@ const SidebarCategory = ({ guild, category }: SidebarCategoryProps) => {
 
           <div
             onClick={collapseChannels}
-            className="heading-2 flex-1 text-silvergrey-400"
+            className="heading-2 flex-1 truncate text-silvergrey-400"
           >
             {category.name}
           </div>
