@@ -58,6 +58,9 @@ const initGuildCollections = (
     id: membersId,
   });
 
+  const category = categories.find(
+    (category) => category.channels.length !== 0
+  )!;
   guild = {
     pictureUrl,
     categoriesId,
@@ -65,7 +68,7 @@ const initGuildCollections = (
     rolesId,
     id: guildId,
     name: guildName,
-    systemMessagesChannelId: categories[0].channels[0].id,
+    systemMessagesChannelId: category.channels[0].id,
     creationTimestamp: null,
   };
   batch.set(guildDoc(guildId), {
