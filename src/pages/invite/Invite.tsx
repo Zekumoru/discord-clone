@@ -7,6 +7,10 @@ import useGuild from '../../types/guild/hooks/useGuild';
 import useUser from '../../types/user/hooks/useUser';
 import GuildPicture from '../../components/GuildPicture';
 import useMembers from '../../types/member/hooks/useMembers';
+import useJoinGuild from '../../types/guild/hooks/useJoinGuild';
+import DiscordError from '../../utils/DiscordError';
+import { toast } from 'react-toastify';
+import LoadingScreen from '../../components/LoadingScreen';
 
 const Invite = () => {
   const { id: inviteId } = useParams();
@@ -19,14 +23,39 @@ const Invite = () => {
   const membersLength = members?.members.length ?? 0;
   const loading =
     inviteLoading || guildLoading || membersLoading || userLoading;
+  const { mutate: joinGuild, isLoading: joiningLoading } = useJoinGuild({
+    onSuccess: ({ guild }) => navigate(`/channels/${guild.id}`),
+    onError: (error) => {
+      if (error instanceof DiscordError) {
+        toast.error('Could not join server!');
+      } else {
+        toast.error('An unknown error has occurred!');
+      }
+    },
+  });
+
+  const handleJoinGuild = () => {
+    if (!guild || !user) {
+      toast.error('Could not join server!');
+      return;
+    }
+
+    joinGuild({
+      user,
+      guild,
+    });
+  };
 
   return (
     <form
       onSubmit={(e) => {
+        handleJoinGuild();
         e.preventDefault();
       }}
       className="flex flex-col items-center px-4 py-5 text-silvergrey-300"
     >
+      {joiningLoading && <LoadingScreen />}
+
       <Logo className="mb-10 h-9 text-white" />
 
       {loading ? (

@@ -1,9 +1,14 @@
+import { toast } from 'react-toastify';
 import GuildPicture from '../../../../../components/GuildPicture';
 import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
 import useGuild from '../../../../../types/guild/hooks/useGuild';
+import useJoinGuild from '../../../../../types/guild/hooks/useJoinGuild';
 import useInvite from '../../../../../types/invite/hooks/useInvite';
 import IMessage from '../../../../../types/message/Message';
 import usePartOfGuild from '../../guilds/hooks/usePartOfGuild';
+import LoadingScreen from '../../../../../components/LoadingScreen';
+import DiscordError from '../../../../../utils/DiscordError';
+import { useNavigate } from 'react-router-dom';
 
 type ChatInviteProps = {
   message: IMessage;
@@ -14,9 +19,34 @@ const ChatInvite = ({ message }: ChatInviteProps) => {
   const [invite] = useInvite(message.inviteId);
   const [guild] = useGuild(invite?.guildId);
   const [partOfGuild] = usePartOfGuild(guild, user);
+  const navigate = useNavigate();
+  const { mutate: joinGuild, isLoading } = useJoinGuild({
+    onSuccess: ({ guild }) => navigate(`/channels/${guild.id}`),
+    onError: (error) => {
+      if (error instanceof DiscordError) {
+        toast.error('Could not join server!');
+      } else {
+        toast.error('An unknown error has occurred!');
+      }
+    },
+  });
+
+  const handleJoinGuild = () => {
+    if (!guild || !user) {
+      toast.error('Could not join server!');
+      return;
+    }
+
+    joinGuild({
+      user,
+      guild,
+    });
+  };
 
   return (
     <div className="round-sm bg-background-500 px-4 py-3.5">
+      {isLoading && <LoadingScreen />}
+
       <header className="heading-2 mb-2">
         You are invited to join a server
       </header>
@@ -35,7 +65,10 @@ const ChatInvite = ({ message }: ChatInviteProps) => {
             Joined
           </button>
         ) : (
-          <button className="ml-auto rounded bg-warmblue-100 px-5 py-2 text-sm font-medium">
+          <button
+            onClick={handleJoinGuild}
+            className="ml-auto rounded bg-warmblue-100 px-5 py-2 text-sm font-medium"
+          >
             Join
           </button>
         )}

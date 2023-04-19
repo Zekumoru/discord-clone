@@ -3,7 +3,9 @@ type DiscordErrorCode =
   | 'user-not-found'
   | 'action-on-self'
   | 'already-sent'
-  | 'username-taken';
+  | 'username-taken'
+  | 'missing-role'
+  | 'already-joined';
 
 class DiscordError extends Error {
   #code: DiscordErrorCode;
