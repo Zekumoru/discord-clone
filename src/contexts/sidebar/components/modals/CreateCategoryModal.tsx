@@ -58,6 +58,7 @@ const CreateCategoryModal = ({
           <input
             type="text"
             value={categoryName}
+            maxLength={32}
             onChange={(e) => handleCategoryNameChange(e.target.value)}
             className="w-full bg-transparent font-medium text-white outline-none placeholder:text-silvergrey-400"
             placeholder="New category"

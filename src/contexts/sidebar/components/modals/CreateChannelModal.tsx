@@ -82,6 +82,7 @@ const CreateChannelModal = ({
           <input
             type="text"
             value={channelName}
+            maxLength={48}
             onChange={(e) => handleChannelNameChange(e.target.value)}
             className="w-full bg-transparent font-medium text-white outline-none placeholder:text-silvergrey-400"
             placeholder="new-channel"
