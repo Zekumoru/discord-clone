@@ -1,5 +1,3 @@
-import IRole from '../role/Role';
-
 interface IGuild {
   id: string;
   name: string;

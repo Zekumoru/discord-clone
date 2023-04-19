@@ -9,6 +9,7 @@ import useLocalStorage from '../../../hooks/useLocalStorage';
 import IGuild from '../../../types/guild/Guild';
 import { useScreenModal } from '../../screen-modal/ScreenModalContext';
 import CreateChannelModal from '../../../components/CreateChannelModal';
+import useIsCurrentUserGuildOwner from '../../../types/guild/hooks/useIsCurrentUserGuildOwner';
 
 type SidebarCategoryProps = {
   guild: IGuild;
@@ -17,6 +18,7 @@ type SidebarCategoryProps = {
 
 const SidebarCategory = ({ guild, category }: SidebarCategoryProps) => {
   const [openModal, closeModal] = useScreenModal();
+  const isOwner = useIsCurrentUserGuildOwner(guild.id);
   const [collapsed, setCollapsed] = useLocalStorage(
     `collapsed-${category.name}-${guild.id}`,
     false
@@ -54,9 +56,11 @@ const SidebarCategory = ({ guild, category }: SidebarCategoryProps) => {
           {category.name}
         </div>
 
-        <button onClick={openCreateChannelModal} className="ml-auto">
-          <IconPlus className="h-4 w-4" strokeWidth={3} />
-        </button>
+        {isOwner && (
+          <button onClick={openCreateChannelModal} className="ml-auto">
+            <IconPlus className="h-4 w-4" strokeWidth={3} />
+          </button>
+        )}
       </div>
 
       <ul>
