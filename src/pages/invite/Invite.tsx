@@ -15,10 +15,10 @@ import useUser from '../../types/user/hooks/useUser';
 
 const Invite = () => {
   const { id: inviteId } = useParams();
-  const [invite, inviteLoading] = useInvite(inviteId);
+  const [currentUser, currentUserLoading] = useCurrentUser();
+  const [invite, inviteLoading] = useInvite(currentUser ? inviteId : undefined);
   const [guild, guildLoading] = useGuild(invite?.guildId);
   const [members, membersLoading] = useMembers(guild?.membersId);
-  const [currentUser, currentUserLoading] = useCurrentUser();
   const [user, userLoading] = useUser(invite?.inviterId);
   const [name] = extractNameAndTag(user?.username ?? '');
   const navigate = useNavigate();
@@ -64,11 +64,11 @@ const Invite = () => {
 
       <Logo className="mb-10 h-9 text-white" />
 
-      {loading ? (
+      {loading && currentUserLoading && currentUser === undefined ? (
         <div className="fixed left-0 right-0 top-0 grid min-h-screen place-content-center">
           <div className="loading-circle" />
         </div>
-      ) : guild === undefined ? (
+      ) : guild === undefined || currentUser === undefined ? (
         <div className="fixed left-0 right-0 top-0 flex min-h-screen flex-col items-center justify-center p-4">
           <img
             className="mb-4 h-40 w-40"
@@ -76,14 +76,16 @@ const Invite = () => {
             alt="Wumpus Huh?"
           />
           <div className="mb-6 text-center font-medium">
-            Er... Wrong invitation?
+            {currentUser === undefined
+              ? "You're not logged in."
+              : 'Er... Wrong invitation?'}
           </div>
 
           <button
             onClick={() => navigate('/channels/@me')}
             className="btn w-full text-white"
           >
-            Back to home
+            {currentUser === undefined ? 'Back to login' : 'Back to home'}
           </button>
         </div>
       ) : (
