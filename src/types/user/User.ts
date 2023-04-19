@@ -11,7 +11,7 @@ interface IUser {
   friendsId: string;
   guildsId: string;
   friendRequestsId: string;
-  creationTimestamp: Timestamp;
+  creationTimestamp: Timestamp | null;
 }
 
 export default IUser;
