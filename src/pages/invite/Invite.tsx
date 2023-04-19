@@ -11,18 +11,24 @@ import DiscordError from '../../utils/DiscordError';
 import { toast } from 'react-toastify';
 import LoadingScreen from '../../components/LoadingScreen';
 import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
+import useUser from '../../types/user/hooks/useUser';
 
 const Invite = () => {
   const { id: inviteId } = useParams();
   const [invite, inviteLoading] = useInvite(inviteId);
   const [guild, guildLoading] = useGuild(invite?.guildId);
   const [members, membersLoading] = useMembers(guild?.membersId);
-  const [user, userLoading] = useCurrentUser();
+  const [currentUser, currentUserLoading] = useCurrentUser();
+  const [user, userLoading] = useUser(invite?.inviterId);
   const [name] = extractNameAndTag(user?.username ?? '');
   const navigate = useNavigate();
   const membersLength = members?.members.length ?? 0;
   const loading =
-    inviteLoading || guildLoading || membersLoading || userLoading;
+    inviteLoading ||
+    guildLoading ||
+    membersLoading ||
+    userLoading ||
+    currentUserLoading;
   const { mutate: joinGuild, isLoading: joiningLoading } = useJoinGuild({
     onSuccess: ({ guild }) => navigate(`/channels/${guild.id}`),
     onError: (error) => {
@@ -35,13 +41,13 @@ const Invite = () => {
   });
 
   const handleJoinGuild = () => {
-    if (!guild || !user) {
+    if (!guild || !currentUser) {
       toast.error('Could not join server!');
       return;
     }
 
     joinGuild({
-      user,
+      user: currentUser,
       guild,
     });
   };
@@ -82,7 +88,7 @@ const Invite = () => {
         </div>
       ) : (
         <>
-          <ProfilePicture user={user} className="my-6 h-20 w-20" />
+          <ProfilePicture user={currentUser} className="my-6 h-20 w-20" />
           <p className="mx-4 text-center">{name} invited you to join</p>
           <div className="my-2.5 flex w-full items-center justify-center gap-2 px-4">
             <GuildPicture
