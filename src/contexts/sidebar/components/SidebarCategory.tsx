@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   IconChevronDown,
   IconChevronRight,
@@ -8,6 +7,8 @@ import ICategory from '../../../types/category/Category';
 import SidebarChannel from './SidebarChannel';
 import useLocalStorage from '../../../hooks/useLocalStorage';
 import IGuild from '../../../types/guild/Guild';
+import { useScreenModal } from '../../screen-modal/ScreenModalContext';
+import CreateChannelModal from '../../../components/CreateChannelModal';
 
 type SidebarCategoryProps = {
   guild: IGuild;
@@ -15,6 +16,7 @@ type SidebarCategoryProps = {
 };
 
 const SidebarCategory = ({ guild, category }: SidebarCategoryProps) => {
+  const [openModal, closeModal] = useScreenModal();
   const [collapsed, setCollapsed] = useLocalStorage(
     `collapsed-${category.name}-${guild.id}`,
     false
@@ -22,6 +24,16 @@ const SidebarCategory = ({ guild, category }: SidebarCategoryProps) => {
 
   const collapseChannels = () => {
     setCollapsed(!collapsed);
+  };
+
+  const openCreateChannelModal = () => {
+    openModal(
+      <CreateChannelModal
+        categoriesId={guild.categoriesId}
+        categoryName={category.name}
+        close={closeModal}
+      />
+    );
   };
 
   return (
@@ -42,7 +54,7 @@ const SidebarCategory = ({ guild, category }: SidebarCategoryProps) => {
           {category.name}
         </div>
 
-        <button className="ml-auto">
+        <button onClick={openCreateChannelModal} className="ml-auto">
           <IconPlus className="h-4 w-4" strokeWidth={3} />
         </button>
       </div>

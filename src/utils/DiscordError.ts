@@ -5,6 +5,8 @@ type DiscordErrorCode =
   | 'already-sent'
   | 'username-taken'
   | 'missing-role'
+  | 'missing-category'
+  | 'already-exists'
   | 'already-joined';
 
 class DiscordError extends Error {
