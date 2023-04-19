@@ -82,6 +82,7 @@ const Invite = () => {
           </div>
 
           <button
+            type="button"
             onClick={() => navigate('/channels/@me')}
             className="btn w-full text-white"
           >
