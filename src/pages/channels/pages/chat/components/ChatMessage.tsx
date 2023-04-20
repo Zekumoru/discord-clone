@@ -1,10 +1,11 @@
-import { format } from 'date-fns';
+import { format, isToday, isYesterday } from 'date-fns';
 import IMessage from '../../../../../types/message/Message';
 import useUser from '../../../../../types/user/hooks/useUser';
 import removeTagFromName from '../../../../../utils/removeTagFromName';
 import ProfilePicture from '../../../components/ProfilePicture';
 import useUserPartialModal from '../../../../../components/user-partial-modal/hooks/useUserPartialModal';
 import ChatInvite from './ChatInvite';
+import { useMemo } from 'react';
 
 type ChatMessageProps = {
   message: IMessage;
@@ -15,9 +16,22 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
   const [openUserPartialModal] = useUserPartialModal();
 
   const userName = removeTagFromName(user?.username ?? '');
-  const datetime = message.timestamp
-    ? format(message.timestamp.toDate(), 'MM/dd/yyyy h:mm a')
-    : '';
+  const datetime = useMemo(() => {
+    if (!message.timestamp) {
+      return '';
+    }
+
+    const timestamp = message.timestamp.toDate();
+    if (isToday(timestamp)) {
+      return `Today at ${format(timestamp, 'h:mm a')}`;
+    }
+
+    if (isYesterday(timestamp)) {
+      return `Yesterday at ${format(timestamp, 'h:mm a')}`;
+    }
+
+    return format(timestamp, 'MM/dd/yyyy h:mm a');
+  }, [message]);
 
   const handleOpenUserPartialModal = () => {
     openUserPartialModal(user?.id);
