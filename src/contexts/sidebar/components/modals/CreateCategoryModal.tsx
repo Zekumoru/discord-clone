@@ -8,6 +8,7 @@ import useCreateCategory from '../../../../types/category/hooks/useCreateCategor
 import LoadingScreen from '../../../../components/LoadingScreen';
 import DiscordError from '../../../../utils/DiscordError';
 import { toast } from 'react-toastify';
+import InsetTextInput from '../../../../components/modal-utils/InsetTextInput';
 
 type CreateCategoryModalProps = {
   categoriesId: string;
@@ -64,16 +65,12 @@ const CreateCategoryModal = ({
 
       <div className="heading-2 mx-4 mb-2 mt-8">Category Name</div>
       <InsetList>
-        <InsetListItem className="w-full">
-          <input
-            type="text"
-            value={categoryName}
-            maxLength={32}
-            onChange={(e) => handleCategoryNameChange(e.target.value)}
-            className="w-full bg-transparent font-medium text-white outline-none placeholder:text-silvergrey-400"
-            placeholder="New category"
-          />
-        </InsetListItem>
+        <InsetTextInput
+          value={categoryName}
+          placeholder="New category"
+          onChange={handleCategoryNameChange}
+          maxLength={32}
+        />
       </InsetList>
     </div>
   );

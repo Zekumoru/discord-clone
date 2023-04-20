@@ -8,6 +8,7 @@ import useCreateChannel from '../../../../types/channel/hooks/useCreateChannel';
 import LoadingScreen from '../../../../components/LoadingScreen';
 import DiscordError from '../../../../utils/DiscordError';
 import { toast } from 'react-toastify';
+import InsetTextInput from '../../../../components/modal-utils/InsetTextInput';
 
 type CreateChannelModalProps = {
   categoriesId: string;
@@ -78,16 +79,12 @@ const CreateChannelModal = ({
 
       <div className="heading-2 mx-4 mb-2 mt-8">Channel name</div>
       <InsetList>
-        <InsetListItem className="w-full">
-          <input
-            type="text"
-            value={channelName}
-            maxLength={48}
-            onChange={(e) => handleChannelNameChange(e.target.value)}
-            className="w-full bg-transparent font-medium text-white outline-none placeholder:text-silvergrey-400"
-            placeholder="new-channel"
-          />
-        </InsetListItem>
+        <InsetTextInput
+          value={channelName}
+          placeholder="new-channel"
+          onChange={handleChannelNameChange}
+          maxLength={48}
+        />
       </InsetList>
     </div>
   );
