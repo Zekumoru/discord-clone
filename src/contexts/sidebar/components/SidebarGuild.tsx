@@ -8,6 +8,7 @@ import { usePartialScreenModal } from '../../partial-screen-modal/PartialScreenM
 import InvitePartialModal from '../../../components/invite-partial-modal/InvitePartialModal';
 import MembersUpdatesListener from '../../../pages/channels/pages/guilds/components/MembersUpdatesListener';
 import GuildPartialModal from './modals/GuildPartialModal';
+import GuildDeletionListener from '../../../components/GuildDeletionListener';
 
 const SidebarGuild = () => {
   const location = useLocation().pathname;
@@ -34,6 +35,7 @@ const SidebarGuild = () => {
   return (
     <div className="overflow-x-hidden py-4">
       <MembersUpdatesListener membersId={guild?.membersId} />
+      <GuildDeletionListener guildId={guild?.id} />
 
       <header className="mx-4 mb-6">
         <div className="mb-4 flex items-center gap-2">

@@ -32,3 +32,4 @@ const useInviteFromGuildId = (guildId: string | undefined) => {
 };
 
 export default useInviteFromGuildId;
+export { getInviteFromGuildId };

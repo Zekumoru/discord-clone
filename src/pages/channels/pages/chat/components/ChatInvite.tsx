@@ -16,7 +16,8 @@ type ChatInviteProps = {
 
 const ChatInvite = ({ message }: ChatInviteProps) => {
   const [user] = useCurrentUser();
-  const [invite] = useInvite(message.inviteId);
+  const [invite, inviteLoading] = useInvite(message.inviteId);
+  const inviteExists = !inviteLoading && invite;
   const [guild] = useGuild(invite?.guildId);
   const [partOfGuild] = usePartOfGuild(guild, user);
   const navigate = useNavigate();
@@ -47,32 +48,34 @@ const ChatInvite = ({ message }: ChatInviteProps) => {
     <div className="round-sm bg-background-500 px-4 py-3.5">
       {isLoading && <LoadingScreen />}
 
-      <header className="heading-2 mb-2">
-        You are invited to join a server
+      <header className="heading-2">
+        {inviteExists ? 'You are invited to join a server' : 'Invite expired'}
       </header>
 
-      <div className="flex items-center gap-2.5">
-        <GuildPicture
-          guild={guild}
-          className="h-12 w-12 flex-shrink-0 !rounded-2xl"
-        />
-        <div className="truncate font-semibold">{guild?.name}</div>
-        {partOfGuild ? (
-          <button
-            disabled
-            className="ml-auto rounded bg-jade-400 px-4 py-2 text-sm font-medium"
-          >
-            Joined
-          </button>
-        ) : (
-          <button
-            onClick={handleJoinGuild}
-            className="ml-auto rounded bg-warmblue-100 px-5 py-2 text-sm font-medium"
-          >
-            Join
-          </button>
-        )}
-      </div>
+      {inviteExists && (
+        <div className="mt-2 flex items-center gap-2.5">
+          <GuildPicture
+            guild={guild}
+            className="h-12 w-12 flex-shrink-0 !rounded-2xl"
+          />
+          <div className="truncate font-semibold">{guild?.name}</div>
+          {partOfGuild ? (
+            <button
+              disabled
+              className="ml-auto rounded bg-jade-400 px-4 py-2 text-sm font-medium"
+            >
+              Joined
+            </button>
+          ) : (
+            <button
+              onClick={handleJoinGuild}
+              className="ml-auto rounded bg-warmblue-100 px-5 py-2 text-sm font-medium"
+            >
+              Join
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };
