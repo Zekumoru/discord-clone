@@ -1,0 +1,89 @@
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { useSidebar } from './sidebar/SidebarContext';
+import interact from 'interactjs';
+import { DragEvent } from '@interactjs/types';
+
+type SwipeEvents = {
+  swipedLeft: boolean;
+  swipedRight: boolean;
+};
+
+const SwipeListenerContext = createContext<SwipeEvents>({
+  swipedLeft: false,
+  swipedRight: false,
+});
+
+const useSwipeListener = () => {
+  return useContext(SwipeListenerContext);
+};
+
+type SwipeListenerProviderProps = {
+  children: ReactNode;
+};
+
+const SwipeListenerProvider = ({ children }: SwipeListenerProviderProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [openSidebar] = useSidebar();
+  const [swipedLeft, setSwipedLeft] = useState(false);
+  const [swipedRight, setSwipedRight] = useState(false);
+
+  useEffect(() => {
+    if (!swipedLeft) return;
+
+    setSwipedLeft(false);
+  }, [swipedLeft]);
+
+  useEffect(() => {
+    if (!swipedRight) return;
+
+    setSwipedRight(false);
+  }, [swipedRight]);
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const interactable = interact(ref.current).draggable({});
+
+    let alreadySwiped = false;
+    interactable.on('dragstart', () => {
+      alreadySwiped = false;
+    });
+
+    interactable.on('dragmove', (event: DragEvent) => {
+      if (alreadySwiped) return;
+      if (event.speed < 600) return;
+
+      const distance = event.clientX - event.clientX0;
+      if (Math.abs(distance) <= 100) return;
+
+      if (distance > 100) {
+        openSidebar();
+        setSwipedLeft(true);
+      } else {
+        setSwipedRight(true);
+      }
+
+      alreadySwiped = true;
+    });
+
+    return () => interactable.unset();
+  }, []);
+
+  return (
+    <div className="swipe-listener min-h-screen touch-none" ref={ref}>
+      <SwipeListenerContext.Provider value={{ swipedLeft, swipedRight }}>
+        {children}
+      </SwipeListenerContext.Provider>
+    </div>
+  );
+};
+
+export default SwipeListenerProvider;
+export { useSwipeListener };

@@ -12,6 +12,7 @@ import ChatMessages from './components/ChatMessages';
 import { useEffect } from 'react';
 import useOwnsChat from './hooks/useOwnsChat';
 import { toast } from 'react-toastify';
+import { useSwipeListener } from '../../../../contexts/SwipeListenerContext';
 
 const FriendChat = () => {
   const { id: chatId } = useParams();
@@ -22,7 +23,14 @@ const FriendChat = () => {
   const [friend] = useFriend(currentUser, chatId);
   const [friendName] = extractNameAndTag(friend?.username ?? '');
   const [ownsChat] = useOwnsChat(chatId);
+  const { swipedRight } = useSwipeListener();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!swipedRight) return;
+
+    handleOpenMembersSlider();
+  }, [swipedRight]);
 
   useEffect(() => {
     if (ownsChat === undefined) return;
