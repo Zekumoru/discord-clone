@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ScreenModalProps } from '../../../../contexts/screen-modal/ScreenModalContext';
+import {
+  ScreenModalProps,
+  useScreenModal,
+} from '../../../../contexts/screen-modal/ScreenModalContext';
 import { useGuildId } from '../../../../types/guild/contexts/GuildIdContext';
 import useGuild from '../../../../types/guild/hooks/useGuild';
 import InsetList from '../../../modal-utils/InsetList';
 import OverviewModalToolbar from './OverviewModalToolbar';
 import InsetTextInput from '../../../modal-utils/InsetTextInput';
 import CircledXButton from '../../../CircledXButton';
-import InsetListItem from '../../../modal-utils/InsetListItem';
 import InsetChevronListItem from '../../../modal-utils/InsetChevronListItem';
 import useUpdateGuildName from '../../hooks/useUpdateGuildName';
 import LoadingScreen from '../../../LoadingScreen';
@@ -14,6 +16,7 @@ import { toast } from 'react-toastify';
 import useCategories from '../../../../types/category/hooks/useCategories';
 import { usePartialScreenModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import SystemMessagesPartialModal from './SystemMessagesPartialModal';
+import DeleteGuildListItem from './DeleteGuildListItem';
 
 const OverviewModal = ({ close }: ScreenModalProps) => {
   const [openPartialModal, closePartialModal] = usePartialScreenModal();
@@ -107,9 +110,7 @@ const OverviewModal = ({ close }: ScreenModalProps) => {
       </InsetList>
 
       <InsetList>
-        <InsetListItem className="mx-auto text-salmon-400">
-          Delete Server
-        </InsetListItem>
+        <DeleteGuildListItem guildId={guildId} />
       </InsetList>
     </div>
   );
