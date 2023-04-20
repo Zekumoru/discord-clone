@@ -18,7 +18,12 @@ const InsetChevronListItem = ({
       onClick={onClick}
       className="ml-auto text-right font-medium"
       prefix={label && <span className="text-white">{label}</span>}
-      postfix={<IconChevronRight className="ml-2 h-4 w-4" strokeWidth={3} />}
+      postfix={
+        <IconChevronRight
+          className="ml-2 h-4 w-4 flex-shrink-0"
+          strokeWidth={3}
+        />
+      }
     >
       {value}
     </InsetListItem>
