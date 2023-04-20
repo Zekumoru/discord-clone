@@ -8,31 +8,57 @@ import InsetTextInput from '../../../modal-utils/InsetTextInput';
 import CircledXButton from '../../../CircledXButton';
 import InsetListItem from '../../../modal-utils/InsetListItem';
 import InsetChevronListItem from '../../../modal-utils/InsetChevronListItem';
+import useUpdateGuildName from '../../hooks/useUpdateGuildName';
+import LoadingScreen from '../../../LoadingScreen';
+import { toast } from 'react-toastify';
 
 const OverviewModal = ({ close }: ScreenModalProps) => {
   const guildId = useGuildId();
   const [guild] = useGuild(guildId);
-  const [serverName, setServerName] = useState('');
+  const [guildName, setGuildName] = useState('');
+  const { mutate: updateGuildName, isLoading } = useUpdateGuildName({
+    onSuccess: () => toast.success('Server name updated successfully!'),
+  });
 
   useEffect(() => {
     if (!guild) return;
 
-    setServerName(guild.name);
+    setGuildName(guild.name);
   }, [guild]);
 
   const clearServerNameInput = () => {
-    setServerName('');
+    setGuildName('');
+  };
+
+  const handleUpdateGuildName = () => {
+    if (!guild) {
+      toast.error("Could not update server's name!");
+      return;
+    }
+
+    updateGuildName({
+      guild,
+      guildName,
+    });
   };
 
   return (
     <div className="min-h-screen bg-background-300">
-      <OverviewModalToolbar close={close} />
+      {isLoading && <LoadingScreen />}
+
+      <OverviewModalToolbar
+        onSave={handleUpdateGuildName}
+        showSaveBtn={
+          guildName.trim() !== guild?.name && guildName.trim() !== ''
+        }
+        close={close}
+      />
 
       <div className="heading-2 mx-4 mb-2 mt-10">Server Name</div>
       <InsetList>
         <InsetTextInput
-          value={serverName}
-          onChange={setServerName}
+          value={guildName}
+          onChange={setGuildName}
           postfixElement={
             <CircledXButton onClick={clearServerNameInput} size="small" />
           }
