@@ -3,6 +3,7 @@ import categoriesDoc from '../firebase/categoriesDoc';
 import { getDoc, setDoc } from 'firebase/firestore';
 import createCategory from '../utils/createCategory';
 import { queryClient } from '../../../components/QueryClientInitializer';
+import DiscordError from '../../../utils/DiscordError';
 
 type CreateCategoryOptions = {
   categoriesId: string;
@@ -15,6 +16,12 @@ const createNewCategory = async ({
 }: CreateCategoryOptions) => {
   const categoriesRef = categoriesDoc(categoriesId);
   const categories = (await getDoc(categoriesRef)).data()!;
+
+  if (
+    categories.categories.find((category) => category.name === categoryName)
+  ) {
+    throw new DiscordError('already-exists', 'Category already exists!');
+  }
 
   categories.categories.push(createCategory(categoryName, []));
 

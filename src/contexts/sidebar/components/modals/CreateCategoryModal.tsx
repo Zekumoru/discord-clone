@@ -6,6 +6,8 @@ import InsetList from '../../../../components/modal-utils/InsetList';
 import InsetListItem from '../../../../components/modal-utils/InsetListItem';
 import useCreateCategory from '../../../../types/category/hooks/useCreateCategory';
 import LoadingScreen from '../../../../components/LoadingScreen';
+import DiscordError from '../../../../utils/DiscordError';
+import { toast } from 'react-toastify';
 
 type CreateCategoryModalProps = {
   categoriesId: string;
@@ -18,6 +20,14 @@ const CreateCategoryModal = ({
   const [categoryName, setCategoryName] = useState('');
   const { mutate: createCategory, isLoading } = useCreateCategory({
     onSuccess: close,
+    onError: (error) => {
+      if (!(error instanceof DiscordError)) {
+        toast.error('An unknown error has occurred!');
+        return;
+      }
+
+      toast.error(error.message);
+    },
   });
 
   const handleCreateCategory = () => {
