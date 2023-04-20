@@ -16,6 +16,7 @@
   "dependencies": {
     "date-fns": "^2.29.3",
     "firebase": "^9.18.0",
+    "interactjs": "^1.10.17",
     "nanoid": "^4.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -27,6 +28,7 @@
     "uniqolor": "^1.1.0"
   },
   "devDependencies": {
+    "@interactjs/types": "^1.10.17",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
