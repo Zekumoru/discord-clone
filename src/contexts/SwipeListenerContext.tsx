@@ -68,7 +68,6 @@ const SwipeListenerProvider = ({
     });
 
     interactable.on('dragmove', (event: DragEvent) => {
-      console.log(event.speed);
       if (alreadySwiped) return;
       if (event.speed < 600) return;
 
