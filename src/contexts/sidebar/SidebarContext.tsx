@@ -1,5 +1,6 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
 import Sidebar from './components/Sidebar';
+import SwipeListenerProvider from '../SwipeListenerContext';
 
 type SidebarMethods = [open: () => void, close: () => void];
 
@@ -35,7 +36,16 @@ const SidebarProvider = ({ children }: SidebarProviderProps) => {
   return (
     <SidebarContext.Provider value={[open, close]}>
       <SidebarIsOpenContext.Provider value={isOpen}>
-        <Sidebar isOpen={isOpen} close={close} />
+        <SwipeListenerProvider
+          onSwipeRight={close}
+          className={`fixed top-0 z-50 flex h-screen ${
+            isOpen ? 'left-0 right-0' : '-left-full'
+          } md:left-0`}
+        >
+          <Sidebar isOpen={isOpen} close={close} />
+
+          <div className="grow" onClick={close} />
+        </SwipeListenerProvider>
 
         <div className="flex">
           <div className="md:w-80" />

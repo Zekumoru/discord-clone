@@ -9,8 +9,11 @@ import InvitePartialModal from '../../../components/invite-partial-modal/InviteP
 import MembersUpdatesListener from '../../../pages/channels/pages/guilds/components/MembersUpdatesListener';
 import GuildPartialModal from './modals/GuildPartialModal';
 import GuildDeletionListener from '../../../components/GuildDeletionListener';
+import SwipeListenerProvider from '../../SwipeListenerContext';
+import { useSidebar } from '../SidebarContext';
 
 const SidebarGuild = () => {
+  const [_, close] = useSidebar();
   const location = useLocation().pathname;
   const guildId = useMemo(
     () => location.match(/\/channels\/\d+/)?.[0].substring('/channels/'.length),
@@ -33,7 +36,10 @@ const SidebarGuild = () => {
   };
 
   return (
-    <div className="overflow-x-hidden py-4">
+    <SwipeListenerProvider
+      onSwipeRight={close}
+      className="overflow-x-hidden py-4"
+    >
       <MembersUpdatesListener membersId={guild?.membersId} />
       <GuildDeletionListener guildId={guild?.id} />
 
@@ -65,7 +71,7 @@ const SidebarGuild = () => {
             />
           ))}
       </ul>
-    </div>
+    </SwipeListenerProvider>
   );
 };
 

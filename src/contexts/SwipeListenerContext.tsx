@@ -25,10 +25,18 @@ const useSwipeListener = () => {
 };
 
 type SwipeListenerProviderProps = {
+  className?: string;
   children: ReactNode;
+  onSwipeLeft?: () => void;
+  onSwipeRight?: () => void;
 };
 
-const SwipeListenerProvider = ({ children }: SwipeListenerProviderProps) => {
+const SwipeListenerProvider = ({
+  children,
+  className,
+  onSwipeLeft,
+  onSwipeRight,
+}: SwipeListenerProviderProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [openSidebar] = useSidebar();
   const [swipedLeft, setSwipedLeft] = useState(false);
@@ -58,6 +66,7 @@ const SwipeListenerProvider = ({ children }: SwipeListenerProviderProps) => {
     });
 
     interactable.on('dragmove', (event: DragEvent) => {
+      console.log(event.speed);
       if (alreadySwiped) return;
       if (event.speed < 600) return;
 
@@ -70,8 +79,10 @@ const SwipeListenerProvider = ({ children }: SwipeListenerProviderProps) => {
         }
 
         setSwipedLeft(true);
+        onSwipeLeft?.();
       } else {
         setSwipedRight(true);
+        onSwipeRight?.();
       }
 
       alreadySwiped = true;
@@ -81,7 +92,7 @@ const SwipeListenerProvider = ({ children }: SwipeListenerProviderProps) => {
   }, []);
 
   return (
-    <div className="swipe-listener min-h-screen touch-none" ref={ref}>
+    <div className={`touch-none ${className ?? 'min-h-screen'}`} ref={ref}>
       <SwipeListenerContext.Provider value={{ swipedLeft, swipedRight }}>
         {children}
       </SwipeListenerContext.Provider>
