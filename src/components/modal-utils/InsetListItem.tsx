@@ -18,17 +18,20 @@ const InsetListItem = ({
   return (
     <li
       onClick={onClick}
-      className="li-rule-4 flex items-center gap-2.5 border-background-100 bg-background-500 px-4 py-2.5 font-semibold text-silvergrey-300 after:border-background-500"
+      className="li-rule-inset flex items-center gap-2.5 bg-background-500 pl-4 font-semibold text-silvergrey-300"
     >
       {prefix}
-      <span
-        className={`flex min-h-[24px] items-center capitalize leading-none ${
-          className ?? ''
-        }`}
-      >
-        {children}
+
+      <span className="li-rule-inset-b flex flex-1 items-center py-2.5 pr-4">
+        <span
+          className={`flex min-h-[24px] items-center capitalize leading-none ${
+            className ?? ''
+          }`}
+        >
+          {children}
+        </span>
+        {postfix}
       </span>
-      {postfix}
     </li>
   );
 };
