@@ -7,10 +7,11 @@ import { useMembersSlider } from '../../contexts/members-slider/MembersSliderCon
 import { toast } from 'react-toastify';
 import Chat from './pages/chat/Chat';
 import usePartOfGuild from './pages/guilds/hooks/usePartOfGuild';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import ChannelMessages from './components/ChannelMessages';
 import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
 import { useSwipeListener } from '../../contexts/SwipeListenerContext';
+import { channel } from 'diagnostics_channel';
 
 const Channel = () => {
   const { guildId, channelId } = useParams();
@@ -21,17 +22,17 @@ const Channel = () => {
   const [partOfGuild] = usePartOfGuild(guild, user);
   const { swipedRight } = useSwipeListener();
   const navigate = useNavigate();
-  let channel: IChannel | undefined;
+  const channel = useMemo(() => {
+    if (!categories) return;
 
-  if (categories) {
-    categories.categories.forEach((category) => {
-      category.channels.forEach((c) => {
-        if (c.id === channelId) {
-          channel = c;
+    for (const category of categories.categories) {
+      for (const channel of category.channels) {
+        if (channel.id === channelId) {
+          return channel;
         }
-      });
-    });
-  }
+      }
+    }
+  }, [categories, channelId]);
 
   useEffect(() => {
     if (!swipedRight) return;
