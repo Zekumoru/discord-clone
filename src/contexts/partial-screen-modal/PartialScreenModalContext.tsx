@@ -37,7 +37,7 @@ const PartialScreenModalProvider = ({
   return (
     <PartialScreenModalContext.Provider value={[open, close]}>
       {modal && (
-        <div className="fixed bottom-0 left-0 top-0 z-[100] w-full overflow-y-auto overflow-x-hidden">
+        <div className="fixed bottom-0 left-0 top-0 z-[500] w-full overflow-y-auto overflow-x-hidden">
           <div className="flex min-h-screen flex-col items-center bg-background-700 bg-opacity-50">
             <div className="min-h-[65vh] w-full flex-1" onClick={close} />
             <div className="mb-3 h-1.5 w-16 rounded bg-silvergrey-300" />

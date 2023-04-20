@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ScreenModalProps } from '../../../../contexts/screen-modal/ScreenModalContext';
 import { useGuildId } from '../../../../types/guild/contexts/GuildIdContext';
 import useGuild from '../../../../types/guild/hooks/useGuild';
@@ -11,11 +11,27 @@ import InsetChevronListItem from '../../../modal-utils/InsetChevronListItem';
 import useUpdateGuildName from '../../hooks/useUpdateGuildName';
 import LoadingScreen from '../../../LoadingScreen';
 import { toast } from 'react-toastify';
+import useCategories from '../../../../types/category/hooks/useCategories';
+import { usePartialScreenModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
+import SystemMessagesPartialModal from './SystemMessagesPartialModal';
 
 const OverviewModal = ({ close }: ScreenModalProps) => {
+  const [openPartialModal, closePartialModal] = usePartialScreenModal();
   const guildId = useGuildId();
   const [guild] = useGuild(guildId);
   const [guildName, setGuildName] = useState('');
+  const [categories] = useCategories(guild?.categoriesId);
+  const systemMessagesChannel = useMemo(() => {
+    if (!guild || !categories) return;
+
+    for (const category of categories.categories) {
+      for (const channel of category.channels) {
+        if (channel.id === guild.systemMessagesChannelId) {
+          return channel;
+        }
+      }
+    }
+  }, [guild, categories]);
   const { mutate: updateGuildName, isLoading } = useUpdateGuildName({
     onSuccess: () => toast.success('Server name updated successfully!'),
   });
@@ -40,6 +56,20 @@ const OverviewModal = ({ close }: ScreenModalProps) => {
       guild,
       guildName,
     });
+  };
+
+  const openSystemMessagesPartialModal = () => {
+    if (!guild) {
+      toast.error('Could not open modal!');
+      return;
+    }
+
+    openPartialModal(
+      <SystemMessagesPartialModal
+        guildId={guild.id}
+        close={closePartialModal}
+      />
+    );
   };
 
   return (
@@ -67,7 +97,13 @@ const OverviewModal = ({ close }: ScreenModalProps) => {
 
       <div className="heading-2 mx-4 mb-2 mt-8">System Messages Settings</div>
       <InsetList className="mb-10">
-        <InsetChevronListItem label="Channel" value={'#general'} />
+        <InsetChevronListItem
+          onClick={openSystemMessagesPartialModal}
+          label="Channel"
+          value={
+            systemMessagesChannel ? `#${systemMessagesChannel.name}` : 'Not set'
+          }
+        />
       </InsetList>
 
       <InsetList>

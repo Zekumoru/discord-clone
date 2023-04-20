@@ -7,7 +7,7 @@ interface IGuild {
   categoriesId: string;
   membersId: string;
   rolesId: string;
-  systemMessagesChannelId: string;
+  systemMessagesChannelId: string | null;
   creationTimestamp: Timestamp | null;
 }
 
