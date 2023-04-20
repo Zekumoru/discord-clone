@@ -8,6 +8,7 @@ import Channel from './Channel';
 import Guild from './pages/guilds/Guild';
 import MembersSliderProvider from '../../contexts/members-slider/MembersSliderContext';
 import FriendChat from './pages/chat/FriendChat';
+import SwipeListenerProvider from '../../contexts/SwipeListenerContext';
 
 const Channels = () => {
   const [user, loading] = useCurrentUser();
@@ -24,12 +25,14 @@ const Channels = () => {
     <PartialScreenModalProvider>
       <SidebarProvider>
         <MembersSliderProvider>
-          <Routes>
-            <Route path="/@me" element={<Friends />} />
-            <Route path="/@me/:id" element={<FriendChat />} />
-            <Route path="/:guildId" element={<Guild />} />
-            <Route path="/:guildId/:channelId" element={<Channel />} />
-          </Routes>
+          <SwipeListenerProvider>
+            <Routes>
+              <Route path="/@me" element={<Friends />} />
+              <Route path="/@me/:id" element={<FriendChat />} />
+              <Route path="/:guildId" element={<Guild />} />
+              <Route path="/:guildId/:channelId" element={<Channel />} />
+            </Routes>
+          </SwipeListenerProvider>
         </MembersSliderProvider>
       </SidebarProvider>
     </PartialScreenModalProvider>

@@ -10,6 +10,7 @@ import usePartOfGuild from './pages/guilds/hooks/usePartOfGuild';
 import { useEffect } from 'react';
 import ChannelMessages from './components/ChannelMessages';
 import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
+import { useSwipeListener } from '../../contexts/SwipeListenerContext';
 
 const Channel = () => {
   const { guildId, channelId } = useParams();
@@ -18,6 +19,7 @@ const Channel = () => {
   const [categories] = useCategories(guild?.categoriesId);
   const [openMembersSlider] = useMembersSlider();
   const [partOfGuild] = usePartOfGuild(guild, user);
+  const { swipedRight } = useSwipeListener();
   const navigate = useNavigate();
   let channel: IChannel | undefined;
 
@@ -30,6 +32,12 @@ const Channel = () => {
       });
     });
   }
+
+  useEffect(() => {
+    if (!swipedRight) return;
+
+    handleOpenMembersSlider();
+  }, [swipedRight]);
 
   useEffect(() => {
     if (partOfGuild === undefined) return;
