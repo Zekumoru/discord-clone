@@ -8,6 +8,9 @@ import {
 } from 'react';
 import { useSidebar } from './sidebar/SidebarContext';
 
+const TIME_THRESHOLD_MILLISECONDS = 40;
+const DISTANCE_THRESHOLD_PIXELS = 50;
+
 type SwipeEvents = {
   swipedLeft: boolean;
   swipedRight: boolean;
@@ -71,15 +74,15 @@ const SwipeListenerProvider = ({
       if (alreadySwiped) return;
 
       const deltaTime = Date.now() - startTime;
-      if (deltaTime < 80) return;
+      if (deltaTime < TIME_THRESHOLD_MILLISECONDS) return;
 
       const deltaX = event.touches[0].clientX - clientX0;
       clientX0 = event.touches[0].clientX;
       startTime = Date.now();
 
-      if (Math.abs(deltaX) <= 100) return;
+      if (Math.abs(deltaX) <= DISTANCE_THRESHOLD_PIXELS) return;
 
-      if (deltaX > 100) {
+      if (deltaX > DISTANCE_THRESHOLD_PIXELS) {
         if (window.innerWidth < 768 && enabledSidebarSwiping) {
           openSidebar();
         }
