@@ -50,6 +50,7 @@ const SwipeListenerProvider = ({ children }: SwipeListenerProviderProps) => {
     if (!ref.current) return;
 
     const interactable = interact(ref.current).draggable({});
+    interactable.styleCursor(false);
 
     let alreadySwiped = false;
     interactable.on('dragstart', () => {
@@ -64,7 +65,10 @@ const SwipeListenerProvider = ({ children }: SwipeListenerProviderProps) => {
       if (Math.abs(distance) <= 100) return;
 
       if (distance > 100) {
-        openSidebar();
+        if (window.innerWidth < 768) {
+          openSidebar();
+        }
+
         setSwipedLeft(true);
       } else {
         setSwipedRight(true);
