@@ -35,10 +35,7 @@ const MembersSlider = ({
       <div className="w-80 bg-background-300 shadow-material">
         <MembersSliderHeader prefix={titlePrefix}>{title}</MembersSliderHeader>
 
-        <SwipeListenerProvider
-          onSwipeLeft={close}
-          className="h-screen-slide-header overflow-y-auto p-4"
-        >
+        <div className="h-screen-slide-header overflow-y-auto p-4">
           <div className="heading-2 mb-3">
             Members — {members?.members.length ?? 0}
           </div>
@@ -47,7 +44,7 @@ const MembersSlider = ({
               <MembersSliderItem key={member.userId} member={member} />
             ))}
           </ul>
-        </SwipeListenerProvider>
+        </div>
       </div>
     </SwipeListenerProvider>
   );

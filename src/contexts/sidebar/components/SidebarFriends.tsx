@@ -4,7 +4,6 @@ import { PartialScreenModalMethods } from '../../partial-screen-modal/PartialScr
 import useUserChats from '../../../types/user-chat/hooks/useUserChats';
 import { useCurrentUser } from '../../current-user/CurrentUserContext';
 import SidebarFriendItem from './SidebarFriendItem';
-import SwipeListenerProvider from '../../SwipeListenerContext';
 
 type SidebarFriendsProps = {
   close: PartialScreenModalMethods[1];
@@ -21,10 +20,7 @@ const SidebarFriends = ({ close }: SidebarFriendsProps) => {
   };
 
   return (
-    <SwipeListenerProvider
-      onSwipeRight={close}
-      className="overflow-x-hidden px-3 py-4 font-medium text-silvergrey-400"
-    >
+    <div className="overflow-x-hidden px-3 py-4 font-medium text-silvergrey-400">
       <div
         onClick={handleGoToFriendsPage}
         className="mb-4 flex items-center gap-3 p-2"
@@ -48,7 +44,7 @@ const SidebarFriends = ({ close }: SidebarFriendsProps) => {
           />
         ))}
       </ul>
-    </SwipeListenerProvider>
+    </div>
   );
 };
 

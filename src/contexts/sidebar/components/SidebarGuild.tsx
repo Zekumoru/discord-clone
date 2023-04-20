@@ -9,7 +9,6 @@ import InvitePartialModal from '../../../components/invite-partial-modal/InviteP
 import MembersUpdatesListener from '../../../pages/channels/pages/guilds/components/MembersUpdatesListener';
 import GuildPartialModal from './modals/GuildPartialModal';
 import GuildDeletionListener from '../../../components/GuildDeletionListener';
-import SwipeListenerProvider from '../../SwipeListenerContext';
 import { useSidebar } from '../SidebarContext';
 
 const SidebarGuild = () => {
@@ -36,10 +35,7 @@ const SidebarGuild = () => {
   };
 
   return (
-    <SwipeListenerProvider
-      onSwipeRight={close}
-      className="overflow-x-hidden py-4"
-    >
+    <div className="overflow-x-hidden py-4">
       <MembersUpdatesListener membersId={guild?.membersId} />
       <GuildDeletionListener guildId={guild?.id} />
 
@@ -71,7 +67,7 @@ const SidebarGuild = () => {
             />
           ))}
       </ul>
-    </SwipeListenerProvider>
+    </div>
   );
 };
 

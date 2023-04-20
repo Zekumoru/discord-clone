@@ -7,8 +7,6 @@ import {
   useState,
 } from 'react';
 import { useSidebar } from './sidebar/SidebarContext';
-import interact from 'interactjs';
-import { DragEvent } from '@interactjs/types';
 
 type SwipeEvents = {
   swipedLeft: boolean;
@@ -59,22 +57,29 @@ const SwipeListenerProvider = ({
   useEffect(() => {
     if (!ref.current) return;
 
-    const interactable = interact(ref.current).draggable({});
-    interactable.styleCursor(false);
-
+    let startTime = 0;
+    let clientX0 = 0;
     let alreadySwiped = false;
-    interactable.on('dragstart', () => {
+
+    ref.current.ontouchstart = (event) => {
+      startTime = Date.now();
+      clientX0 = event.touches[0].clientX;
       alreadySwiped = false;
-    });
+    };
 
-    interactable.on('dragmove', (event: DragEvent) => {
+    ref.current.ontouchmove = (event) => {
       if (alreadySwiped) return;
-      if (event.speed < 600) return;
 
-      const distance = event.clientX - event.clientX0;
-      if (Math.abs(distance) <= 100) return;
+      const deltaTime = Date.now() - startTime;
+      if (deltaTime < 80) return;
 
-      if (distance > 100) {
+      const deltaX = event.touches[0].clientX - clientX0;
+      clientX0 = event.touches[0].clientX;
+      startTime = Date.now();
+
+      if (Math.abs(deltaX) <= 100) return;
+
+      if (deltaX > 100) {
         if (window.innerWidth < 768 && enabledSidebarSwiping) {
           openSidebar();
         }
@@ -87,13 +92,11 @@ const SwipeListenerProvider = ({
       }
 
       alreadySwiped = true;
-    });
-
-    return () => interactable.unset();
+    };
   }, []);
 
   return (
-    <div className={`touch-none ${className ?? 'min-h-screen'}`} ref={ref}>
+    <div className={`${className ?? 'min-h-screen'}`} ref={ref}>
       <SwipeListenerContext.Provider value={{ swipedLeft, swipedRight }}>
         {children}
       </SwipeListenerContext.Provider>
