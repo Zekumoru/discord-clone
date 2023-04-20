@@ -27,6 +27,7 @@ const useSwipeListener = () => {
 type SwipeListenerProviderProps = {
   className?: string;
   children: ReactNode;
+  enabledSidebarSwiping?: boolean;
   onSwipeLeft?: () => void;
   onSwipeRight?: () => void;
 };
@@ -36,6 +37,7 @@ const SwipeListenerProvider = ({
   className,
   onSwipeLeft,
   onSwipeRight,
+  enabledSidebarSwiping,
 }: SwipeListenerProviderProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [openSidebar] = useSidebar();
@@ -74,7 +76,7 @@ const SwipeListenerProvider = ({
       if (Math.abs(distance) <= 100) return;
 
       if (distance > 100) {
-        if (window.innerWidth < 768) {
+        if (window.innerWidth < 768 && enabledSidebarSwiping) {
           openSidebar();
         }
 

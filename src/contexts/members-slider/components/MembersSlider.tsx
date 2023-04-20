@@ -1,4 +1,5 @@
 import useMembers from '../../../types/member/hooks/useMembers';
+import SwipeListenerProvider from '../../SwipeListenerContext';
 import {
   useIsOpenMembersSlider,
   useMembersSlider,
@@ -24,7 +25,8 @@ const MembersSlider = ({
   const isOpen = useIsOpenMembersSlider();
 
   return (
-    <div
+    <SwipeListenerProvider
+      onSwipeLeft={close}
       className={`fixed bottom-0 top-0 z-50 flex ${
         isOpen ? 'left-0 right-0' : '-right-full'
       }`}
@@ -33,7 +35,10 @@ const MembersSlider = ({
       <div className="w-80 bg-background-300 shadow-material">
         <MembersSliderHeader prefix={titlePrefix}>{title}</MembersSliderHeader>
 
-        <div className="h-screen-slide-header overflow-y-auto p-4">
+        <SwipeListenerProvider
+          onSwipeLeft={close}
+          className="h-screen-slide-header overflow-y-auto p-4"
+        >
           <div className="heading-2 mb-3">
             Members — {members?.members.length ?? 0}
           </div>
@@ -42,9 +47,9 @@ const MembersSlider = ({
               <MembersSliderItem key={member.userId} member={member} />
             ))}
           </ul>
-        </div>
+        </SwipeListenerProvider>
       </div>
-    </div>
+    </SwipeListenerProvider>
   );
 };
 

@@ -25,7 +25,7 @@ const Channels = () => {
     <PartialScreenModalProvider>
       <SidebarProvider>
         <MembersSliderProvider>
-          <SwipeListenerProvider>
+          <SwipeListenerProvider enabledSidebarSwiping>
             <Routes>
               <Route path="/@me" element={<Friends />} />
               <Route path="/@me/:id" element={<FriendChat />} />
