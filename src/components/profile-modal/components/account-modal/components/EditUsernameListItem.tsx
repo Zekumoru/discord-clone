@@ -1,7 +1,6 @@
-import { IconChevronRight } from '../../../../../assets/icons';
 import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
 import { useScreenModal } from '../../../../../contexts/screen-modal/ScreenModalContext';
-import InsetListItem from '../../../../modal-utils/InsetListItem';
+import InsetChevronListItem from '../../../../modal-utils/InsetChevronListItem';
 import EditUsernameModal from './EditUsernameModal';
 
 const EditUsernameListItem = () => {
@@ -9,16 +8,13 @@ const EditUsernameListItem = () => {
   const [openModal, closeModal] = useScreenModal();
 
   return (
-    <InsetListItem
+    <InsetChevronListItem
+      label="Username"
+      value={currentUser?.username}
       onClick={() => {
         openModal(<EditUsernameModal close={closeModal} />);
       }}
-      className="ml-auto text-right font-medium"
-      prefix={<span className="text-white">Username</span>}
-      postfix={<IconChevronRight className="h-4 w-4" strokeWidth={3} />}
-    >
-      {currentUser?.username}
-    </InsetListItem>
+    />
   );
 };
 

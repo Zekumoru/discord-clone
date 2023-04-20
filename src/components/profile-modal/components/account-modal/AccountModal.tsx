@@ -33,6 +33,7 @@ const AccountModal = ({ close }: AccountModalProps) => {
         <EditUsernameListItem />
 
         <InsetListItem
+          hrRule="rule-4"
           className="ml-auto font-medium normal-case"
           prefix={<span className="text-white">Email</span>}
         >

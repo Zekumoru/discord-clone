@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+import CircledXButton from '../CircledXButton';
 import InsetListItem from './InsetListItem';
 
 type InsetTextInputProps = {
@@ -5,6 +7,8 @@ type InsetTextInputProps = {
   placeholder?: string;
   minLength?: number;
   maxLength?: number;
+  disabled?: boolean;
+  postfixElement?: ReactNode;
   onChange: (value: string) => void;
 };
 
@@ -14,6 +18,8 @@ const InsetTextInput = ({
   onChange,
   minLength,
   maxLength,
+  postfixElement,
+  disabled,
 }: InsetTextInputProps) => {
   return (
     <InsetListItem className="w-full">
@@ -25,7 +31,9 @@ const InsetTextInput = ({
         onChange={(e) => onChange(e.target.value)}
         className="w-full bg-transparent font-medium text-white outline-none placeholder:text-silvergrey-400"
         placeholder={placeholder}
+        disabled={disabled}
       />
+      {postfixElement}
     </InsetListItem>
   );
 };
