@@ -13,6 +13,7 @@ import { useScreenModal } from '../../../screen-modal/ScreenModalContext';
 import CreateChannelModal from './CreateChannelModal';
 import CreateCategoryModal from './CreateCategoryModal';
 import GuildModal from '../../../../components/guild-modal/GuildModal';
+import useIsCurrentUserGuildOwner from '../../../../types/guild/hooks/useIsCurrentUserGuildOwner';
 
 type GuildPartialModalProps = {
   guildId: string | undefined;
@@ -23,6 +24,7 @@ const GuildPartialModal = ({ guildId, close }: GuildPartialModalProps) => {
   const [openModal, closeModal] = useScreenModal();
   const [guild] = useGuild(guildId);
   const [members] = useMembers(guild?.membersId);
+  const isGuildOwner = useIsCurrentUserGuildOwner(guildId);
   const membersLength = members?.members.length ?? 0;
 
   const openInvitePartialModal = () => {
@@ -85,7 +87,11 @@ const GuildPartialModal = ({ guildId, close }: GuildPartialModalProps) => {
 
         <div className="mt-2 border-b border-background-100" />
 
-        <div className="grid grid-cols-2 px-4 py-2.5 text-silvergrey-300">
+        <div
+          className={`grid px-4 py-2.5 text-silvergrey-300 ${
+            isGuildOwner ? 'grid-cols-2' : 'grid-cols-1'
+          }`}
+        >
           <button
             onClick={openInvitePartialModal}
             className="flex flex-col items-center gap-1.5 p-2 font-medium"
@@ -93,13 +99,15 @@ const GuildPartialModal = ({ guildId, close }: GuildPartialModalProps) => {
             <IconUserPlus className="h-7 w-7" />
             <div className="text-sm">Invite</div>
           </button>
-          <button
-            onClick={openGuildModal}
-            className="flex flex-col items-center gap-1.5 p-2 font-medium"
-          >
-            <IconCog6Tooth className="h-7 w-7" />
-            <div className="text-sm">Settings</div>
-          </button>
+          {isGuildOwner && (
+            <button
+              onClick={openGuildModal}
+              className="flex flex-col items-center gap-1.5 p-2 font-medium"
+            >
+              <IconCog6Tooth className="h-7 w-7" />
+              <div className="text-sm">Settings</div>
+            </button>
+          )}
         </div>
       </header>
 
