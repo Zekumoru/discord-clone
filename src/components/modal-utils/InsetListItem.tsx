@@ -18,7 +18,7 @@ const InsetListItem = ({
   return (
     <li
       onClick={onClick}
-      className="li-rule-inset flex items-center gap-2.5 bg-background-500 pl-4 font-semibold text-silvergrey-300"
+      className="li-rule-inset flex items-center gap-3 bg-background-500 pl-4 font-semibold text-silvergrey-300"
     >
       {prefix}
 

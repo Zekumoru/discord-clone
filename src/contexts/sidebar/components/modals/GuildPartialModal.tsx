@@ -12,6 +12,7 @@ import PartialModalRoundedDiv from '../../../partial-screen-modal/components/Par
 import { useScreenModal } from '../../../screen-modal/ScreenModalContext';
 import CreateChannelModal from './CreateChannelModal';
 import CreateCategoryModal from './CreateCategoryModal';
+import GuildModal from '../../../../components/guild-modal/GuildModal';
 
 type GuildPartialModalProps = {
   guildId: string | undefined;
@@ -28,6 +29,11 @@ const GuildPartialModal = ({ guildId, close }: GuildPartialModalProps) => {
     openPartialModal(
       <InvitePartialModal guild={guild} close={closePartialModal} />
     );
+  };
+
+  const openGuildModal = () => {
+    openModal(<GuildModal guildId={guildId} close={closeModal} />);
+    close();
   };
 
   const openCreateChannelModal = () => {
@@ -87,7 +93,10 @@ const GuildPartialModal = ({ guildId, close }: GuildPartialModalProps) => {
             <IconUserPlus className="h-7 w-7" />
             <div className="text-sm">Invite</div>
           </button>
-          <button className="flex flex-col items-center gap-1.5 p-2 font-medium">
+          <button
+            onClick={openGuildModal}
+            className="flex flex-col items-center gap-1.5 p-2 font-medium"
+          >
             <IconCog6Tooth className="h-7 w-7" />
             <div className="text-sm">Settings</div>
           </button>

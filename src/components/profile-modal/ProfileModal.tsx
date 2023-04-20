@@ -1,8 +1,6 @@
 import { useSignOut } from 'react-firebase-hooks/auth';
 import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
-import ScreenModalProvider, {
-  ScreenModalMethods,
-} from '../../contexts/screen-modal/ScreenModalContext';
+import { ScreenModalMethods } from '../../contexts/screen-modal/ScreenModalContext';
 import ProfilePicture from '../../pages/channels/components/ProfilePicture';
 import extractNameAndTag from '../../utils/extractNameAndTag';
 import InsetList from '../modal-utils/InsetList';

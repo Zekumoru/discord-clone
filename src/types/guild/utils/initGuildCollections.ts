@@ -1,5 +1,4 @@
 import { WriteBatch, serverTimestamp } from 'firebase/firestore';
-import performBatch from '../../../utils/performBatch';
 import snowflakeId from '../../../utils/snowflake-id/snowflakeId';
 import categoriesDoc from '../../category/firebase/categoriesDoc';
 import createCategory from '../../category/utils/createCategory';
