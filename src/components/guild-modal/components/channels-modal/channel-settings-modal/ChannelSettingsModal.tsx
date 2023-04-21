@@ -11,6 +11,10 @@ import { useCategoriesId } from '../../../../../types/category/contexts/Categori
 import useCategories from '../../../../../types/category/hooks/useCategories';
 import { useMemo } from 'react';
 import useCategoryName from '../../../hooks/useCategoryName';
+import useUpdateChannelName from '../../../hooks/useUpdateChannelName';
+import LoadingScreen from '../../../../LoadingScreen';
+import { toast } from 'react-toastify';
+import DiscordError from '../../../../../utils/DiscordError';
 
 type ChannelSettingsModalProps = {
   channel: IChannel;
@@ -26,12 +30,51 @@ const ChannelSettingsModal = ({
   const [channelName, handleChannelNameChange] = useChannelNameChange(
     channel.name
   );
+  const hasChanges = channelName !== channel.name && channelName !== '';
+  const { mutate: updateChannelName, isLoading } = useUpdateChannelName({
+    onSuccess: () => {
+      toast.success('Channel name updated successfully!');
+      close();
+    },
+    onError: (error) => {
+      if (!(error instanceof DiscordError)) {
+        toast.error('An unknown error has occurred!');
+        return;
+      }
+
+      toast.error(error.message);
+    },
+  });
+
+  const handleUpdateChannelName = () => {
+    if (!categories) {
+      toast.error('Could not update channel name!');
+      return;
+    }
+
+    updateChannelName({
+      categoriesId: categories.id,
+      channelId: channel.id,
+      newChannelName: channelName,
+    });
+  };
 
   return (
     <div className="mb-4">
+      {isLoading && <LoadingScreen />}
+
       <ScreenModalToolbar
         leftElement={<ModalCloseButton className="font-medium" close={close} />}
-        rightElement={<button className={`font-medium`}>Save</button>}
+        rightElement={
+          hasChanges && (
+            <button
+              onClick={handleUpdateChannelName}
+              className={`font-medium text-white`}
+            >
+              Save
+            </button>
+          )
+        }
       >
         Channel Settings
       </ScreenModalToolbar>
