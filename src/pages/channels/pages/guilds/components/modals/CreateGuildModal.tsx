@@ -54,7 +54,7 @@ const CreateGuildModal = ({ close }: ScreenModalProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background-300">
+    <div className="mb-4">
       {(createGuildLoading || createInviteLoading) && <LoadingScreen />}
 
       <div className="flex h-[56px] items-center px-4">

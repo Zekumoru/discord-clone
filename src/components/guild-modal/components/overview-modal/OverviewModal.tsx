@@ -76,7 +76,7 @@ const OverviewModal = ({ close }: ScreenModalProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background-300">
+    <div className="mb-4">
       {isLoading && <LoadingScreen />}
 
       <OverviewModalToolbar

@@ -18,7 +18,7 @@ const EditProfileModal = ({ close }: EditProfileModalProps) => {
   const [name, tag] = extractNameAndTag(user?.username ?? '');
 
   return (
-    <div className="min-h-screen bg-background-300">
+    <div className="mb-4">
       <ScreenModalToolbar
         leftElement={
           <ModalChevronCloseButton close={close}>

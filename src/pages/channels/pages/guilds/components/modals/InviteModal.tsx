@@ -16,7 +16,7 @@ const InviteModal = ({ inviteId, close }: InviteModalProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background-300">
+    <div className="mb-4">
       <div className="flex h-[56px] items-center justify-end px-4">
         <button className="font-medium" onClick={() => close()}>
           Skip

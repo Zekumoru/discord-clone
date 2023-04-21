@@ -30,7 +30,7 @@ const ProfileModal = ({ close }: ProfileModalProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background-300">
+    <div>
       {logoutLoading && <LoadingScreen />}
 
       <ProfileToolbar close={close} />

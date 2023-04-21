@@ -20,7 +20,7 @@ const GuildModal = ({ guildId, close }: GuildModalProps) => {
   return (
     <PartialScreenModalProvider>
       <GuildIdProvider guildId={guildId}>
-        <div className="min-h-screen bg-background-300">
+        <div className="mb-4">
           <ScreenModalToolbar leftElement={<ModalCloseButton close={close} />}>
             Server Settings
           </ScreenModalToolbar>

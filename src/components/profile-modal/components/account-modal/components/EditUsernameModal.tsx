@@ -73,7 +73,7 @@ const EditUsernameModal = ({ close }: EditUsernameModalProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background-300">
+    <div className="mb-4">
       {isLoading && <LoadingScreen />}
 
       <ScreenModalToolbar

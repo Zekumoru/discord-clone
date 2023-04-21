@@ -50,7 +50,7 @@ const EditPasswordModal = ({ close }: EditPasswordModalProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background-300">
+    <div className="mb-4">
       {(signInLoading || updateLoading) && <LoadingScreen />}
 
       <div className="flex h-[56px] items-center px-4">

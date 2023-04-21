@@ -66,7 +66,7 @@ const DeleteAccountModal = ({ close }: DeleteAccountModalProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background-300">
+    <div className="mb-4">
       {(signInLoading || deleteLoading) && <LoadingScreen />}
 
       <div className="flex h-[56px] items-center px-4">

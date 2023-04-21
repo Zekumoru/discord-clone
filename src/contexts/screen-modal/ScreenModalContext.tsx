@@ -43,7 +43,7 @@ const ScreenModalProvider = ({
   return (
     <ScreenModalContext.Provider value={[open, close]}>
       {modal && (
-        <div className="fixed left-0 top-0 z-[300] min-h-screen w-full">
+        <div className="fixed bottom-0 left-0 top-0 z-[300] w-full overflow-y-auto bg-background-300">
           {modal}
         </div>
       )}
