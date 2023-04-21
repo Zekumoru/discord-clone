@@ -125,4 +125,12 @@
   .li-rule-inset:last-of-type > .li-rule-inset-b {
     @apply border-0;
   }
+
+  .li-rule-2 > .li-rule-2-b {
+    @apply border-b-2 border-background-100;
+  }
+
+  .li-rule-2:last-of-type > .li-rule-2-b {
+    @apply border-0;
+  }
 }

@@ -31,7 +31,7 @@ const GuildModal = ({ guildId, close }: GuildModalProps) => {
           <div className="heading-2 mx-4 mb-2">Settings</div>
           <InsetList className="mb-8">
             <OverviewListItem />
-            <ChannelsListItem />
+            <ChannelsListItem categoriesId={guild?.categoriesId} />
           </InsetList>
           <div className="heading-2 mx-4 mb-2">User Management</div>
           <InsetList>
