@@ -1,8 +1,25 @@
+import { usePartialScreenModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import { ScreenModalProps } from '../../../../contexts/screen-modal/ScreenModalContext';
 import ScreenModalToolbar from '../../../../contexts/screen-modal/components/ScreenModalToolbar';
 import ModalChevronCloseButton from '../../../modal-utils/ModalChevronCloseButton';
+import ReorderPartialModal from './reorder-partial-modal/ReorderPartialModal';
 
-const ChannelsModalToolbar = ({ close }: ScreenModalProps) => {
+type ChannelsModalToolbarProps = {
+  categoriesId: string;
+} & ScreenModalProps;
+
+const ChannelsModalToolbar = ({
+  categoriesId,
+  close,
+}: ChannelsModalToolbarProps) => {
+  const [openPartialModal, closePartialModal] = usePartialScreenModal();
+
+  const openReorderPartialModal = () => {
+    openPartialModal(
+      <ReorderPartialModal categoriesId={categoriesId} close={close} />
+    );
+  };
+
   return (
     <ScreenModalToolbar
       leftElement={
@@ -11,7 +28,12 @@ const ChannelsModalToolbar = ({ close }: ScreenModalProps) => {
         </ModalChevronCloseButton>
       }
       rightElement={
-        <button className="font-semibold text-silvergrey-100">Reorder</button>
+        <button
+          onClick={openReorderPartialModal}
+          className="font-semibold text-silvergrey-100"
+        >
+          Reorder
+        </button>
       }
     >
       Channels

@@ -27,7 +27,7 @@ const ChannelsModal = ({ categoriesId, close }: ChannelsModalProps) => {
 
   return (
     <div className="mb-4">
-      <ChannelsModalToolbar close={close} />
+      <ChannelsModalToolbar categoriesId={categoriesId} close={close} />
 
       <ul className="mb-20 mt-10">
         {categories?.categories.map((category) => (
