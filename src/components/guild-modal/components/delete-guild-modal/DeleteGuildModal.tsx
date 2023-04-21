@@ -52,7 +52,7 @@ const DeleteGuildModal = ({ close, guildId }: DeleteGuildModalProps) => {
         <p className="mx-4 mb-5 text-center font-medium text-silvergrey-300">
           Deleting this server <span className="font-bold">will remove</span>{' '}
           all its members access to it and this action{' '}
-          <span className="font-bold">is not</span> recoverable!
+          <span className="font-bold">is not</span> irreversible!
         </p>
 
         <div className="heading-2 mb-2">Type "confirm" to delete server</div>
