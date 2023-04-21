@@ -1,14 +1,13 @@
-import { useState } from 'react';
 import { ScreenModalProps } from '../../../screen-modal/ScreenModalContext';
 import ScreenModalToolbar from '../../../screen-modal/components/ScreenModalToolbar';
 import InsetList from '../../../../components/modal-utils/InsetList';
-import InsetListItem from '../../../../components/modal-utils/InsetListItem';
 import ModalCloseButton from '../../../../components/modal-utils/ModalCloseButton';
 import useCreateChannel from '../../../../types/channel/hooks/useCreateChannel';
 import LoadingScreen from '../../../../components/LoadingScreen';
 import DiscordError from '../../../../utils/DiscordError';
 import { toast } from 'react-toastify';
 import InsetTextInput from '../../../../components/modal-utils/InsetTextInput';
+import useChannelNameChange from './hooks/useChannelNameChange';
 
 type CreateChannelModalProps = {
   categoriesId: string;
@@ -20,7 +19,7 @@ const CreateChannelModal = ({
   categoryName,
   close,
 }: CreateChannelModalProps) => {
-  const [channelName, setChannelName] = useState('');
+  const [channelName, handleChannelNameChange] = useChannelNameChange();
   const { mutate: createChannel, isLoading } = useCreateChannel({
     onSuccess: close,
     onError: (error) => {
@@ -38,15 +37,6 @@ const CreateChannelModal = ({
       }
     },
   });
-
-  const handleChannelNameChange = (channelName: string) => {
-    if (channelName === ' ') return;
-
-    const processedName = channelName.toLowerCase().replaceAll(' ', '-');
-    if (!processedName.match(/^(\w+-?)*$/)) return;
-
-    setChannelName(processedName);
-  };
 
   const handleCreateChannel = () => {
     createChannel({
