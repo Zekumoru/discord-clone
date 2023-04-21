@@ -31,10 +31,10 @@ const InsetListItem = ({
       <span
         className={`${
           hrRule === 'rule-4' ? '' : 'li-rule-inset-b'
-        } flex flex-1 items-center py-2.5 pr-4`}
+        } flex flex-1 items-center overflow-hidden py-2.5 pr-4`}
       >
         <span
-          className={`flex min-h-[24px] items-center leading-none ${
+          className={`flex min-h-[24px] items-center overflow-hidden leading-none ${
             className ?? ''
           }`}
         >

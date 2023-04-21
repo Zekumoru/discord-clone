@@ -6,6 +6,7 @@ type DiscordErrorCode =
   | 'username-taken'
   | 'missing-role'
   | 'missing-category'
+  | 'missing-channel'
   | 'already-exists'
   | 'already-joined';
 

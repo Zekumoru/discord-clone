@@ -35,7 +35,7 @@ const InsetChevronListItem = ({
         />
       }
     >
-      {value}
+      <span className="truncate">{value}</span>
     </InsetListItem>
   );
 };

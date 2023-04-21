@@ -2,7 +2,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ChatToolbar from './pages/chat/components/ChatToolbar';
 import useGuild from '../../types/guild/hooks/useGuild';
 import useCategories from '../../types/category/hooks/useCategories';
-import IChannel from '../../types/channel/Channel';
 import { useMembersSlider } from '../../contexts/members-slider/MembersSliderContext';
 import { toast } from 'react-toastify';
 import Chat from './pages/chat/Chat';
@@ -11,7 +10,7 @@ import { useEffect, useMemo } from 'react';
 import ChannelMessages from './components/ChannelMessages';
 import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
 import { useSwipeListener } from '../../contexts/SwipeListenerContext';
-import { channel } from 'diagnostics_channel';
+import findChannel from '../../types/channel/utils/findChannel';
 
 const Channel = () => {
   const { guildId, channelId } = useParams();
@@ -23,15 +22,9 @@ const Channel = () => {
   const { swipedRight } = useSwipeListener();
   const navigate = useNavigate();
   const channel = useMemo(() => {
-    if (!categories) return;
+    if (!categories || !channelId) return;
 
-    for (const category of categories.categories) {
-      for (const channel of category.channels) {
-        if (channel.id === channelId) {
-          return channel;
-        }
-      }
-    }
+    return findChannel(channelId, categories.categories)[0];
   }, [categories, channelId]);
 
   useEffect(() => {

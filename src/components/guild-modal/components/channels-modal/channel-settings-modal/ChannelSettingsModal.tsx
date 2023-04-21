@@ -15,6 +15,7 @@ import useUpdateChannelName from '../../../hooks/useUpdateChannelName';
 import LoadingScreen from '../../../../LoadingScreen';
 import { toast } from 'react-toastify';
 import DiscordError from '../../../../../utils/DiscordError';
+import ChangeCategoryListItem from './ChangeCategoryListItem';
 
 type ChannelSettingsModalProps = {
   channel: IChannel;
@@ -90,13 +91,7 @@ const ChannelSettingsModal = ({
       </InsetList>
 
       <InsetList>
-        <InsetChevronListItem
-          labelPrefix={
-            <IconFolderPlus className="h-6 w-6 text-silvergrey-400" />
-          }
-          label="Category"
-          value={categoryName}
-        />
+        <ChangeCategoryListItem channel={channel} categoryName={categoryName} />
       </InsetList>
     </div>
   );
