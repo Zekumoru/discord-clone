@@ -26,6 +26,7 @@ import IconImagePlus from './IconImagePlus';
 import IconExclamationCircle from './IconExclamationCircle';
 import IconInformationCircle from './IconInformationCircle';
 import IconChannels from './IconChannels';
+import IconCategories from './IconCategories';
 
 export {
   IconBurger,
@@ -56,4 +57,5 @@ export {
   IconExclamationCircle,
   IconInformationCircle,
   IconChannels,
+  IconCategories,
 };
