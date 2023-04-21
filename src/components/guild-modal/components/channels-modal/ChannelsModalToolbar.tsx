@@ -16,7 +16,10 @@ const ChannelsModalToolbar = ({
 
   const openReorderPartialModal = () => {
     openPartialModal(
-      <ReorderPartialModal categoriesId={categoriesId} close={close} />
+      <ReorderPartialModal
+        categoriesId={categoriesId}
+        close={closePartialModal}
+      />
     );
   };
 
