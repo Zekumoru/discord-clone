@@ -9,6 +9,10 @@
   html {
     @apply bg-background-300 text-white;
   }
+
+  dialog {
+    @apply bg-background-300 p-0 text-white backdrop:bg-black backdrop:bg-opacity-50;
+  }
 }
 
 @layer components {
@@ -86,6 +90,14 @@
 
   .btn:disabled {
     @apply bg-warmblue-400 text-silvergrey-400;
+  }
+
+  .dialog-btn {
+    @apply w-full rounded bg-warmblue-100 px-10 py-1.5 font-medium;
+  }
+
+  .dialog-btn-outline {
+    @apply w-full rounded border-2 border-silvergrey-600 px-10 py-1.5 font-medium;
   }
 }
 
