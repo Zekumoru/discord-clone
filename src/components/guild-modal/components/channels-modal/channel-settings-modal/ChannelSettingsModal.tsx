@@ -5,17 +5,18 @@ import InsetList from '../../../../modal-utils/InsetList';
 import InsetTextInput from '../../../../modal-utils/InsetTextInput';
 import ModalCloseButton from '../../../../modal-utils/ModalCloseButton';
 import useChannelNameChange from '../../../../../contexts/sidebar/components/modals/hooks/useChannelNameChange';
-import InsetChevronListItem from '../../../../modal-utils/InsetChevronListItem';
-import { IconFolderPlus } from '../../../../../assets/icons';
 import { useCategoriesId } from '../../../../../types/category/contexts/CategoriesIdContext';
 import useCategories from '../../../../../types/category/hooks/useCategories';
-import { useMemo } from 'react';
 import useCategoryName from '../../../hooks/useCategoryName';
 import useUpdateChannelName from '../../../hooks/useUpdateChannelName';
 import LoadingScreen from '../../../../LoadingScreen';
 import { toast } from 'react-toastify';
 import DiscordError from '../../../../../utils/DiscordError';
 import ChangeCategoryListItem from './ChangeCategoryListItem';
+import InsetListItem from '../../../../modal-utils/InsetListItem';
+import ConfirmationDialog from '../../../../dialog/ConfirmationDialog';
+import { useDialog } from '../../../../dialog/Dialog';
+import useDeleteChannel from '../../../hooks/useDeleteChannel';
 
 type ChannelSettingsModalProps = {
   channel: IChannel;
@@ -25,6 +26,7 @@ const ChannelSettingsModal = ({
   channel,
   close,
 }: ChannelSettingsModalProps) => {
+  const [dialogRef, openDialog, closeDialog] = useDialog();
   const categoriesId = useCategoriesId();
   const [categories] = useCategories(categoriesId);
   const categoryName = useCategoryName(categories, channel);
@@ -32,19 +34,32 @@ const ChannelSettingsModal = ({
     channel.name
   );
   const hasChanges = channelName !== channel.name && channelName !== '';
-  const { mutate: updateChannelName, isLoading } = useUpdateChannelName({
+
+  const handleError = (error: unknown) => {
+    if (!(error instanceof DiscordError)) {
+      toast.error('An unknown error has occurred!');
+      return;
+    }
+
+    toast.error(error.message);
+  };
+
+  const { mutate: updateChannelName, isLoading: updateLoading } =
+    useUpdateChannelName({
+      onSuccess: () => {
+        toast.success('Channel name updated successfully!');
+        close();
+      },
+      onError: handleError,
+    });
+
+  const { mutate: deleteChannel, isLoading: deleteLoading } = useDeleteChannel({
     onSuccess: () => {
-      toast.success('Channel name updated successfully!');
+      toast.success('Channel deleted successfully!');
+      closeDialog();
       close();
     },
-    onError: (error) => {
-      if (!(error instanceof DiscordError)) {
-        toast.error('An unknown error has occurred!');
-        return;
-      }
-
-      toast.error(error.message);
-    },
+    onError: handleError,
   });
 
   const handleUpdateChannelName = () => {
@@ -60,9 +75,33 @@ const ChannelSettingsModal = ({
     });
   };
 
+  const handleDeleteChannel = () => {
+    if (!categories) {
+      toast.error('Could not delete channel!');
+      return;
+    }
+
+    deleteChannel({
+      categoriesId: categories.id,
+      channelId: channel.id,
+    });
+  };
+
   return (
     <div className="mb-4">
-      {isLoading && <LoadingScreen />}
+      {updateLoading && <LoadingScreen />}
+
+      <ConfirmationDialog
+        ref={dialogRef}
+        onConfirm={handleDeleteChannel}
+        onReject={closeDialog}
+        title="Delete Channel"
+        loading={deleteLoading}
+      >
+        Are you sure you want to delete{' '}
+        <span className="font-semibold">#{channelName}</span>? This cannot be
+        undone.
+      </ConfirmationDialog>
 
       <ScreenModalToolbar
         leftElement={<ModalCloseButton className="font-medium" close={close} />}
@@ -90,8 +129,14 @@ const ChannelSettingsModal = ({
         />
       </InsetList>
 
-      <InsetList>
+      <InsetList className="mb-6">
         <ChangeCategoryListItem channel={channel} categoryName={categoryName} />
+      </InsetList>
+
+      <InsetList>
+        <InsetListItem onClick={openDialog} className="mx-auto text-salmon-100">
+          Delete Channel
+        </InsetListItem>
       </InsetList>
     </div>
   );
