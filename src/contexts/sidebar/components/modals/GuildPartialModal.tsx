@@ -10,7 +10,7 @@ import {
 } from '../../../partial-screen-modal/PartialScreenModalContext';
 import PartialModalRoundedDiv from '../../../partial-screen-modal/components/PartialModalRoundedDiv';
 import { useScreenModal } from '../../../screen-modal/ScreenModalContext';
-import CreateChannelModal from './CreateChannelModal';
+import CreateChannelModal from './create-channel/CreateChannelModal';
 import CreateCategoryModal from './CreateCategoryModal';
 import GuildModal from '../../../../components/guild-modal/GuildModal';
 import useIsCurrentUserGuildOwner from '../../../../types/guild/hooks/useIsCurrentUserGuildOwner';

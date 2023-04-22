@@ -1,13 +1,14 @@
-import { ScreenModalProps } from '../../../screen-modal/ScreenModalContext';
-import ScreenModalToolbar from '../../../screen-modal/components/ScreenModalToolbar';
-import InsetList from '../../../../components/modal-utils/InsetList';
-import ModalCloseButton from '../../../../components/modal-utils/ModalCloseButton';
-import useCreateChannel from '../../../../types/channel/hooks/useCreateChannel';
-import LoadingScreen from '../../../../components/LoadingScreen';
-import DiscordError from '../../../../utils/DiscordError';
+import { ScreenModalProps } from '../../../../screen-modal/ScreenModalContext';
+import ScreenModalToolbar from '../../../../screen-modal/components/ScreenModalToolbar';
+import InsetList from '../../../../../components/modal-utils/InsetList';
+import ModalCloseButton from '../../../../../components/modal-utils/ModalCloseButton';
+import useCreateChannel from '../../../../../types/channel/hooks/useCreateChannel';
+import LoadingScreen from '../../../../../components/LoadingScreen';
+import DiscordError from '../../../../../utils/DiscordError';
 import { toast } from 'react-toastify';
-import InsetTextInput from '../../../../components/modal-utils/InsetTextInput';
-import useChannelNameChange from './hooks/useChannelNameChange';
+import InsetTextInput from '../../../../../components/modal-utils/InsetTextInput';
+import useChannelNameChange from '../hooks/useChannelNameChange';
+import ChangeCategoryListItem from './ChangeCategoryListItem';
 
 type CreateChannelModalProps = {
   categoriesId: string;
@@ -68,12 +69,22 @@ const CreateChannelModal = ({
       </ScreenModalToolbar>
 
       <div className="heading-2 mx-4 mb-2 mt-8">Channel name</div>
-      <InsetList>
+      <InsetList className="mb-6">
         <InsetTextInput
           value={channelName}
           placeholder="new-channel"
           onChange={handleChannelNameChange}
           maxLength={48}
+        />
+      </InsetList>
+
+      <InsetList className="mb-6">
+        <ChangeCategoryListItem
+          categoryName={categoryName}
+          categoriesId={categoriesId}
+          onChange={(categoryName) => {
+            console.log(categoryName);
+          }}
         />
       </InsetList>
     </div>

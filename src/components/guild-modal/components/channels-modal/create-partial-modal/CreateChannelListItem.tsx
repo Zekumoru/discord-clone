@@ -1,6 +1,6 @@
 import { PartialScreenModalProps } from '../../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import { useScreenModal } from '../../../../../contexts/screen-modal/ScreenModalContext';
-import CreateChannelModal from '../../../../../contexts/sidebar/components/modals/CreateChannelModal';
+import CreateChannelModal from '../../../../../contexts/sidebar/components/modals/create-channel/CreateChannelModal';
 
 type CreateChannelListItemProps = {
   categoriesId: string;
