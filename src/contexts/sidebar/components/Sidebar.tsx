@@ -16,12 +16,12 @@ const Sidebar = ({ close, isOpen }: SidebarProps) => {
   const isMePage = location.includes('/channels/@me');
 
   return (
-    <div className="sidebar w-80 bg-background-500 shadow-material md:shadow">
+    <div className="sidebar w-sidebar bg-background-500 shadow-material md:shadow">
       <SidebarGuilds />
 
       {isMePage ? <SidebarFriends close={close} /> : <SidebarGuild />}
 
-      <SidebarProfile />
+      <SidebarProfile isOpen={isOpen} />
     </div>
   );
 };

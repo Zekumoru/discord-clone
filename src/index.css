@@ -64,12 +64,20 @@
     grid-template-rows: 1fr auto;
   }
 
+  .w-sidebar {
+    @apply w-80;
+  }
+
   .h-toolbar {
     @apply h-14;
   }
 
   .h-screen-toolbar {
     min-height: calc(100vh - 56px);
+  }
+
+  .h-sidebar-profile {
+    height: 65px;
   }
 
   .h-screen-slide-header {
