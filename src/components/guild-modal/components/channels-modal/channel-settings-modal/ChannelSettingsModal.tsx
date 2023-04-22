@@ -123,7 +123,6 @@ const ChannelSettingsModal = ({
       <InsetList className="mb-10">
         <InsetTextInput
           value={channelName}
-          placeholder="new-channel"
           onChange={handleChannelNameChange}
           maxLength={48}
         />
