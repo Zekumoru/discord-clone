@@ -49,7 +49,7 @@ const ChangeCategoryListItem = ({
   };
 
   const openChangeCategoryModal = () => {
-    if (!categoryName || !categoriesId) {
+    if (categoryName === undefined || !categoriesId) {
       toast.error('Could not open modal!');
       return;
     }
@@ -71,7 +71,7 @@ const ChangeCategoryListItem = ({
         onClick={openChangeCategoryModal}
         labelPrefix={<IconFolderPlus className="h-6 w-6 text-silvergrey-400" />}
         label="Category"
-        value={categoryName}
+        value={categoryName === '' ? 'Uncategorized' : categoryName}
       />
     </>
   );

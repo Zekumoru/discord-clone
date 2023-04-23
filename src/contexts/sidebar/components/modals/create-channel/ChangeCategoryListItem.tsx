@@ -18,7 +18,7 @@ const ChangeCategoryListItem = ({
   const [openModal, closeModal] = useScreenModal();
 
   const openPickCategoryModal = () => {
-    if (!categoryName) {
+    if (categoryName === undefined) {
       toast.error('Could not open modal!');
       return;
     }
@@ -27,7 +27,10 @@ const ChangeCategoryListItem = ({
       <CategoryPickerModal
         categoriesId={categoriesId}
         categoryName={categoryName}
-        onPick={onChange}
+        onPick={(categoryName) => {
+          onChange(categoryName);
+          closeModal();
+        }}
         close={closeModal}
       />
     );

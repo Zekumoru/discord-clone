@@ -9,20 +9,25 @@ import { toast } from 'react-toastify';
 import InsetTextInput from '../../../../../components/modal-utils/InsetTextInput';
 import useChannelNameChange from '../hooks/useChannelNameChange';
 import ChangeCategoryListItem from './ChangeCategoryListItem';
+import { useState } from 'react';
 
 type CreateChannelModalProps = {
   categoriesId: string;
-  categoryName: string;
+  initialCategoryName: string;
 } & ScreenModalProps;
 
 const CreateChannelModal = ({
   categoriesId,
-  categoryName,
+  initialCategoryName,
   close,
 }: CreateChannelModalProps) => {
   const [channelName, handleChannelNameChange] = useChannelNameChange();
+  const [categoryName, setCategoryName] = useState(initialCategoryName);
   const { mutate: createChannel, isLoading } = useCreateChannel({
-    onSuccess: close,
+    onSuccess: () => {
+      toast.success('Channel created successfully!');
+      close();
+    },
     onError: (error) => {
       if (!(error instanceof DiscordError)) {
         toast.error('An unknown error has occurred!');
@@ -82,9 +87,7 @@ const CreateChannelModal = ({
         <ChangeCategoryListItem
           categoryName={categoryName}
           categoriesId={categoriesId}
-          onChange={(categoryName) => {
-            console.log(categoryName);
-          }}
+          onChange={setCategoryName}
         />
       </InsetList>
     </div>

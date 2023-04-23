@@ -47,7 +47,7 @@ const GuildPartialModal = ({ guildId, close }: GuildPartialModalProps) => {
     openModal(
       <CreateChannelModal
         categoriesId={guild.categoriesId}
-        categoryName={''}
+        initialCategoryName={''}
         close={closeModal}
       />
     );

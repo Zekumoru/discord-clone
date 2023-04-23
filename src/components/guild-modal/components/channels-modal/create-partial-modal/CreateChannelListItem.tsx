@@ -15,7 +15,7 @@ const CreateChannelListItem = ({
   const openCreateChannelModal = () => {
     openModal(
       <CreateChannelModal
-        categoryName=""
+        initialCategoryName=""
         categoriesId={categoriesId}
         close={(...args) => {
           close();

@@ -13,7 +13,6 @@ const useCategoryName = (
     for (const category of categories.categories) {
       for (const channel of category.channels) {
         if (channel.name !== channelName) continue;
-        if (category.name === '') return 'Uncategorized';
         return category.name;
       }
     }

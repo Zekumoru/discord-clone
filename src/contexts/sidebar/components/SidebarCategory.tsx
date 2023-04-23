@@ -32,7 +32,7 @@ const SidebarCategory = ({ guild, category }: SidebarCategoryProps) => {
     openModal(
       <CreateChannelModal
         categoriesId={guild.categoriesId}
-        categoryName={category.name}
+        initialCategoryName={category.name}
         close={closeModal}
       />
     );

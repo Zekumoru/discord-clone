@@ -34,10 +34,10 @@ const CategoryPickerModal = ({
       </ScreenModalToolbar>
 
       <div className="heading-2 mx-4 mb-2 mt-8">
-        Move from {categoryName} to
+        Move from {categoryName === '' ? 'Uncategorized' : categoryName} to
       </div>
 
-      {categoryName !== 'Uncategorized' && (
+      {categoryName !== '' && (
         <InsetList className="mb-6">
           <InsetListItem
             onClick={() => handlePickCategory('')}
