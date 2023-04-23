@@ -10,12 +10,12 @@ import useUpdateGuildName from '../../hooks/useUpdateGuildName';
 import LoadingScreen from '../../../LoadingScreen';
 import { toast } from 'react-toastify';
 import useCategories from '../../../../types/category/hooks/useCategories';
-import { usePartialScreenModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
+import { usePartialModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import SystemMessagesPartialModal from './SystemMessagesPartialModal';
 import DeleteGuildListItem from './DeleteGuildListItem';
 
 const OverviewModal = () => {
-  const [openPartialModal, closePartialModal] = usePartialScreenModal();
+  const [openPartialModal] = usePartialModal();
   const guildId = useGuildId();
   const [guild] = useGuild(guildId);
   const [guildName, setGuildName] = useState('');
@@ -63,12 +63,7 @@ const OverviewModal = () => {
       return;
     }
 
-    openPartialModal(
-      <SystemMessagesPartialModal
-        guildId={guild.id}
-        close={closePartialModal}
-      />
-    );
+    openPartialModal(<SystemMessagesPartialModal guildId={guild.id} />);
   };
 
   return (

@@ -5,8 +5,8 @@ import InvitePartialModal from '../../../../components/invite-partial-modal/Invi
 import useGuild from '../../../../types/guild/hooks/useGuild';
 import useMembers from '../../../../types/member/hooks/useMembers';
 import {
-  PartialScreenModalProps,
-  usePartialScreenModal,
+  useClosePartialModal,
+  usePartialModal,
 } from '../../../partial-screen-modal/PartialScreenModalContext';
 import PartialModalRoundedDiv from '../../../partial-screen-modal/components/PartialModalRoundedDiv';
 import { useModal } from '../../../modal/ModalContext';
@@ -18,10 +18,11 @@ import GuildIdProvider from '../../../../types/guild/contexts/GuildIdContext';
 
 type GuildPartialModalProps = {
   guildId: string | undefined;
-} & PartialScreenModalProps;
+};
 
-const GuildPartialModal = ({ guildId, close }: GuildPartialModalProps) => {
-  const [openPartialModal, closePartialModal] = usePartialScreenModal();
+const GuildPartialModal = ({ guildId }: GuildPartialModalProps) => {
+  const close = useClosePartialModal();
+  const [openPartialModal] = usePartialModal();
   const [openModal] = useModal();
   const [guild] = useGuild(guildId);
   const [members] = useMembers(guild?.membersId);
@@ -29,9 +30,7 @@ const GuildPartialModal = ({ guildId, close }: GuildPartialModalProps) => {
   const membersLength = members?.members.length ?? 0;
 
   const openInvitePartialModal = () => {
-    openPartialModal(
-      <InvitePartialModal guild={guild} close={closePartialModal} />
-    );
+    openPartialModal(<InvitePartialModal guild={guild} />);
   };
 
   const openGuildModal = () => {

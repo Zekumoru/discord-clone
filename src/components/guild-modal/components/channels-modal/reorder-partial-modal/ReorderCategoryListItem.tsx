@@ -1,14 +1,12 @@
 import { IconCategories } from '../../../../../assets/icons';
-import { PartialScreenModalProps } from '../../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import { useModal } from '../../../../../contexts/modal/ModalContext';
 
 type ReorderCategoryListItemProps = {
   categoriesId: string;
-} & PartialScreenModalProps;
+};
 
 const ReorderCategoryListItem = ({
   categoriesId,
-  close,
 }: ReorderCategoryListItemProps) => {
   const [openModal, closeModal] = useModal();
 

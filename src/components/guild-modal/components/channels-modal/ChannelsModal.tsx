@@ -1,6 +1,5 @@
 import { IconPlus } from '../../../../assets/icons';
-import { useCloseModal } from '../../../../contexts/modal/ModalContext';
-import { usePartialScreenModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
+import { usePartialModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import CategoriesIdProvider from '../../../../types/category/contexts/CategoriesIdContext';
 import useCategories from '../../../../types/category/hooks/useCategories';
 import CategoryListItem from './CategoryListItem';
@@ -13,15 +12,10 @@ type ChannelsModalProps = {
 
 const ChannelsModal = ({ categoriesId }: ChannelsModalProps) => {
   const [categories] = useCategories(categoriesId);
-  const [openPartialModal, closePartialModal] = usePartialScreenModal();
+  const [openPartialModal] = usePartialModal();
 
   const openCreatePartialModal = () => {
-    openPartialModal(
-      <CreatePartialModal
-        categoriesId={categoriesId}
-        close={closePartialModal}
-      />
-    );
+    openPartialModal(<CreatePartialModal categoriesId={categoriesId} />);
   };
 
   return (

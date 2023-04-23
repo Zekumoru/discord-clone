@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
-import PartialScreenModalProvider from '../partial-screen-modal/PartialScreenModalContext';
+import PartialModalProvider from '../partial-screen-modal/PartialScreenModalContext';
 
 type WrapModalFn = (children: ReactNode) => ReactNode;
 type OpenModalFn = (modal: ReactNode, wrap?: WrapModalFn) => void;
@@ -37,7 +37,7 @@ const ModalProvider = ({ children, close }: ModalProviderProps) => {
   };
 
   let content: ReactNode = (
-    <PartialScreenModalProvider>
+    <PartialModalProvider>
       {children}
 
       {modal && (
@@ -47,7 +47,7 @@ const ModalProvider = ({ children, close }: ModalProviderProps) => {
           </div>
         </ModalProvider>
       )}
-    </PartialScreenModalProvider>
+    </PartialModalProvider>
   );
 
   if (wrap) {

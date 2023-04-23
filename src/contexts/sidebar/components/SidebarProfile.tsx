@@ -5,7 +5,7 @@ import UserPartialModal from '../../../components/user-partial-modal/UserPartial
 import ProfilePicture from '../../../pages/channels/components/ProfilePicture';
 import extractNameAndTag from '../../../utils/extractNameAndTag';
 import { useCurrentUser } from '../../current-user/CurrentUserContext';
-import { usePartialScreenModal } from '../../partial-screen-modal/PartialScreenModalContext';
+import { usePartialModal } from '../../partial-screen-modal/PartialScreenModalContext';
 import { useModal } from '../../modal/ModalContext';
 
 type SidebarProfileProps = {
@@ -15,8 +15,8 @@ type SidebarProfileProps = {
 const SidebarProfile = ({ isOpen }: SidebarProfileProps) => {
   const [user] = useCurrentUser();
   const [name, tag] = extractNameAndTag(user?.username ?? '');
-  const [openModal, closeModal] = useModal();
-  const [openPartialModal, closePartialModal] = usePartialScreenModal();
+  const [openModal] = useModal();
+  const [openPartialModal] = usePartialModal();
 
   const handleOpenUserPartialModal = () => {
     if (!user) {
@@ -24,9 +24,7 @@ const SidebarProfile = ({ isOpen }: SidebarProfileProps) => {
       return;
     }
 
-    openPartialModal(
-      <UserPartialModal userId={user.id} close={closePartialModal} />
-    );
+    openPartialModal(<UserPartialModal userId={user.id} />);
   };
 
   const handleOpenProfileModal = () => {

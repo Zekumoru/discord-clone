@@ -1,15 +1,15 @@
-import { PartialScreenModalProps } from '../../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import { useModal } from '../../../../../contexts/modal/ModalContext';
+import { useClosePartialModal } from '../../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import ReorderChannelsModal from '../reorder-channels-modal/ReorderChannelsModal';
 
 type ReorderChannelListItemProps = {
   categoriesId: string;
-} & PartialScreenModalProps;
+};
 
 const ReorderChannelListItem = ({
   categoriesId,
-  close,
 }: ReorderChannelListItemProps) => {
+  const close = useClosePartialModal();
   const [openModal] = useModal();
 
   const openReorderChannelModal = () => {

@@ -1,12 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { IconUserBars } from '../../../assets/icons';
-import { PartialScreenModalMethods } from '../../partial-screen-modal/PartialScreenModalContext';
 import useUserChats from '../../../types/user-chat/hooks/useUserChats';
 import { useCurrentUser } from '../../current-user/CurrentUserContext';
 import SidebarFriendItem from './SidebarFriendItem';
 
 type SidebarFriendsProps = {
-  close: PartialScreenModalMethods[1];
+  close: () => void;
 };
 
 const SidebarFriends = ({ close }: SidebarFriendsProps) => {

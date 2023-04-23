@@ -4,7 +4,7 @@ import SidebarCategory from './SidebarCategory';
 import { useMemo } from 'react';
 import useGuild from '../../../types/guild/hooks/useGuild';
 import useCategories from '../../../types/category/hooks/useCategories';
-import { usePartialScreenModal } from '../../partial-screen-modal/PartialScreenModalContext';
+import { usePartialModal } from '../../partial-screen-modal/PartialScreenModalContext';
 import InvitePartialModal from '../../../components/invite-partial-modal/InvitePartialModal';
 import MembersUpdatesListener from '../../../pages/channels/pages/guilds/components/MembersUpdatesListener';
 import GuildPartialModal from './modals/GuildPartialModal';
@@ -12,7 +12,6 @@ import GuildDeletionListener from '../../../components/GuildDeletionListener';
 import { useSidebar } from '../SidebarContext';
 
 const SidebarGuild = () => {
-  const [_, close] = useSidebar();
   const location = useLocation().pathname;
   const guildId = useMemo(
     () => location.match(/\/channels\/\d+/)?.[0].substring('/channels/'.length),
@@ -20,18 +19,14 @@ const SidebarGuild = () => {
   );
   const [guild] = useGuild(guildId);
   const [categories] = useCategories(guild?.categoriesId);
-  const [openPartialModal, closePartialModal] = usePartialScreenModal();
+  const [openPartialModal, closePartialModal] = usePartialModal();
 
   const handleOpenGuildPartialModal = () => {
-    openPartialModal(
-      <GuildPartialModal guildId={guild?.id} close={closePartialModal} />
-    );
+    openPartialModal(<GuildPartialModal guildId={guild?.id} />);
   };
 
   const handleOpenInvitePartialModal = () => {
-    openPartialModal(
-      <InvitePartialModal guild={guild} close={closePartialModal} />
-    );
+    openPartialModal(<InvitePartialModal guild={guild} />);
   };
 
   return (

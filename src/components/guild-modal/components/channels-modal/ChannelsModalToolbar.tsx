@@ -1,4 +1,4 @@
-import { usePartialScreenModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
+import { usePartialModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import ScreenModalToolbar from '../../../../contexts/modal/components/ScreenModalToolbar';
 import ModalChevronCloseButton from '../../../modal-utils/ModalChevronCloseButton';
 import ReorderPartialModal from './reorder-partial-modal/ReorderPartialModal';
@@ -8,15 +8,10 @@ type ChannelsModalToolbarProps = {
 };
 
 const ChannelsModalToolbar = ({ categoriesId }: ChannelsModalToolbarProps) => {
-  const [openPartialModal, closePartialModal] = usePartialScreenModal();
+  const [openPartialModal] = usePartialModal();
 
   const openReorderPartialModal = () => {
-    openPartialModal(
-      <ReorderPartialModal
-        categoriesId={categoriesId}
-        close={closePartialModal}
-      />
-    );
+    openPartialModal(<ReorderPartialModal categoriesId={categoriesId} />);
   };
 
   return (

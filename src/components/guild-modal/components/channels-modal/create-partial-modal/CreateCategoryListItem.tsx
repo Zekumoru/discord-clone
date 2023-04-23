@@ -1,16 +1,16 @@
 import { IconCategories } from '../../../../../assets/icons';
-import { PartialScreenModalProps } from '../../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import { useModal } from '../../../../../contexts/modal/ModalContext';
+import { useClosePartialModal } from '../../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import CreateCategoryModal from '../../../../../contexts/sidebar/components/modals/CreateCategoryModal';
 
 type CreateCategoryListItemProps = {
   categoriesId: string;
-} & PartialScreenModalProps;
+};
 
 const CreateCategoryListItem = ({
   categoriesId,
-  close,
 }: CreateCategoryListItemProps) => {
+  const close = useClosePartialModal();
   const [openModal] = useModal();
 
   const openCreateCategoryModal = () => {
