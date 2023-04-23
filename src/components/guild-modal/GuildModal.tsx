@@ -30,7 +30,7 @@ const GuildModal = ({ guildId }: GuildModalProps) => {
       </InsetList>
       <div className="heading-2 mx-4 mb-2">User Management</div>
       <InsetList>
-        <MembersListItem />
+        <MembersListItem membersId={guild?.membersId} />
       </InsetList>
     </div>
   );
