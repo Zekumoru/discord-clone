@@ -11,6 +11,7 @@ import ChannelMessages from './components/ChannelMessages';
 import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
 import { useSwipeListener } from '../../contexts/SwipeListenerContext';
 import findChannel from '../../types/channel/utils/findChannel';
+import ChannelDeletionListener from './components/ChannelDeletionListener';
 
 const Channel = () => {
   const { guildId, channelId } = useParams();
@@ -61,6 +62,12 @@ const Channel = () => {
       disabled={!partOfGuild || partOfGuild === undefined}
       placeholder={`Message #${channel?.name}`}
     >
+      <ChannelDeletionListener
+        guildId={guildId}
+        channelId={channelId}
+        categoriesId={categories?.id}
+      />
+
       <ChatToolbar prefix="#" onOpenMembersSlider={handleOpenMembersSlider}>
         {channel?.name}
       </ChatToolbar>
