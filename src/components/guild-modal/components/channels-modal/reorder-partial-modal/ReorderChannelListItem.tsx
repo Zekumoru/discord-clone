@@ -1,5 +1,6 @@
 import { PartialScreenModalProps } from '../../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import { useScreenModal } from '../../../../../contexts/screen-modal/ScreenModalContext';
+import ReorderChannelsModal from '../reorder-channels-modal/ReorderChannelsModal';
 
 type ReorderChannelListItemProps = {
   categoriesId: string;
@@ -11,7 +12,17 @@ const ReorderChannelListItem = ({
 }: ReorderChannelListItemProps) => {
   const [openModal, closeModal] = useScreenModal();
 
-  const openReorderChannelModal = () => {};
+  const openReorderChannelModal = () => {
+    openModal(
+      <ReorderChannelsModal
+        categoriesId={categoriesId}
+        close={(...args) => {
+          close();
+          closeModal(...args);
+        }}
+      />
+    );
+  };
 
   return (
     <li
