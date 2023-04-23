@@ -1,7 +1,12 @@
+import { useEffect, useState } from 'react';
 import { useCloseModal } from '../../../../../contexts/modal/ModalContext';
 import ScreenModalToolbar from '../../../../../contexts/modal/components/ScreenModalToolbar';
 import useCategories from '../../../../../types/category/hooks/useCategories';
 import CategoryGroup from './CategoryGroup';
+import ICategory from '../../../../../types/category/Category';
+import useReorderCategories from '../../../hooks/useReorderCategories';
+import LoadingScreen from '../../../../LoadingScreen';
+import { toast } from 'react-toastify';
 
 type ReorderChannelsModalProps = {
   categoriesId: string;
@@ -9,14 +14,51 @@ type ReorderChannelsModalProps = {
 
 const ReorderChannelsModal = ({ categoriesId }: ReorderChannelsModalProps) => {
   const close = useCloseModal();
-  const [categories] = useCategories(categoriesId);
+  const [categoriesData] = useCategories(categoriesId);
+  const [categories, setCategories] = useState<ICategory[]>();
+  const { mutate: reorderCategories, isLoading } = useReorderCategories({
+    onSuccess: () => toast.success('Channels reordered successfully!'),
+    onError: () => toast.error('Could not reorder channels!'),
+    onSettled: close,
+  });
+
+  useEffect(() => {
+    if (!categoriesData) return;
+
+    setCategories(categoriesData.categories);
+  }, [categoriesData]);
+
+  const handleReorder = (reorderedCategory: ICategory) => {
+    setCategories((categories) => {
+      if (!categories) return categories;
+
+      return categories.map((category) => {
+        if (category.name === reorderedCategory.name) {
+          return reorderedCategory;
+        }
+
+        return category;
+      });
+    });
+  };
 
   const handleDone = () => {
-    close();
+    if (!categories) {
+      toast.error('Could not reorder channels!');
+      close();
+      return;
+    }
+
+    reorderCategories({
+      categoriesId,
+      categories,
+    });
   };
 
   return (
     <div className="mb-4">
+      {isLoading && <LoadingScreen />}
+
       <ScreenModalToolbar
         rightElement={
           <button onClick={handleDone} className={`font-semibold text-white`}>
@@ -29,8 +71,12 @@ const ReorderChannelsModal = ({ categoriesId }: ReorderChannelsModalProps) => {
 
       <div className="mt-2" />
 
-      {categories?.categories.map((category) => (
-        <CategoryGroup key={category.name} category={category} />
+      {categories?.map((category) => (
+        <CategoryGroup
+          key={category.name}
+          category={category}
+          onReorder={handleReorder}
+        />
       ))}
     </div>
   );

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ICategory from '../../../../../types/category/Category';
 import { ReactSortable } from 'react-sortablejs';
 import IChannel from '../../../../../types/channel/Channel';
@@ -6,10 +6,18 @@ import ChannelItem from './ChannelItem';
 
 type CategoryGroupProps = {
   category: ICategory;
+  onReorder?: (category: ICategory) => void;
 };
 
-const CategoryGroup = ({ category }: CategoryGroupProps) => {
+const CategoryGroup = ({ category, onReorder }: CategoryGroupProps) => {
   const [channels, setChannels] = useState<IChannel[]>(category.channels);
+
+  useEffect(() => {
+    onReorder?.({
+      ...category,
+      channels,
+    });
+  }, [channels]);
 
   return (
     <div>
