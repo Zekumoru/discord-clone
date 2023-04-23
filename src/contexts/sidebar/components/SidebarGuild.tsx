@@ -9,7 +9,6 @@ import InvitePartialModal from '../../../components/invite-partial-modal/InviteP
 import MembersUpdatesListener from '../../../pages/channels/pages/guilds/components/MembersUpdatesListener';
 import GuildPartialModal from './modals/GuildPartialModal';
 import GuildDeletionListener from '../../../components/GuildDeletionListener';
-import { useSidebar } from '../SidebarContext';
 
 const SidebarGuild = () => {
   const location = useLocation().pathname;
@@ -19,7 +18,7 @@ const SidebarGuild = () => {
   );
   const [guild] = useGuild(guildId);
   const [categories] = useCategories(guild?.categoriesId);
-  const [openPartialModal, closePartialModal] = usePartialModal();
+  const [openPartialModal] = usePartialModal();
 
   const handleOpenGuildPartialModal = () => {
     openPartialModal(<GuildPartialModal guildId={guild?.id} />);
@@ -35,9 +34,12 @@ const SidebarGuild = () => {
       <GuildDeletionListener guildId={guild?.id} />
 
       <header className="mx-4 mb-6">
-        <div className="mb-4 flex items-center gap-2">
+        <div
+          onClick={handleOpenGuildPartialModal}
+          className="mb-4 flex items-center gap-2"
+        >
           <div className="text-lg font-bold">{guild?.name}</div>
-          <button onClick={handleOpenGuildPartialModal} className="ml-auto">
+          <button className="ml-auto">
             <IconEllipsisHorizontal className="h-6 w-6" strokeWidth={2.2} />
           </button>
         </div>
