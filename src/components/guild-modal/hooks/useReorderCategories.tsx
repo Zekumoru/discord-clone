@@ -16,10 +16,12 @@ const reorderCategories = async ({
   const categoriesRef = categoriesDoc(categoriesId);
   const categoriesData = (await getDoc(categoriesRef)).data()!;
 
-  await setDoc(categoriesRef, {
-    ...categoriesData,
-    categories,
-  });
+  categoriesData.categories = categories.map(({ channels, name }) => ({
+    channels: channels.map(({ id, name }) => ({ id, name })),
+    name,
+  }));
+
+  await setDoc(categoriesRef, categoriesData);
   await queryClient.invalidateQueries(['categories', categoriesId]);
 };
 
