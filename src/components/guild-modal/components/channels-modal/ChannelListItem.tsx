@@ -1,4 +1,4 @@
-import { useScreenModal } from '../../../../contexts/screen-modal/ScreenModalContext';
+import { useModal } from '../../../../contexts/modal/ModalContext';
 import IChannel from '../../../../types/channel/Channel';
 import ChannelSettingsModal from './channel-settings-modal/ChannelSettingsModal';
 
@@ -7,10 +7,10 @@ type ChannelListItemProps = {
 };
 
 const ChannelListItem = ({ channel }: ChannelListItemProps) => {
-  const [openModal, closeModal] = useScreenModal();
+  const [openModal] = useModal();
 
   const openChannelSettingsModal = () => {
-    openModal(<ChannelSettingsModal channel={channel} close={closeModal} />);
+    openModal(<ChannelSettingsModal channel={channel} />);
   };
 
   return (

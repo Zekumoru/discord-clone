@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import { IconFolderPlus } from '../../../../../assets/icons';
-import { useScreenModal } from '../../../../../contexts/screen-modal/ScreenModalContext';
+import { useModal } from '../../../../../contexts/modal/ModalContext';
 import InsetChevronListItem from '../../../../modal-utils/InsetChevronListItem';
 import IChannel from '../../../../../types/channel/Channel';
 import CategoryPickerModal from '../../../../../contexts/sidebar/components/modals/create-channel/CategoryPickerModal';
@@ -19,7 +19,7 @@ const ChangeCategoryListItem = ({
   categoryName,
 }: ChangeCategoryListItemProps) => {
   const categoriesId = useCategoriesId();
-  const [openModal, closeModal] = useScreenModal();
+  const [openModal, closeModal] = useModal();
   const { mutate: changeCategory, isLoading } = useChangeCategory({
     onSuccess: () => {
       toast.success("Channel's category has been updated!");
@@ -59,7 +59,6 @@ const ChangeCategoryListItem = ({
         categoriesId={categoriesId}
         categoryName={categoryName}
         onPick={handleChangeCategory}
-        close={closeModal}
       />
     );
   };

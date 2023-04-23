@@ -1,8 +1,4 @@
 import { useEffect, useMemo, useState } from 'react';
-import {
-  ScreenModalProps,
-  useScreenModal,
-} from '../../../../contexts/screen-modal/ScreenModalContext';
 import { useGuildId } from '../../../../types/guild/contexts/GuildIdContext';
 import useGuild from '../../../../types/guild/hooks/useGuild';
 import InsetList from '../../../modal-utils/InsetList';
@@ -18,7 +14,7 @@ import { usePartialScreenModal } from '../../../../contexts/partial-screen-modal
 import SystemMessagesPartialModal from './SystemMessagesPartialModal';
 import DeleteGuildListItem from './DeleteGuildListItem';
 
-const OverviewModal = ({ close }: ScreenModalProps) => {
+const OverviewModal = () => {
   const [openPartialModal, closePartialModal] = usePartialScreenModal();
   const guildId = useGuildId();
   const [guild] = useGuild(guildId);
@@ -84,7 +80,6 @@ const OverviewModal = ({ close }: ScreenModalProps) => {
         showSaveBtn={
           guildName.trim() !== guild?.name && guildName.trim() !== ''
         }
-        close={close}
       />
 
       <div className="heading-2 mx-4 mb-2 mt-10">Server Name</div>

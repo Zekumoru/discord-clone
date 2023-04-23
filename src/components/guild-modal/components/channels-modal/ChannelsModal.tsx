@@ -1,8 +1,6 @@
 import { IconPlus } from '../../../../assets/icons';
+import { useCloseModal } from '../../../../contexts/modal/ModalContext';
 import { usePartialScreenModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
-import ScreenModalProvider, {
-  ScreenModalProps,
-} from '../../../../contexts/screen-modal/ScreenModalContext';
 import CategoriesIdProvider from '../../../../types/category/contexts/CategoriesIdContext';
 import useCategories from '../../../../types/category/hooks/useCategories';
 import CategoryListItem from './CategoryListItem';
@@ -11,9 +9,9 @@ import CreatePartialModal from './create-partial-modal/CreatePartialModal';
 
 type ChannelsModalProps = {
   categoriesId: string;
-} & ScreenModalProps;
+};
 
-const ChannelsModal = ({ categoriesId, close }: ChannelsModalProps) => {
+const ChannelsModal = ({ categoriesId }: ChannelsModalProps) => {
   const [categories] = useCategories(categoriesId);
   const [openPartialModal, closePartialModal] = usePartialScreenModal();
 
@@ -29,15 +27,13 @@ const ChannelsModal = ({ categoriesId, close }: ChannelsModalProps) => {
   return (
     <CategoriesIdProvider categoriesId={categoriesId}>
       <div className="mb-4">
-        <ChannelsModalToolbar categoriesId={categoriesId} close={close} />
+        <ChannelsModalToolbar categoriesId={categoriesId} />
 
-        <ScreenModalProvider previousCloseFn={close}>
-          <ul className="mb-20 mt-10">
-            {categories?.categories.map((category) => (
-              <CategoryListItem key={category.name} category={category} />
-            ))}
-          </ul>
-        </ScreenModalProvider>
+        <ul className="mb-20 mt-10">
+          {categories?.categories.map((category) => (
+            <CategoryListItem key={category.name} category={category} />
+          ))}
+        </ul>
 
         <div className="fixed bottom-4 left-0 right-0">
           <button

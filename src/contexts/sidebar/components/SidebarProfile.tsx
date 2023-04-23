@@ -6,7 +6,7 @@ import ProfilePicture from '../../../pages/channels/components/ProfilePicture';
 import extractNameAndTag from '../../../utils/extractNameAndTag';
 import { useCurrentUser } from '../../current-user/CurrentUserContext';
 import { usePartialScreenModal } from '../../partial-screen-modal/PartialScreenModalContext';
-import { useScreenModal } from '../../screen-modal/ScreenModalContext';
+import { useModal } from '../../modal/ModalContext';
 
 type SidebarProfileProps = {
   isOpen: boolean;
@@ -15,7 +15,7 @@ type SidebarProfileProps = {
 const SidebarProfile = ({ isOpen }: SidebarProfileProps) => {
   const [user] = useCurrentUser();
   const [name, tag] = extractNameAndTag(user?.username ?? '');
-  const [openModal, closeModal] = useScreenModal();
+  const [openModal, closeModal] = useModal();
   const [openPartialModal, closePartialModal] = usePartialScreenModal();
 
   const handleOpenUserPartialModal = () => {
@@ -30,7 +30,7 @@ const SidebarProfile = ({ isOpen }: SidebarProfileProps) => {
   };
 
   const handleOpenProfileModal = () => {
-    openModal(<ProfileModal close={closeModal} />);
+    openModal(<ProfileModal />);
   };
 
   return (

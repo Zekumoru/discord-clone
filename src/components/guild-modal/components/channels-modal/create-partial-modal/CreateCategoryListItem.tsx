@@ -1,6 +1,6 @@
 import { IconCategories } from '../../../../../assets/icons';
 import { PartialScreenModalProps } from '../../../../../contexts/partial-screen-modal/PartialScreenModalContext';
-import { useScreenModal } from '../../../../../contexts/screen-modal/ScreenModalContext';
+import { useModal } from '../../../../../contexts/modal/ModalContext';
 import CreateCategoryModal from '../../../../../contexts/sidebar/components/modals/CreateCategoryModal';
 
 type CreateCategoryListItemProps = {
@@ -11,18 +11,11 @@ const CreateCategoryListItem = ({
   categoriesId,
   close,
 }: CreateCategoryListItemProps) => {
-  const [openModal, closeModal] = useScreenModal();
+  const [openModal] = useModal();
 
   const openCreateCategoryModal = () => {
-    openModal(
-      <CreateCategoryModal
-        categoriesId={categoriesId}
-        close={(...args) => {
-          close();
-          closeModal(...args);
-        }}
-      />
-    );
+    openModal(<CreateCategoryModal categoriesId={categoriesId} />);
+    close();
   };
 
   return (

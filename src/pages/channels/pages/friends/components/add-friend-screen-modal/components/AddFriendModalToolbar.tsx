@@ -1,14 +1,9 @@
 import ModalCloseButton from '../../../../../../../components/modal-utils/ModalCloseButton';
-import ScreenModalToolbar from '../../../../../../../contexts/screen-modal/components/ScreenModalToolbar';
-import { ScreenModalMethods } from '../../../../../../../contexts/screen-modal/ScreenModalContext';
+import ScreenModalToolbar from '../../../../../../../contexts/modal/components/ScreenModalToolbar';
 
-type AddFriendModalToolbarProps = {
-  close: ScreenModalMethods[1];
-};
-
-const AddFriendModalToolbar = ({ close }: AddFriendModalToolbarProps) => {
+const AddFriendModalToolbar = () => {
   return (
-    <ScreenModalToolbar leftElement={<ModalCloseButton close={close} />}>
+    <ScreenModalToolbar leftElement={<ModalCloseButton />}>
       Add Friend
     </ScreenModalToolbar>
   );

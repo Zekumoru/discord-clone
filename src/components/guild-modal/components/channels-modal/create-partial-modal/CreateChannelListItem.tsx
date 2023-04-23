@@ -1,5 +1,5 @@
 import { PartialScreenModalProps } from '../../../../../contexts/partial-screen-modal/PartialScreenModalContext';
-import { useScreenModal } from '../../../../../contexts/screen-modal/ScreenModalContext';
+import { useModal } from '../../../../../contexts/modal/ModalContext';
 import CreateChannelModal from '../../../../../contexts/sidebar/components/modals/create-channel/CreateChannelModal';
 
 type CreateChannelListItemProps = {
@@ -10,19 +10,13 @@ const CreateChannelListItem = ({
   categoriesId,
   close,
 }: CreateChannelListItemProps) => {
-  const [openModal, closeModal] = useScreenModal();
+  const [openModal] = useModal();
 
   const openCreateChannelModal = () => {
     openModal(
-      <CreateChannelModal
-        initialCategoryName=""
-        categoriesId={categoriesId}
-        close={(...args) => {
-          close();
-          closeModal(...args);
-        }}
-      />
+      <CreateChannelModal initialCategoryName="" categoriesId={categoriesId} />
     );
+    close();
   };
 
   return (

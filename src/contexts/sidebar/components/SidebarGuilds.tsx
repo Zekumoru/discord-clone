@@ -1,16 +1,16 @@
 import { Link, useLocation } from 'react-router-dom';
 import { IconUserGroupOutline } from '../../../assets/icons';
-import { useScreenModal } from '../../screen-modal/ScreenModalContext';
+import { useModal } from '../../modal/ModalContext';
 import CreateGuildModal from '../../../pages/channels/pages/guilds/components/modals/CreateGuildModal';
 import SidebarGuildList from './SidebarGuildList';
 
 const SidebarGuilds = () => {
-  const [openModal, closeModal] = useScreenModal();
+  const [openModal] = useModal();
   const location = useLocation().pathname;
   const isMePage = location.includes('/channels/@me');
 
   const openCreateGuildModal = () => {
-    openModal(<CreateGuildModal close={closeModal} />);
+    openModal(<CreateGuildModal />);
   };
 
   return (

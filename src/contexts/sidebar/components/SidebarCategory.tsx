@@ -7,7 +7,7 @@ import ICategory from '../../../types/category/Category';
 import SidebarChannel from './SidebarChannel';
 import useLocalStorage from '../../../hooks/useLocalStorage';
 import IGuild from '../../../types/guild/Guild';
-import { useScreenModal } from '../../screen-modal/ScreenModalContext';
+import { useModal } from '../../modal/ModalContext';
 import CreateChannelModal from './modals/create-channel/CreateChannelModal';
 import useIsCurrentUserGuildOwner from '../../../types/guild/hooks/useIsCurrentUserGuildOwner';
 
@@ -17,7 +17,7 @@ type SidebarCategoryProps = {
 };
 
 const SidebarCategory = ({ guild, category }: SidebarCategoryProps) => {
-  const [openModal, closeModal] = useScreenModal();
+  const [openModal] = useModal();
   const isOwner = useIsCurrentUserGuildOwner(guild.id);
   const [collapsed, setCollapsed] = useLocalStorage(
     `collapsed-${category.name}-${guild.id}`,
@@ -33,7 +33,6 @@ const SidebarCategory = ({ guild, category }: SidebarCategoryProps) => {
       <CreateChannelModal
         categoriesId={guild.categoriesId}
         initialCategoryName={category.name}
-        close={closeModal}
       />
     );
   };

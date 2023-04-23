@@ -1,9 +1,6 @@
 import { useId, useState } from 'react';
 import ModalCloseButton from '../../../../../../components/modal-utils/ModalCloseButton';
-import {
-  ScreenModalProps,
-  useScreenModal,
-} from '../../../../../../contexts/screen-modal/ScreenModalContext';
+import { useModal } from '../../../../../../contexts/modal/ModalContext';
 import CircledXButton from '../../../../../../components/CircledXButton';
 import GuildPicturePicker from '../GuildPicturePicker';
 import useCreateGuild from '../../hooks/useCreateGuild';
@@ -13,17 +10,17 @@ import InviteModal from './InviteModal';
 import useCreateInvite from '../../hooks/useCreateInvite';
 import LoadingScreen from '../../../../../../components/LoadingScreen';
 
-const CreateGuildModal = ({ close }: ScreenModalProps) => {
+const CreateGuildModal = () => {
   const id = useId();
   const [user] = useCurrentUser();
   const [guildName, setGuildName] = useState('');
   const [guildPicture, setGuildPicture] = useState<File | null>(null);
-  const [openModal, closeModal] = useScreenModal();
+  const [openModal] = useModal();
   const { mutate: createInvite, isLoading: createInviteLoading } =
     useCreateInvite({
       onSuccess: (inviteId) => {
         close();
-        openModal(<InviteModal inviteId={inviteId} close={closeModal} />);
+        openModal(<InviteModal inviteId={inviteId} />);
       },
     });
   const { mutate: createGuild, isLoading: createGuildLoading } = useCreateGuild(
@@ -58,7 +55,7 @@ const CreateGuildModal = ({ close }: ScreenModalProps) => {
       {(createGuildLoading || createInviteLoading) && <LoadingScreen />}
 
       <div className="flex h-[56px] items-center px-4">
-        <ModalCloseButton close={close} />
+        <ModalCloseButton />
       </div>
 
       <div className="p-4">

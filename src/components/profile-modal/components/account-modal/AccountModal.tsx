@@ -1,7 +1,5 @@
-import { IconChevronRight } from '../../../../assets/icons';
 import { useCurrentUser } from '../../../../contexts/current-user/CurrentUserContext';
-import { ScreenModalMethods } from '../../../../contexts/screen-modal/ScreenModalContext';
-import ScreenModalToolbar from '../../../../contexts/screen-modal/components/ScreenModalToolbar';
+import ScreenModalToolbar from '../../../../contexts/modal/components/ScreenModalToolbar';
 import InsetList from '../../../modal-utils/InsetList';
 import InsetListItem from '../../../modal-utils/InsetListItem';
 import ModalChevronCloseButton from '../../../modal-utils/ModalChevronCloseButton';
@@ -9,20 +7,14 @@ import DeleteAccountListItem from './components/DeleteAccountListItem';
 import EditPasswordListItem from './components/EditPasswordListItem';
 import EditUsernameListItem from './components/EditUsernameListItem';
 
-type AccountModalProps = {
-  close: ScreenModalMethods[1];
-};
-
-const AccountModal = ({ close }: AccountModalProps) => {
+const AccountModal = () => {
   const [currentUser] = useCurrentUser();
 
   return (
     <div className="mb-4">
       <ScreenModalToolbar
         leftElement={
-          <ModalChevronCloseButton close={close}>
-            Overview
-          </ModalChevronCloseButton>
+          <ModalChevronCloseButton>Overview</ModalChevronCloseButton>
         }
       >
         Account

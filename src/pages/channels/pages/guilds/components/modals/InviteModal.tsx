@@ -1,13 +1,14 @@
-import { ScreenModalProps } from '../../../../../../contexts/screen-modal/ScreenModalContext';
 import ticketImage from '../../../../../../assets/images/ticket.png';
 import { IconLink } from '../../../../../../assets/icons';
 import { toast } from 'react-toastify';
+import { useCloseModal } from '../../../../../../contexts/modal/ModalContext';
 
 type InviteModalProps = {
   inviteId: string;
-} & ScreenModalProps;
+};
 
-const InviteModal = ({ inviteId, close }: InviteModalProps) => {
+const InviteModal = ({ inviteId }: InviteModalProps) => {
+  const close = useCloseModal();
   const handleCopyLink = () => {
     navigator.clipboard.writeText(
       `${import.meta.env.VITE_APP_URL}/invite/${inviteId}`

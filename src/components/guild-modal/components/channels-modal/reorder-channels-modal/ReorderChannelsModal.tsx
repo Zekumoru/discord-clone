@@ -1,16 +1,14 @@
-import { ScreenModalProps } from '../../../../../contexts/screen-modal/ScreenModalContext';
-import ScreenModalToolbar from '../../../../../contexts/screen-modal/components/ScreenModalToolbar';
+import { useCloseModal } from '../../../../../contexts/modal/ModalContext';
+import ScreenModalToolbar from '../../../../../contexts/modal/components/ScreenModalToolbar';
 import useCategories from '../../../../../types/category/hooks/useCategories';
 import CategoryGroup from './CategoryGroup';
 
 type ReorderChannelsModalProps = {
   categoriesId: string;
-} & ScreenModalProps;
+};
 
-const ReorderChannelsModal = ({
-  categoriesId,
-  close,
-}: ReorderChannelsModalProps) => {
+const ReorderChannelsModal = ({ categoriesId }: ReorderChannelsModalProps) => {
+  const close = useCloseModal();
   const [categories] = useCategories(categoriesId);
 
   const handleDone = () => {

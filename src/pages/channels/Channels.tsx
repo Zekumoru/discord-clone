@@ -22,20 +22,18 @@ const Channels = () => {
   }, [user, loading]);
 
   return (
-    <PartialScreenModalProvider>
-      <SidebarProvider>
-        <MembersSliderProvider>
-          <SwipeListenerProvider enabledSidebarSwiping>
-            <Routes>
-              <Route path="/@me" element={<Friends />} />
-              <Route path="/@me/:id" element={<FriendChat />} />
-              <Route path="/:guildId" element={<Guild />} />
-              <Route path="/:guildId/:channelId" element={<Channel />} />
-            </Routes>
-          </SwipeListenerProvider>
-        </MembersSliderProvider>
-      </SidebarProvider>
-    </PartialScreenModalProvider>
+    <SidebarProvider>
+      <MembersSliderProvider>
+        <SwipeListenerProvider enabledSidebarSwiping>
+          <Routes>
+            <Route path="/@me" element={<Friends />} />
+            <Route path="/@me/:id" element={<FriendChat />} />
+            <Route path="/:guildId" element={<Guild />} />
+            <Route path="/:guildId/:channelId" element={<Channel />} />
+          </Routes>
+        </SwipeListenerProvider>
+      </MembersSliderProvider>
+    </SidebarProvider>
   );
 };
 

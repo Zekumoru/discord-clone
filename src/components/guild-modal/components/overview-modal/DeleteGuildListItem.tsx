@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { useScreenModal } from '../../../../contexts/screen-modal/ScreenModalContext';
+import { useModal } from '../../../../contexts/modal/ModalContext';
 import InsetListItem from '../../../modal-utils/InsetListItem';
 import DeleteGuildModal from '../delete-guild-modal/DeleteGuildModal';
 
@@ -8,7 +8,7 @@ type DeleteGuildListItemProps = {
 };
 
 const DeleteGuildListItem = ({ guildId }: DeleteGuildListItemProps) => {
-  const [openModal, closeModal] = useScreenModal();
+  const [openModal] = useModal();
 
   const openDeleteGuildModal = () => {
     if (!guildId) {
@@ -16,7 +16,7 @@ const DeleteGuildListItem = ({ guildId }: DeleteGuildListItemProps) => {
       return;
     }
 
-    openModal(<DeleteGuildModal guildId={guildId} close={closeModal} />);
+    openModal(<DeleteGuildModal guildId={guildId} />);
   };
 
   return (
