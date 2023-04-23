@@ -7,15 +7,20 @@ import LoadingScreen from '../../../../components/LoadingScreen';
 import DiscordError from '../../../../utils/DiscordError';
 import { toast } from 'react-toastify';
 import InsetTextInput from '../../../../components/modal-utils/InsetTextInput';
+import { useCloseModal } from '../../../modal/ModalContext';
 
 type CreateCategoryModalProps = {
   categoriesId: string;
 };
 
 const CreateCategoryModal = ({ categoriesId }: CreateCategoryModalProps) => {
+  const close = useCloseModal();
   const [categoryName, setCategoryName] = useState('');
   const { mutate: createCategory, isLoading } = useCreateCategory({
-    onSuccess: close,
+    onSuccess: () => {
+      toast.success('Category created successfully!');
+      close();
+    },
     onError: (error) => {
       if (!(error instanceof DiscordError)) {
         toast.error('An unknown error has occurred!');

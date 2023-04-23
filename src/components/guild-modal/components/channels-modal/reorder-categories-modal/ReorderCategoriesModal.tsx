@@ -8,20 +8,15 @@ import LoadingScreen from '../../../../LoadingScreen';
 import { ReactSortable } from 'react-sortablejs';
 import CategoryItem from './CategoryItem';
 import { useCloseModal } from '../../../../../contexts/modal/ModalContext';
-import createCategory from '../../../../../types/category/utils/createCategory';
-
-type ReorderCategoriesModalProps = {
-  categoriesId: string;
-};
+import { useCategoriesId } from '../../../../../types/category/contexts/CategoriesIdContext';
 
 type CategoryReorderItem = {
   id: string;
 } & ICategory;
 
-const ReorderCategoriesModal = ({
-  categoriesId,
-}: ReorderCategoriesModalProps) => {
+const ReorderCategoriesModal = () => {
   const close = useCloseModal();
+  const categoriesId = useCategoriesId();
   const [categoriesData] = useCategories(categoriesId);
   const [categories, setCategories] = useState<CategoryReorderItem[]>();
   const { mutate: reorderCategories, isLoading } = useReorderCategories({
@@ -53,7 +48,7 @@ const ReorderCategoriesModal = ({
     }
 
     reorderCategories({
-      categoriesId,
+      categoriesId: categoriesData.id,
       categories: [categoriesData.categories[0], ...categories],
     });
   };

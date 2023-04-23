@@ -3,18 +3,12 @@ import { useModal } from '../../../../../contexts/modal/ModalContext';
 import { useClosePartialModal } from '../../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import ReorderCategoriesModal from '../reorder-categories-modal/ReorderCategoriesModal';
 
-type ReorderCategoryListItemProps = {
-  categoriesId: string;
-};
-
-const ReorderCategoryListItem = ({
-  categoriesId,
-}: ReorderCategoryListItemProps) => {
+const ReorderCategoryListItem = () => {
   const close = useClosePartialModal();
   const [openModal] = useModal();
 
   const openReorderCategoryModal = () => {
-    openModal(<ReorderCategoriesModal categoriesId={categoriesId} />);
+    openModal(<ReorderCategoriesModal />);
     close();
   };
 

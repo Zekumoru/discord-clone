@@ -7,13 +7,11 @@ import ICategory from '../../../../../types/category/Category';
 import useReorderCategories from '../../../hooks/useReorderCategories';
 import LoadingScreen from '../../../../LoadingScreen';
 import { toast } from 'react-toastify';
+import { useCategoriesId } from '../../../../../types/category/contexts/CategoriesIdContext';
 
-type ReorderChannelsModalProps = {
-  categoriesId: string;
-};
-
-const ReorderChannelsModal = ({ categoriesId }: ReorderChannelsModalProps) => {
+const ReorderChannelsModal = () => {
   const close = useCloseModal();
+  const categoriesId = useCategoriesId();
   const [categoriesData] = useCategories(categoriesId);
   const [categories, setCategories] = useState<ICategory[]>();
   const { mutate: reorderCategories, isLoading } = useReorderCategories({
@@ -43,14 +41,14 @@ const ReorderChannelsModal = ({ categoriesId }: ReorderChannelsModalProps) => {
   };
 
   const handleDone = () => {
-    if (!categories) {
+    if (!categories || !categoriesData) {
       toast.error('Could not reorder channels!');
       close();
       return;
     }
 
     reorderCategories({
-      categoriesId,
+      categoriesId: categoriesData.id,
       categories,
     });
   };

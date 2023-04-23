@@ -3,15 +3,11 @@ import ScreenModalToolbar from '../../../../contexts/modal/components/ScreenModa
 import ModalChevronCloseButton from '../../../modal-utils/ModalChevronCloseButton';
 import ReorderPartialModal from './reorder-partial-modal/ReorderPartialModal';
 
-type ChannelsModalToolbarProps = {
-  categoriesId: string;
-};
-
-const ChannelsModalToolbar = ({ categoriesId }: ChannelsModalToolbarProps) => {
+const ChannelsModalToolbar = () => {
   const [openPartialModal] = usePartialModal();
 
   const openReorderPartialModal = () => {
-    openPartialModal(<ReorderPartialModal categoriesId={categoriesId} />);
+    openPartialModal(<ReorderPartialModal />);
   };
 
   return (
