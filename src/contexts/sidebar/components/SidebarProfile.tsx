@@ -38,7 +38,7 @@ const SidebarProfile = ({ isOpen }: SidebarProfileProps) => {
       <div
         className={`${
           isOpen ? '' : 'hidden'
-        } w-sidebar h-sidebar-profile fixed bottom-0 left-0 flex items-center gap-3 border-t border-t-background-100 bg-background-500 px-4 py-3 text-silvergrey-300`}
+        } w-sidebar h-sidebar-profile fixed bottom-0 left-0 flex items-center gap-3 border-t border-t-background-100 bg-background-500 px-4 py-3 text-silvergrey-300 md:!flex`}
       >
         <ProfilePicture
           onClick={handleOpenUserPartialModal}
