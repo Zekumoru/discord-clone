@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ScreenModalToolbar from '../../../../../contexts/modal/components/ScreenModalToolbar';
+import ModalToolbar from '../../../../../contexts/modal/components/ModalToolbar';
 import ICategory from '../../../../../types/category/Category';
 import { useCategoriesId } from '../../../../../types/category/contexts/CategoriesIdContext';
 import useCategories from '../../../../../types/category/hooks/useCategories';
@@ -99,7 +99,7 @@ const CategorySettingsModal = ({ category }: CategorySettingsModalProps) => {
         This cannot be undone.
       </ConfirmationDialog>
 
-      <ScreenModalToolbar
+      <ModalToolbar
         leftElement={<ModalCloseButton className="font-medium" />}
         rightElement={
           hasChanges && (
@@ -113,7 +113,7 @@ const CategorySettingsModal = ({ category }: CategorySettingsModalProps) => {
         }
       >
         Category Settings
-      </ScreenModalToolbar>
+      </ModalToolbar>
 
       <div className="heading-2 mx-4 mb-2 mt-8">Category name</div>
       <InsetList className="mb-10">

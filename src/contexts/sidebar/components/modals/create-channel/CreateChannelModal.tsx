@@ -1,4 +1,4 @@
-import ScreenModalToolbar from '../../../../modal/components/ScreenModalToolbar';
+import ModalToolbar from '../../../../modal/components/ModalToolbar';
 import InsetList from '../../../../../components/modal-utils/InsetList';
 import ModalCloseButton from '../../../../../components/modal-utils/ModalCloseButton';
 import useCreateChannel from '../../../../../types/channel/hooks/useCreateChannel';
@@ -56,7 +56,7 @@ const CreateChannelModal = ({
     <div className="mb-4">
       {isLoading && <LoadingScreen />}
 
-      <ScreenModalToolbar
+      <ModalToolbar
         leftElement={<ModalCloseButton className="font-medium text-white" />}
         rightElement={
           <button
@@ -69,7 +69,7 @@ const CreateChannelModal = ({
         }
       >
         Create Channel
-      </ScreenModalToolbar>
+      </ModalToolbar>
 
       <div className="heading-2 mx-4 mb-2 mt-8">Channel name</div>
       <InsetList className="mb-6">

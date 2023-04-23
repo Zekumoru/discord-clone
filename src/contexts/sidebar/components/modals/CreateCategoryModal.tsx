@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import ModalCloseButton from '../../../../components/modal-utils/ModalCloseButton';
-import ScreenModalToolbar from '../../../modal/components/ScreenModalToolbar';
+import ModalToolbar from '../../../modal/components/ModalToolbar';
 import InsetList from '../../../../components/modal-utils/InsetList';
 import useCreateCategory from '../../../../types/category/hooks/useCreateCategory';
 import LoadingScreen from '../../../../components/LoadingScreen';
@@ -46,7 +46,7 @@ const CreateCategoryModal = ({ categoriesId }: CreateCategoryModalProps) => {
     <div className="mb-4">
       {isLoading && <LoadingScreen />}
 
-      <ScreenModalToolbar
+      <ModalToolbar
         leftElement={<ModalCloseButton className="font-medium text-white" />}
         rightElement={
           <button
@@ -59,7 +59,7 @@ const CreateCategoryModal = ({ categoriesId }: CreateCategoryModalProps) => {
         }
       >
         Create Category
-      </ScreenModalToolbar>
+      </ModalToolbar>
 
       <div className="heading-2 mx-4 mb-2 mt-8">Category Name</div>
       <InsetList>

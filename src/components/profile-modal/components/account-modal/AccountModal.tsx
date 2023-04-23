@@ -1,5 +1,5 @@
 import { useCurrentUser } from '../../../../contexts/current-user/CurrentUserContext';
-import ScreenModalToolbar from '../../../../contexts/modal/components/ScreenModalToolbar';
+import ModalToolbar from '../../../../contexts/modal/components/ModalToolbar';
 import InsetList from '../../../modal-utils/InsetList';
 import InsetListItem from '../../../modal-utils/InsetListItem';
 import ModalChevronCloseButton from '../../../modal-utils/ModalChevronCloseButton';
@@ -12,13 +12,13 @@ const AccountModal = () => {
 
   return (
     <div className="mb-4">
-      <ScreenModalToolbar
+      <ModalToolbar
         leftElement={
           <ModalChevronCloseButton>Overview</ModalChevronCloseButton>
         }
       >
         Account
-      </ScreenModalToolbar>
+      </ModalToolbar>
 
       <div className="heading-2 mb-2 mt-8 px-4">Account Information</div>
       <InsetList>

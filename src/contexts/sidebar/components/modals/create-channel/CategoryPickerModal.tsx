@@ -2,7 +2,7 @@ import InsetList from '../../../../../components/modal-utils/InsetList';
 import InsetListItem from '../../../../../components/modal-utils/InsetListItem';
 import ModalChevronCloseButton from '../../../../../components/modal-utils/ModalChevronCloseButton';
 import useCategories from '../../../../../types/category/hooks/useCategories';
-import ScreenModalToolbar from '../../../../modal/components/ScreenModalToolbar';
+import ModalToolbar from '../../../../modal/components/ModalToolbar';
 
 type CategoryPickerModalProps = {
   categoryName: string;
@@ -23,11 +23,11 @@ const CategoryPickerModal = ({
 
   return (
     <div className="mb-4">
-      <ScreenModalToolbar
+      <ModalToolbar
         leftElement={<ModalChevronCloseButton>Back</ModalChevronCloseButton>}
       >
         Change Category
-      </ScreenModalToolbar>
+      </ModalToolbar>
 
       <div className="heading-2 mx-4 mb-2 mt-8">
         Move from {categoryName === '' ? 'Uncategorized' : categoryName} to

@@ -1,4 +1,4 @@
-import ScreenModalToolbar from '../../contexts/modal/components/ScreenModalToolbar';
+import ModalToolbar from '../../contexts/modal/components/ModalToolbar';
 import useGuild from '../../types/guild/hooks/useGuild';
 import InsetList from '../modal-utils/InsetList';
 import ModalCloseButton from '../modal-utils/ModalCloseButton';
@@ -16,9 +16,9 @@ const GuildModal = ({ guildId }: GuildModalProps) => {
 
   return (
     <div className="mb-4">
-      <ScreenModalToolbar leftElement={<ModalCloseButton />}>
+      <ModalToolbar leftElement={<ModalCloseButton />}>
         Server Settings
-      </ScreenModalToolbar>
+      </ModalToolbar>
       <div className="mb-8 bg-background-500 px-4 pb-6 pt-10 text-center">
         <EditGuildPicture guild={guild} />
         <h1 className="mt-2 text-lg font-medium">{guild?.name}</h1>

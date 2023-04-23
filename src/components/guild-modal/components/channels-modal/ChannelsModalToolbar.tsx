@@ -1,5 +1,5 @@
 import { usePartialModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
-import ScreenModalToolbar from '../../../../contexts/modal/components/ScreenModalToolbar';
+import ModalToolbar from '../../../../contexts/modal/components/ModalToolbar';
 import ModalChevronCloseButton from '../../../modal-utils/ModalChevronCloseButton';
 import ReorderPartialModal from './reorder-partial-modal/ReorderPartialModal';
 
@@ -11,7 +11,7 @@ const ChannelsModalToolbar = () => {
   };
 
   return (
-    <ScreenModalToolbar
+    <ModalToolbar
       leftElement={
         <ModalChevronCloseButton>Server Settings</ModalChevronCloseButton>
       }
@@ -25,7 +25,7 @@ const ChannelsModalToolbar = () => {
       }
     >
       Channels
-    </ScreenModalToolbar>
+    </ModalToolbar>
   );
 };
 

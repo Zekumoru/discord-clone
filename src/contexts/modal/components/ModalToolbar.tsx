@@ -1,16 +1,16 @@
 import { ReactNode } from 'react';
 
-type ScreenModalToolbarProps = {
+type ModalToolbarProps = {
   children?: ReactNode;
   leftElement?: ReactNode;
   rightElement?: ReactNode;
 };
 
-const ScreenModalToolbar = ({
+const ModalToolbar = ({
   children,
   leftElement,
   rightElement,
-}: ScreenModalToolbarProps) => {
+}: ModalToolbarProps) => {
   return (
     <>
       <div className="h-toolbar" />
@@ -25,4 +25,4 @@ const ScreenModalToolbar = ({
   );
 };
 
-export default ScreenModalToolbar;
+export default ModalToolbar;

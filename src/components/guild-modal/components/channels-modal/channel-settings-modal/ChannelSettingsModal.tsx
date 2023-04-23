@@ -1,4 +1,4 @@
-import ScreenModalToolbar from '../../../../../contexts/modal/components/ScreenModalToolbar';
+import ModalToolbar from '../../../../../contexts/modal/components/ModalToolbar';
 import IChannel from '../../../../../types/channel/Channel';
 import InsetList from '../../../../modal-utils/InsetList';
 import InsetTextInput from '../../../../modal-utils/InsetTextInput';
@@ -101,7 +101,7 @@ const ChannelSettingsModal = ({ channel }: ChannelSettingsModalProps) => {
         undone.
       </ConfirmationDialog>
 
-      <ScreenModalToolbar
+      <ModalToolbar
         leftElement={<ModalCloseButton className="font-medium" />}
         rightElement={
           hasChanges && (
@@ -115,7 +115,7 @@ const ChannelSettingsModal = ({ channel }: ChannelSettingsModalProps) => {
         }
       >
         Channel Settings
-      </ScreenModalToolbar>
+      </ModalToolbar>
 
       <div className="heading-2 mx-4 mb-2 mt-8">Channel name</div>
       <InsetList className="mb-10">

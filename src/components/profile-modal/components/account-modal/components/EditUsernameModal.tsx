@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import ScreenModalToolbar from '../../../../../contexts/modal/components/ScreenModalToolbar';
+import ModalToolbar from '../../../../../contexts/modal/components/ModalToolbar';
 import ModalChevronCloseButton from '../../../../modal-utils/ModalChevronCloseButton';
 import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
 import extractNameAndTag from '../../../../../utils/extractNameAndTag';
@@ -72,7 +72,7 @@ const EditUsernameModal = () => {
     <div className="mb-4">
       {isLoading && <LoadingScreen />}
 
-      <ScreenModalToolbar
+      <ModalToolbar
         leftElement={<ModalChevronCloseButton>Account</ModalChevronCloseButton>}
         rightElement={
           hasChanges &&
@@ -85,7 +85,7 @@ const EditUsernameModal = () => {
         }
       >
         Edit Username
-      </ScreenModalToolbar>
+      </ModalToolbar>
 
       <div className="px-4 py-6">
         <div className="heading-2 mb-2">Username</div>

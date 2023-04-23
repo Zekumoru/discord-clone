@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useCloseModal } from '../../../../../contexts/modal/ModalContext';
-import ScreenModalToolbar from '../../../../../contexts/modal/components/ScreenModalToolbar';
+import ModalToolbar from '../../../../../contexts/modal/components/ModalToolbar';
 import useCategories from '../../../../../types/category/hooks/useCategories';
 import CategoryGroup from './CategoryGroup';
 import ICategory from '../../../../../types/category/Category';
@@ -57,7 +57,7 @@ const ReorderChannelsModal = () => {
     <div className="mb-4">
       {isLoading && <LoadingScreen />}
 
-      <ScreenModalToolbar
+      <ModalToolbar
         rightElement={
           <button onClick={handleDone} className={`font-semibold text-white`}>
             Done
@@ -65,7 +65,7 @@ const ReorderChannelsModal = () => {
         }
       >
         Reorder Channels
-      </ScreenModalToolbar>
+      </ModalToolbar>
 
       <div className="mt-2" />
 

@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import { useCurrentUser } from '../../../../contexts/current-user/CurrentUserContext';
-import ScreenModalToolbar from '../../../../contexts/modal/components/ScreenModalToolbar';
+import ModalToolbar from '../../../../contexts/modal/components/ModalToolbar';
 import ProfilePicture from '../../../../pages/channels/components/ProfilePicture';
 import extractNameAndTag from '../../../../utils/extractNameAndTag';
 import ModalChevronCloseButton from '../../../modal-utils/ModalChevronCloseButton';
@@ -16,13 +16,13 @@ const EditProfileModal = () => {
 
   return (
     <div className="mb-4">
-      <ScreenModalToolbar
+      <ModalToolbar
         leftElement={
           <ModalChevronCloseButton>Overview</ModalChevronCloseButton>
         }
       >
         Profile
-      </ScreenModalToolbar>
+      </ModalToolbar>
 
       <BannerImage user={user} className="h-48">
         <EditBannerButton />

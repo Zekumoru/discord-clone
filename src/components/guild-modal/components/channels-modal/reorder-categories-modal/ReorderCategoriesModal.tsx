@@ -3,7 +3,7 @@ import useCategories from '../../../../../types/category/hooks/useCategories';
 import ICategory from '../../../../../types/category/Category';
 import { toast } from 'react-toastify';
 import useReorderCategories from '../../../hooks/useReorderCategories';
-import ScreenModalToolbar from '../../../../../contexts/modal/components/ScreenModalToolbar';
+import ModalToolbar from '../../../../../contexts/modal/components/ModalToolbar';
 import LoadingScreen from '../../../../LoadingScreen';
 import { ReactSortable } from 'react-sortablejs';
 import CategoryItem from './CategoryItem';
@@ -57,7 +57,7 @@ const ReorderCategoriesModal = () => {
     <div className="mb-4">
       {isLoading && <LoadingScreen />}
 
-      <ScreenModalToolbar
+      <ModalToolbar
         rightElement={
           <button onClick={handleDone} className={`font-semibold text-white`}>
             Done
@@ -65,7 +65,7 @@ const ReorderCategoriesModal = () => {
         }
       >
         Reorder Channels
-      </ScreenModalToolbar>
+      </ModalToolbar>
 
       <div className="mt-2" />
 

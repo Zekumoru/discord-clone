@@ -1,12 +1,10 @@
 import { useCloseModal } from '../../contexts/modal/ModalContext';
-import ScreenModalToolbar from '../../contexts/modal/components/ScreenModalToolbar';
+import ModalToolbar from '../../contexts/modal/components/ModalToolbar';
 import ModalCloseButton from '../modal-utils/ModalCloseButton';
 
 const ProfileToolbar = () => {
   return (
-    <ScreenModalToolbar leftElement={<ModalCloseButton />}>
-      Overview
-    </ScreenModalToolbar>
+    <ModalToolbar leftElement={<ModalCloseButton />}>Overview</ModalToolbar>
   );
 };
 

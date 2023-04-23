@@ -1,4 +1,4 @@
-import ScreenModalToolbar from '../../../../contexts/modal/components/ScreenModalToolbar';
+import ModalToolbar from '../../../../contexts/modal/components/ModalToolbar';
 import ModalChevronCloseButton from '../../../modal-utils/ModalChevronCloseButton';
 
 type OverviewModalToolbarProps = {
@@ -11,7 +11,7 @@ const OverviewModalToolbar = ({
   onSave,
 }: OverviewModalToolbarProps) => {
   return (
-    <ScreenModalToolbar
+    <ModalToolbar
       leftElement={
         <ModalChevronCloseButton>Server Settings</ModalChevronCloseButton>
       }
@@ -28,7 +28,7 @@ const OverviewModalToolbar = ({
       }
     >
       Overview
-    </ScreenModalToolbar>
+    </ModalToolbar>
   );
 };
 

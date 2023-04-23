@@ -1,23 +1,23 @@
 import { render, screen } from '@testing-library/react';
-import ScreenModalToolbar from '../ScreenModalToolbar';
+import ModalToolbar from '../ModalToolbar';
 
 describe('ScreenModalToolbar', () => {
   it('should show left element', () => {
     const LeftComponent = () => <div>Left</div>;
-    render(<ScreenModalToolbar leftElement={<LeftComponent />} />);
+    render(<ModalToolbar leftElement={<LeftComponent />} />);
 
     expect(screen.getByText(/left/i)).toBeInTheDocument();
   });
 
   it('should show right element', () => {
     const RightComponent = () => <div>Right</div>;
-    render(<ScreenModalToolbar rightElement={<RightComponent />} />);
+    render(<ModalToolbar rightElement={<RightComponent />} />);
 
     expect(screen.getByText(/right/i)).toBeInTheDocument();
   });
 
   it('should show center element', () => {
-    render(<ScreenModalToolbar>Center</ScreenModalToolbar>);
+    render(<ModalToolbar>Center</ModalToolbar>);
 
     expect(screen.getByText(/center/i)).toBeInTheDocument();
   });
