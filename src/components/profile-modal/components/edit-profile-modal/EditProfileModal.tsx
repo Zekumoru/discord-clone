@@ -1,19 +1,16 @@
 import { format } from 'date-fns';
 import { useCurrentUser } from '../../../../contexts/current-user/CurrentUserContext';
-import { ScreenModalMethods } from '../../../../contexts/screen-modal/ScreenModalContext';
-import ScreenModalToolbar from '../../../../contexts/screen-modal/components/ScreenModalToolbar';
+import ScreenModalToolbar from '../../../../contexts/modal/components/ScreenModalToolbar';
 import ProfilePicture from '../../../../pages/channels/components/ProfilePicture';
 import extractNameAndTag from '../../../../utils/extractNameAndTag';
 import ModalChevronCloseButton from '../../../modal-utils/ModalChevronCloseButton';
 import EditBannerButton from './components/EditBannerButton';
 import EditPictureButton from './components/EditPictureButton';
 import BannerImage from '../../../BannerImage';
+import { useCloseModal } from '../../../../contexts/modal/ModalContext';
 
-type EditProfileModalProps = {
-  close: ScreenModalMethods[1];
-};
-
-const EditProfileModal = ({ close }: EditProfileModalProps) => {
+const EditProfileModal = () => {
+  const close = useCloseModal();
   const [user] = useCurrentUser();
   const [name, tag] = extractNameAndTag(user?.username ?? '');
 
@@ -21,9 +18,7 @@ const EditProfileModal = ({ close }: EditProfileModalProps) => {
     <div className="mb-4">
       <ScreenModalToolbar
         leftElement={
-          <ModalChevronCloseButton close={close}>
-            Overview
-          </ModalChevronCloseButton>
+          <ModalChevronCloseButton>Overview</ModalChevronCloseButton>
         }
       >
         Profile

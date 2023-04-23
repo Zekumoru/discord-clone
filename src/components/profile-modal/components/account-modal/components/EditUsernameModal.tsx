@@ -1,21 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
-import { ScreenModalMethods } from '../../../../../contexts/screen-modal/ScreenModalContext';
-import ScreenModalToolbar from '../../../../../contexts/screen-modal/components/ScreenModalToolbar';
+import ScreenModalToolbar from '../../../../../contexts/modal/components/ScreenModalToolbar';
 import ModalChevronCloseButton from '../../../../modal-utils/ModalChevronCloseButton';
 import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
 import extractNameAndTag from '../../../../../utils/extractNameAndTag';
-import { IconXMark } from '../../../../../assets/icons';
 import useUpdateUsername from '../hooks/useUpdateUsername';
 import LoadingScreen from '../../../../LoadingScreen';
 import DiscordError from '../../../../../utils/DiscordError';
 import { toast } from 'react-toastify';
 import CircledXButton from '../../../../CircledXButton';
+import { useCloseModal } from '../../../../../contexts/modal/ModalContext';
 
-type EditUsernameModalProps = {
-  close: ScreenModalMethods[1];
-};
-
-const EditUsernameModal = ({ close }: EditUsernameModalProps) => {
+const EditUsernameModal = () => {
+  const close = useCloseModal();
   const [user] = useCurrentUser();
   const [name, setName] = useState('');
   const [tag, setTag] = useState('');
@@ -77,11 +73,7 @@ const EditUsernameModal = ({ close }: EditUsernameModalProps) => {
       {isLoading && <LoadingScreen />}
 
       <ScreenModalToolbar
-        leftElement={
-          <ModalChevronCloseButton close={close}>
-            Account
-          </ModalChevronCloseButton>
-        }
+        leftElement={<ModalChevronCloseButton>Account</ModalChevronCloseButton>}
         rightElement={
           hasChanges &&
           name.trim() &&

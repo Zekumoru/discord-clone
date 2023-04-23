@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { ScreenModalMethods } from '../../../../../contexts/screen-modal/ScreenModalContext';
 import ModalChevronCloseButton from '../../../../modal-utils/ModalChevronCloseButton';
 import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
 import { toast } from 'react-toastify';
@@ -16,12 +15,10 @@ import friendsDoc from '../../../../../types/friend/firebase/friendsDoc';
 import friendRequestsDoc from '../../../../../types/friend/firebase/friendRequestsDoc';
 import { useNavigate } from 'react-router-dom';
 import LoadingScreen from '../../../../LoadingScreen';
+import { useCloseModal } from '../../../../../contexts/modal/ModalContext';
 
-type DeleteAccountModalProps = {
-  close: ScreenModalMethods[1];
-};
-
-const DeleteAccountModal = ({ close }: DeleteAccountModalProps) => {
+const DeleteAccountModal = () => {
+  const close = useCloseModal();
   const [signInWithEmailAndPassword, _user, signInLoading] =
     useSignInWithEmailAndPassword(getAuth());
   const [deleteUser, deleteLoading] = useDeleteUser(getAuth());
@@ -70,7 +67,7 @@ const DeleteAccountModal = ({ close }: DeleteAccountModalProps) => {
       {(signInLoading || deleteLoading) && <LoadingScreen />}
 
       <div className="flex h-[56px] items-center px-4">
-        <ModalChevronCloseButton close={close}>Account</ModalChevronCloseButton>
+        <ModalChevronCloseButton>Account</ModalChevronCloseButton>
       </div>
 
       <form

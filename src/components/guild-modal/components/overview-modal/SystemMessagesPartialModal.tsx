@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { PartialScreenModalProps } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import useCategories from '../../../../types/category/hooks/useCategories';
 import useGuild from '../../../../types/guild/hooks/useGuild';
 import IChannel from '../../../../types/channel/Channel';
@@ -7,15 +6,14 @@ import ChannelListItem from './ChannelListItem';
 import useUpdateSystemMessagesChannel from '../../hooks/useUpdateSystemMessagesChannel';
 import { toast } from 'react-toastify';
 import LoadingScreen from '../../../LoadingScreen';
+import { useClosePartialModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 
 type SystemMessagesPMProps = {
   guildId: string;
-} & PartialScreenModalProps;
+};
 
-const SystemMessagesPartialModal = ({
-  guildId,
-  close,
-}: SystemMessagesPMProps) => {
+const SystemMessagesPartialModal = ({ guildId }: SystemMessagesPMProps) => {
+  const close = useClosePartialModal();
   const [guild] = useGuild(guildId);
   const [categories] = useCategories(guild?.categoriesId);
   const channels = useMemo(() => {

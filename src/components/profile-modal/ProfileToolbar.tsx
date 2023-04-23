@@ -1,14 +1,10 @@
-import ScreenModalToolbar from '../../contexts/screen-modal/components/ScreenModalToolbar';
+import { useCloseModal } from '../../contexts/modal/ModalContext';
+import ScreenModalToolbar from '../../contexts/modal/components/ScreenModalToolbar';
 import ModalCloseButton from '../modal-utils/ModalCloseButton';
-import { ScreenModalMethods } from '../../contexts/screen-modal/ScreenModalContext';
 
-type ProfileToolbarProps = {
-  close: ScreenModalMethods[1];
-};
-
-const ProfileToolbar = ({ close }: ProfileToolbarProps) => {
+const ProfileToolbar = () => {
   return (
-    <ScreenModalToolbar leftElement={<ModalCloseButton close={close} />}>
+    <ScreenModalToolbar leftElement={<ModalCloseButton />}>
       Overview
     </ScreenModalToolbar>
   );

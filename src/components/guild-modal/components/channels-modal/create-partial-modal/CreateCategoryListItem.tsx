@@ -1,28 +1,23 @@
+import { toast } from 'react-toastify';
 import { IconCategories } from '../../../../../assets/icons';
-import { PartialScreenModalProps } from '../../../../../contexts/partial-screen-modal/PartialScreenModalContext';
-import { useScreenModal } from '../../../../../contexts/screen-modal/ScreenModalContext';
+import { useModal } from '../../../../../contexts/modal/ModalContext';
+import { useClosePartialModal } from '../../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import CreateCategoryModal from '../../../../../contexts/sidebar/components/modals/CreateCategoryModal';
+import { useCategoriesId } from '../../../../../types/category/contexts/CategoriesIdContext';
 
-type CreateCategoryListItemProps = {
-  categoriesId: string;
-} & PartialScreenModalProps;
-
-const CreateCategoryListItem = ({
-  categoriesId,
-  close,
-}: CreateCategoryListItemProps) => {
-  const [openModal, closeModal] = useScreenModal();
+const CreateCategoryListItem = () => {
+  const close = useClosePartialModal();
+  const categoriesId = useCategoriesId();
+  const [openModal] = useModal();
 
   const openCreateCategoryModal = () => {
-    openModal(
-      <CreateCategoryModal
-        categoriesId={categoriesId}
-        close={(...args) => {
-          close();
-          closeModal(...args);
-        }}
-      />
-    );
+    if (!categoriesId) {
+      toast.error('Could not open modal!');
+      return;
+    }
+
+    openModal(<CreateCategoryModal categoriesId={categoriesId} />);
+    close();
   };
 
   return (

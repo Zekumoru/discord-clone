@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import ScreenModalProvider, { useScreenModal } from '../ScreenModalContext';
+import ModalProvider, { useModal } from '../ModalContext';
 
 describe('ScreenModalContext', () => {
   it('should show the custom modal when opened', async () => {
@@ -9,13 +9,13 @@ describe('ScreenModalContext', () => {
       return <div>Modal</div>;
     };
     const Component = () => {
-      const [open] = useScreenModal();
+      const [open] = useModal();
       return <button onClick={() => open(<CustomModal />)}></button>;
     };
     render(
-      <ScreenModalProvider>
+      <ModalProvider>
         <Component />
-      </ScreenModalProvider>
+      </ModalProvider>
     );
 
     await user.click(screen.getByRole('button'));
@@ -34,7 +34,7 @@ describe('ScreenModalContext', () => {
       );
     };
     const Component = () => {
-      const [open, close] = useScreenModal();
+      const [open, close] = useModal();
       return (
         <button onClick={() => open(<CustomModal close={close} />)}>
           Open
@@ -42,9 +42,9 @@ describe('ScreenModalContext', () => {
       );
     };
     render(
-      <ScreenModalProvider>
+      <ModalProvider>
         <Component />
-      </ScreenModalProvider>
+      </ModalProvider>
     );
 
     await user.click(screen.getByText(/open/i));

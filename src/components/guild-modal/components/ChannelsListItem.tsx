@@ -1,15 +1,16 @@
 import { toast } from 'react-toastify';
 import { IconChannels, IconChevronRight } from '../../../assets/icons';
-import { useScreenModal } from '../../../contexts/screen-modal/ScreenModalContext';
+import { useModal } from '../../../contexts/modal/ModalContext';
 import InsetListItem from '../../modal-utils/InsetListItem';
 import ChannelsModal from './channels-modal/ChannelsModal';
+import CategoriesIdProvider from '../../../types/category/contexts/CategoriesIdContext';
 
 type ChannelsListItemProps = {
   categoriesId: string | undefined;
 };
 
 const ChannelsListItem = ({ categoriesId }: ChannelsListItemProps) => {
-  const [openModal, closeModal] = useScreenModal();
+  const [openModal] = useModal();
 
   const openChannelsModal = () => {
     if (!categoriesId) {
@@ -17,7 +18,11 @@ const ChannelsListItem = ({ categoriesId }: ChannelsListItemProps) => {
       return;
     }
 
-    openModal(<ChannelsModal categoriesId={categoriesId} close={closeModal} />);
+    openModal(<ChannelsModal />, (children) => (
+      <CategoriesIdProvider categoriesId={categoriesId}>
+        {children}
+      </CategoriesIdProvider>
+    ));
   };
 
   return (

@@ -1,5 +1,4 @@
-import { ScreenModalProps } from '../../../../../contexts/screen-modal/ScreenModalContext';
-import ScreenModalToolbar from '../../../../../contexts/screen-modal/components/ScreenModalToolbar';
+import ScreenModalToolbar from '../../../../../contexts/modal/components/ScreenModalToolbar';
 import IChannel from '../../../../../types/channel/Channel';
 import InsetList from '../../../../modal-utils/InsetList';
 import InsetTextInput from '../../../../modal-utils/InsetTextInput';
@@ -17,15 +16,14 @@ import InsetListItem from '../../../../modal-utils/InsetListItem';
 import ConfirmationDialog from '../../../../dialog/ConfirmationDialog';
 import { useDialog } from '../../../../dialog/Dialog';
 import useDeleteChannel from '../../../hooks/useDeleteChannel';
+import { useCloseModal } from '../../../../../contexts/modal/ModalContext';
 
 type ChannelSettingsModalProps = {
   channel: IChannel;
-} & ScreenModalProps;
+};
 
-const ChannelSettingsModal = ({
-  channel,
-  close,
-}: ChannelSettingsModalProps) => {
+const ChannelSettingsModal = ({ channel }: ChannelSettingsModalProps) => {
+  const close = useCloseModal();
   const [dialogRef, openDialog, closeDialog] = useDialog();
   const categoriesId = useCategoriesId();
   const [categories] = useCategories(categoriesId);
@@ -104,7 +102,7 @@ const ChannelSettingsModal = ({
       </ConfirmationDialog>
 
       <ScreenModalToolbar
-        leftElement={<ModalCloseButton className="font-medium" close={close} />}
+        leftElement={<ModalCloseButton className="font-medium" />}
         rightElement={
           hasChanges && (
             <button

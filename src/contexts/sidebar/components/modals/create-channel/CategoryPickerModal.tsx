@@ -2,20 +2,18 @@ import InsetList from '../../../../../components/modal-utils/InsetList';
 import InsetListItem from '../../../../../components/modal-utils/InsetListItem';
 import ModalChevronCloseButton from '../../../../../components/modal-utils/ModalChevronCloseButton';
 import useCategories from '../../../../../types/category/hooks/useCategories';
-import { ScreenModalProps } from '../../../../screen-modal/ScreenModalContext';
-import ScreenModalToolbar from '../../../../screen-modal/components/ScreenModalToolbar';
+import ScreenModalToolbar from '../../../../modal/components/ScreenModalToolbar';
 
 type CategoryPickerModalProps = {
   categoryName: string;
   categoriesId: string;
   onPick: (categoryName: string) => void;
-} & ScreenModalProps;
+};
 
 const CategoryPickerModal = ({
   categoryName,
   categoriesId,
   onPick,
-  close,
 }: CategoryPickerModalProps) => {
   const [categories] = useCategories(categoriesId);
 
@@ -26,9 +24,7 @@ const CategoryPickerModal = ({
   return (
     <div className="mb-4">
       <ScreenModalToolbar
-        leftElement={
-          <ModalChevronCloseButton close={close}>Back</ModalChevronCloseButton>
-        }
+        leftElement={<ModalChevronCloseButton>Back</ModalChevronCloseButton>}
       >
         Change Category
       </ScreenModalToolbar>

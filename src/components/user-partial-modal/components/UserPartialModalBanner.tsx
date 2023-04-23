@@ -1,7 +1,7 @@
 import ProfilePicture from '../../../pages/channels/components/ProfilePicture';
 import IUser from '../../../types/user/User';
 import { IconEllipsisHorizontal } from '../../../assets/icons';
-import { usePartialScreenModal } from '../../../contexts/partial-screen-modal/PartialScreenModalContext';
+import { usePartialModal } from '../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import UserActionsPartialModal from './UserActionsPartialModal';
 import { useCurrentUser } from '../../../contexts/current-user/CurrentUserContext';
 import BannerImage from '../../BannerImage';
@@ -12,12 +12,10 @@ type UserPartialModalBannerProps = {
 
 const UserPartialModalBanner = ({ user }: UserPartialModalBannerProps) => {
   const [currentUser] = useCurrentUser();
-  const [openPartialModal, closePartialModal] = usePartialScreenModal();
+  const [openPartialModal] = usePartialModal();
 
   const openRemoveFriendModal = () => {
-    openPartialModal(
-      <UserActionsPartialModal user={user} close={closePartialModal} />
-    );
+    openPartialModal(<UserActionsPartialModal user={user} />);
   };
 
   return (

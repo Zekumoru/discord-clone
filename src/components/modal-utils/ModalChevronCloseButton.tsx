@@ -1,17 +1,16 @@
 import { ReactNode } from 'react';
 import { IconChevronLeft } from '../../assets/icons';
-import { ScreenModalMethods } from '../../contexts/screen-modal/ScreenModalContext';
-import ScreenModalToolbar from '../../contexts/screen-modal/components/ScreenModalToolbar';
+import { useCloseModal } from '../../contexts/modal/ModalContext';
 
 type ModalChevronCloseButtonProps = {
   children: ReactNode;
-  close: ScreenModalMethods[1];
 };
 
 const ModalChevronCloseButton = ({
   children,
-  close,
 }: ModalChevronCloseButtonProps) => {
+  const close = useCloseModal();
+
   return (
     <button
       onClick={() => close()}

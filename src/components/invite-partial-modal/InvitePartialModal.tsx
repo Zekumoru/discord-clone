@@ -1,19 +1,20 @@
 import { useState } from 'react';
 import { IconLink, IconMagnifyingGlass, IconXMark } from '../../assets/icons';
 import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
-import { PartialScreenModalProps } from '../../contexts/partial-screen-modal/PartialScreenModalContext';
 import IGuild from '../../types/guild/Guild';
 import InviteUserItem from './InviteUserItem';
 import useInvitableFriends from './hooks/useInvitableFriends';
 import IUser from '../../types/user/User';
 import useInviteFromGuildId from '../../types/invite/hooks/useInviteFromGuildId';
 import { toast } from 'react-toastify';
+import { useClosePartialModal } from '../../contexts/partial-screen-modal/PartialScreenModalContext';
 
 type InvitePartialModalProps = {
   guild: IGuild | undefined;
-} & PartialScreenModalProps;
+};
 
-const InvitePartialModal = ({ guild, close }: InvitePartialModalProps) => {
+const InvitePartialModal = ({ guild }: InvitePartialModalProps) => {
+  const close = useClosePartialModal();
   const [filter, setFilter] = useState('');
   const [currentUser] = useCurrentUser();
   const [invitableFriends] = useInvitableFriends(currentUser, guild);

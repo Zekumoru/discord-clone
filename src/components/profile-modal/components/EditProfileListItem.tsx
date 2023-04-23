@@ -1,13 +1,13 @@
 import { IconChevronRight, IconPencil } from '../../../assets/icons';
-import { useScreenModal } from '../../../contexts/screen-modal/ScreenModalContext';
+import { useModal } from '../../../contexts/modal/ModalContext';
 import InsetListItem from '../../modal-utils/InsetListItem';
 import EditProfileModal from './edit-profile-modal/EditProfileModal';
 
 const EditProfileListItem = () => {
-  const [openModal, closeModal] = useScreenModal();
+  const [openModal] = useModal();
 
   const handleOpenModal = () => {
-    openModal(<EditProfileModal close={closeModal} />);
+    openModal(<EditProfileModal />);
   };
 
   return (

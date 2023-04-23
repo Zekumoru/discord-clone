@@ -1,5 +1,4 @@
-import { ScreenModalProps } from '../../../../screen-modal/ScreenModalContext';
-import ScreenModalToolbar from '../../../../screen-modal/components/ScreenModalToolbar';
+import ScreenModalToolbar from '../../../../modal/components/ScreenModalToolbar';
 import InsetList from '../../../../../components/modal-utils/InsetList';
 import ModalCloseButton from '../../../../../components/modal-utils/ModalCloseButton';
 import useCreateChannel from '../../../../../types/channel/hooks/useCreateChannel';
@@ -10,17 +9,18 @@ import InsetTextInput from '../../../../../components/modal-utils/InsetTextInput
 import useChannelNameChange from '../hooks/useChannelNameChange';
 import ChangeCategoryListItem from './ChangeCategoryListItem';
 import { useState } from 'react';
+import { useCloseModal } from '../../../../modal/ModalContext';
 
 type CreateChannelModalProps = {
   categoriesId: string;
   initialCategoryName: string;
-} & ScreenModalProps;
+};
 
 const CreateChannelModal = ({
   categoriesId,
   initialCategoryName,
-  close,
 }: CreateChannelModalProps) => {
+  const close = useCloseModal();
   const [channelName, handleChannelNameChange] = useChannelNameChange();
   const [categoryName, setCategoryName] = useState(initialCategoryName);
   const { mutate: createChannel, isLoading } = useCreateChannel({
@@ -57,9 +57,7 @@ const CreateChannelModal = ({
       {isLoading && <LoadingScreen />}
 
       <ScreenModalToolbar
-        leftElement={
-          <ModalCloseButton className="font-medium text-white" close={close} />
-        }
+        leftElement={<ModalCloseButton className="font-medium text-white" />}
         rightElement={
           <button
             onClick={handleCreateChannel}

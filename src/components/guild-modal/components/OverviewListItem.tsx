@@ -1,13 +1,13 @@
 import InsetListItem from '../../modal-utils/InsetListItem';
 import { IconChevronRight, IconInformationCircle } from '../../../assets/icons';
-import { useScreenModal } from '../../../contexts/screen-modal/ScreenModalContext';
+import { useModal } from '../../../contexts/modal/ModalContext';
 import OverviewModal from './overview-modal/OverviewModal';
 
 const OverviewListItem = () => {
-  const [openModal, closeModal] = useScreenModal();
+  const [openModal] = useModal();
 
   const openOverviewModal = () => {
-    openModal(<OverviewModal close={closeModal} />);
+    openModal(<OverviewModal />);
   };
 
   return (

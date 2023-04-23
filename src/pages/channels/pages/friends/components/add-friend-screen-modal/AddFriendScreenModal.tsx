@@ -1,19 +1,16 @@
 import { useState } from 'react';
 import UsernameInput from './components/UsernameInput';
 import AddFriendModalToolbar from './components/AddFriendModalToolbar';
-import { ScreenModalMethods } from '../../../../../../contexts/screen-modal/ScreenModalContext';
 import useSendFriendRequest from './hooks/use-add-friend/useSendFriendRequest';
 import { useCurrentUser } from '../../../../../../contexts/current-user/CurrentUserContext';
 import DiscordError from '../../../../../../utils/DiscordError';
 import { toast } from 'react-toastify';
 import LoadingScreen from '../../../../../../components/LoadingScreen';
 import extractNameAndTag from '../../../../../../utils/extractNameAndTag';
+import { useCloseModal } from '../../../../../../contexts/modal/ModalContext';
 
-type AddFriendScreenModalProps = {
-  close: ScreenModalMethods[1];
-};
-
-const AddFriendScreenModal = ({ close }: AddFriendScreenModalProps) => {
+const AddFriendScreenModal = () => {
+  const close = useCloseModal();
   const [username, setUsername] = useState('');
   const [user] = useCurrentUser();
   const { mutate: addFriend, isLoading } = useSendFriendRequest({
@@ -70,7 +67,7 @@ const AddFriendScreenModal = ({ close }: AddFriendScreenModalProps) => {
     <div className="mb-4">
       {isLoading && <LoadingScreen />}
 
-      <AddFriendModalToolbar close={close} />
+      <AddFriendModalToolbar />
 
       <div className="mb-1 mt-2 p-4">
         <h1 className="text-center text-2xl font-bold">

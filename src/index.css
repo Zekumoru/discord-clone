@@ -151,6 +151,6 @@
   }
 
   .li-rule-2:last-of-type > .li-rule-2-b {
-    @apply border-0;
+    @apply border-transparent;
   }
 }

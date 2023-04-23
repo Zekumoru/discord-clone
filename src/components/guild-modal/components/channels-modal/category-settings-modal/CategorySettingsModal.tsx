@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { ScreenModalProps } from '../../../../../contexts/screen-modal/ScreenModalContext';
-import ScreenModalToolbar from '../../../../../contexts/screen-modal/components/ScreenModalToolbar';
+import ScreenModalToolbar from '../../../../../contexts/modal/components/ScreenModalToolbar';
 import ICategory from '../../../../../types/category/Category';
 import { useCategoriesId } from '../../../../../types/category/contexts/CategoriesIdContext';
 import useCategories from '../../../../../types/category/hooks/useCategories';
@@ -15,15 +14,14 @@ import useUpdateCategoryName from '../../../hooks/useUpdateCategoryName';
 import DiscordError from '../../../../../utils/DiscordError';
 import LoadingScreen from '../../../../LoadingScreen';
 import useDeleteCategory from '../../../hooks/useDeleteCategory';
+import { useCloseModal } from '../../../../../contexts/modal/ModalContext';
 
 type CategorySettingsModalProps = {
   category: ICategory;
-} & ScreenModalProps;
+};
 
-const CategorySettingsModal = ({
-  category,
-  close,
-}: CategorySettingsModalProps) => {
+const CategorySettingsModal = ({ category }: CategorySettingsModalProps) => {
+  const close = useCloseModal();
   const [dialogRef, openDialog, closeDialog] = useDialog();
   const categoriesId = useCategoriesId();
   const [categories] = useCategories(categoriesId);
@@ -102,7 +100,7 @@ const CategorySettingsModal = ({
       </ConfirmationDialog>
 
       <ScreenModalToolbar
-        leftElement={<ModalCloseButton className="font-medium" close={close} />}
+        leftElement={<ModalCloseButton className="font-medium" />}
         rightElement={
           hasChanges && (
             <button

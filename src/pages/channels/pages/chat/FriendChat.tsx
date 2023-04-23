@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import Chat from './Chat';
 import ChatToolbar from './components/ChatToolbar';
-import { usePartialScreenModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
+import { usePartialModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import { useMembersSlider } from '../../../../contexts/members-slider/MembersSliderContext';
 import useChat from '../../../../types/chat/hooks/useChat';
 import useFriend from './hooks/useFriend';
@@ -18,7 +18,7 @@ const FriendChat = () => {
   const { id: chatId } = useParams();
   const [currentUser] = useCurrentUser();
   const [chat] = useChat(chatId);
-  const [openPartialModal, closePartialModal] = usePartialScreenModal();
+  const [openPartialModal] = usePartialModal();
   const [openMembersSlider] = useMembersSlider();
   const [friend] = useFriend(currentUser, chatId);
   const [friendName] = extractNameAndTag(friend?.username ?? '');
@@ -53,11 +53,7 @@ const FriendChat = () => {
   };
 
   const handleOpenUserPartialModal = () => {
-    openPartialModal(
-      !!friend && (
-        <UserPartialModal userId={friend.id} close={closePartialModal} />
-      )
-    );
+    openPartialModal(!!friend && <UserPartialModal userId={friend.id} />);
   };
 
   return (

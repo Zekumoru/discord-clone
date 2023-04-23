@@ -1,17 +1,18 @@
 import { toast } from 'react-toastify';
-import { ScreenModalProps } from '../../../../contexts/screen-modal/ScreenModalContext';
 import useGuild from '../../../../types/guild/hooks/useGuild';
 import GuildPicture from '../../../GuildPicture';
 import ModalChevronCloseButton from '../../../modal-utils/ModalChevronCloseButton';
 import useDeleteGuild from '../../hooks/useDeleteGuild';
 import LoadingScreen from '../../../LoadingScreen';
 import { useState } from 'react';
+import { useCloseModal } from '../../../../contexts/modal/ModalContext';
 
 type DeleteGuildModalProps = {
   guildId: string;
-} & ScreenModalProps;
+};
 
-const DeleteGuildModal = ({ close, guildId }: DeleteGuildModalProps) => {
+const DeleteGuildModal = ({ guildId }: DeleteGuildModalProps) => {
+  const close = useCloseModal();
   const [guild] = useGuild(guildId);
   const [confirmInput, setConfirmInput] = useState('');
   const { mutate: deleteGuild, isLoading } = useDeleteGuild({
@@ -28,9 +29,7 @@ const DeleteGuildModal = ({ close, guildId }: DeleteGuildModalProps) => {
       {isLoading && <LoadingScreen />}
 
       <div className="flex h-[56px] items-center px-4">
-        <ModalChevronCloseButton close={close}>
-          Overview
-        </ModalChevronCloseButton>
+        <ModalChevronCloseButton>Overview</ModalChevronCloseButton>
       </div>
 
       <form

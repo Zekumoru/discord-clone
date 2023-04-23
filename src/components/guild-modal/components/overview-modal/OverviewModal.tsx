@@ -1,8 +1,4 @@
 import { useEffect, useMemo, useState } from 'react';
-import {
-  ScreenModalProps,
-  useScreenModal,
-} from '../../../../contexts/screen-modal/ScreenModalContext';
 import { useGuildId } from '../../../../types/guild/contexts/GuildIdContext';
 import useGuild from '../../../../types/guild/hooks/useGuild';
 import InsetList from '../../../modal-utils/InsetList';
@@ -14,12 +10,12 @@ import useUpdateGuildName from '../../hooks/useUpdateGuildName';
 import LoadingScreen from '../../../LoadingScreen';
 import { toast } from 'react-toastify';
 import useCategories from '../../../../types/category/hooks/useCategories';
-import { usePartialScreenModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
+import { usePartialModal } from '../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import SystemMessagesPartialModal from './SystemMessagesPartialModal';
 import DeleteGuildListItem from './DeleteGuildListItem';
 
-const OverviewModal = ({ close }: ScreenModalProps) => {
-  const [openPartialModal, closePartialModal] = usePartialScreenModal();
+const OverviewModal = () => {
+  const [openPartialModal] = usePartialModal();
   const guildId = useGuildId();
   const [guild] = useGuild(guildId);
   const [guildName, setGuildName] = useState('');
@@ -67,12 +63,7 @@ const OverviewModal = ({ close }: ScreenModalProps) => {
       return;
     }
 
-    openPartialModal(
-      <SystemMessagesPartialModal
-        guildId={guild.id}
-        close={closePartialModal}
-      />
-    );
+    openPartialModal(<SystemMessagesPartialModal guildId={guild.id} />);
   };
 
   return (
@@ -84,7 +75,6 @@ const OverviewModal = ({ close }: ScreenModalProps) => {
         showSaveBtn={
           guildName.trim() !== guild?.name && guildName.trim() !== ''
         }
-        close={close}
       />
 
       <div className="heading-2 mx-4 mb-2 mt-10">Server Name</div>

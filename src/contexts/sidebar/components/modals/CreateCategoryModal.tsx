@@ -1,26 +1,26 @@
 import { useState } from 'react';
 import ModalCloseButton from '../../../../components/modal-utils/ModalCloseButton';
-import { ScreenModalProps } from '../../../screen-modal/ScreenModalContext';
-import ScreenModalToolbar from '../../../screen-modal/components/ScreenModalToolbar';
+import ScreenModalToolbar from '../../../modal/components/ScreenModalToolbar';
 import InsetList from '../../../../components/modal-utils/InsetList';
-import InsetListItem from '../../../../components/modal-utils/InsetListItem';
 import useCreateCategory from '../../../../types/category/hooks/useCreateCategory';
 import LoadingScreen from '../../../../components/LoadingScreen';
 import DiscordError from '../../../../utils/DiscordError';
 import { toast } from 'react-toastify';
 import InsetTextInput from '../../../../components/modal-utils/InsetTextInput';
+import { useCloseModal } from '../../../modal/ModalContext';
 
 type CreateCategoryModalProps = {
   categoriesId: string;
-} & ScreenModalProps;
+};
 
-const CreateCategoryModal = ({
-  categoriesId,
-  close,
-}: CreateCategoryModalProps) => {
+const CreateCategoryModal = ({ categoriesId }: CreateCategoryModalProps) => {
+  const close = useCloseModal();
   const [categoryName, setCategoryName] = useState('');
   const { mutate: createCategory, isLoading } = useCreateCategory({
-    onSuccess: close,
+    onSuccess: () => {
+      toast.success('Category created successfully!');
+      close();
+    },
     onError: (error) => {
       if (!(error instanceof DiscordError)) {
         toast.error('An unknown error has occurred!');
@@ -47,9 +47,7 @@ const CreateCategoryModal = ({
       {isLoading && <LoadingScreen />}
 
       <ScreenModalToolbar
-        leftElement={
-          <ModalCloseButton className="font-medium text-white" close={close} />
-        }
+        leftElement={<ModalCloseButton className="font-medium text-white" />}
         rightElement={
           <button
             onClick={handleCreateCategory}

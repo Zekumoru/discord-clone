@@ -1,18 +1,16 @@
 import { IconCategories } from '../../../../../assets/icons';
-import { PartialScreenModalProps } from '../../../../../contexts/partial-screen-modal/PartialScreenModalContext';
-import { useScreenModal } from '../../../../../contexts/screen-modal/ScreenModalContext';
+import { useModal } from '../../../../../contexts/modal/ModalContext';
+import { useClosePartialModal } from '../../../../../contexts/partial-screen-modal/PartialScreenModalContext';
+import ReorderCategoriesModal from '../reorder-categories-modal/ReorderCategoriesModal';
 
-type ReorderCategoryListItemProps = {
-  categoriesId: string;
-} & PartialScreenModalProps;
+const ReorderCategoryListItem = () => {
+  const close = useClosePartialModal();
+  const [openModal] = useModal();
 
-const ReorderCategoryListItem = ({
-  categoriesId,
-  close,
-}: ReorderCategoryListItemProps) => {
-  const [openModal, closeModal] = useScreenModal();
-
-  const openReorderCategoryModal = () => {};
+  const openReorderCategoryModal = () => {
+    openModal(<ReorderCategoriesModal />);
+    close();
+  };
 
   return (
     <li

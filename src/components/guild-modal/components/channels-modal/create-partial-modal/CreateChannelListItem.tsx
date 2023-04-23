@@ -1,28 +1,24 @@
-import { PartialScreenModalProps } from '../../../../../contexts/partial-screen-modal/PartialScreenModalContext';
-import { useScreenModal } from '../../../../../contexts/screen-modal/ScreenModalContext';
+import { toast } from 'react-toastify';
+import { useModal } from '../../../../../contexts/modal/ModalContext';
+import { useClosePartialModal } from '../../../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import CreateChannelModal from '../../../../../contexts/sidebar/components/modals/create-channel/CreateChannelModal';
+import { useCategoriesId } from '../../../../../types/category/contexts/CategoriesIdContext';
 
-type CreateChannelListItemProps = {
-  categoriesId: string;
-} & PartialScreenModalProps;
-
-const CreateChannelListItem = ({
-  categoriesId,
-  close,
-}: CreateChannelListItemProps) => {
-  const [openModal, closeModal] = useScreenModal();
+const CreateChannelListItem = () => {
+  const close = useClosePartialModal();
+  const categoriesId = useCategoriesId();
+  const [openModal] = useModal();
 
   const openCreateChannelModal = () => {
+    if (!categoriesId) {
+      toast.error('Could not open modal!');
+      return;
+    }
+
     openModal(
-      <CreateChannelModal
-        initialCategoryName=""
-        categoriesId={categoriesId}
-        close={(...args) => {
-          close();
-          closeModal(...args);
-        }}
-      />
+      <CreateChannelModal initialCategoryName="" categoriesId={categoriesId} />
     );
+    close();
   };
 
   return (

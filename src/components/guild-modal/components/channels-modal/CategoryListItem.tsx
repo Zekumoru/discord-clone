@@ -1,4 +1,4 @@
-import { useScreenModal } from '../../../../contexts/screen-modal/ScreenModalContext';
+import { useModal } from '../../../../contexts/modal/ModalContext';
 import ICategory from '../../../../types/category/Category';
 import ChannelListItem from './ChannelListItem';
 import CategorySettingsModal from './category-settings-modal/CategorySettingsModal';
@@ -8,10 +8,10 @@ type CategoryListItemProps = {
 };
 
 const CategoryListItem = ({ category }: CategoryListItemProps) => {
-  const [openModal, closeModal] = useScreenModal();
+  const [openModal] = useModal();
 
   const openCategorySettingsModal = () => {
-    openModal(<CategorySettingsModal category={category} close={closeModal} />);
+    openModal(<CategorySettingsModal category={category} />);
   };
 
   return (

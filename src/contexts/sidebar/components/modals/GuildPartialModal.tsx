@@ -5,36 +5,38 @@ import InvitePartialModal from '../../../../components/invite-partial-modal/Invi
 import useGuild from '../../../../types/guild/hooks/useGuild';
 import useMembers from '../../../../types/member/hooks/useMembers';
 import {
-  PartialScreenModalProps,
-  usePartialScreenModal,
+  useClosePartialModal,
+  usePartialModal,
 } from '../../../partial-screen-modal/PartialScreenModalContext';
 import PartialModalRoundedDiv from '../../../partial-screen-modal/components/PartialModalRoundedDiv';
-import { useScreenModal } from '../../../screen-modal/ScreenModalContext';
+import { useModal } from '../../../modal/ModalContext';
 import CreateChannelModal from './create-channel/CreateChannelModal';
 import CreateCategoryModal from './CreateCategoryModal';
 import GuildModal from '../../../../components/guild-modal/GuildModal';
 import useIsCurrentUserGuildOwner from '../../../../types/guild/hooks/useIsCurrentUserGuildOwner';
+import GuildIdProvider from '../../../../types/guild/contexts/GuildIdContext';
 
 type GuildPartialModalProps = {
   guildId: string | undefined;
-} & PartialScreenModalProps;
+};
 
-const GuildPartialModal = ({ guildId, close }: GuildPartialModalProps) => {
-  const [openPartialModal, closePartialModal] = usePartialScreenModal();
-  const [openModal, closeModal] = useScreenModal();
+const GuildPartialModal = ({ guildId }: GuildPartialModalProps) => {
+  const close = useClosePartialModal();
+  const [openPartialModal] = usePartialModal();
+  const [openModal] = useModal();
   const [guild] = useGuild(guildId);
   const [members] = useMembers(guild?.membersId);
   const isGuildOwner = useIsCurrentUserGuildOwner(guildId);
   const membersLength = members?.members.length ?? 0;
 
   const openInvitePartialModal = () => {
-    openPartialModal(
-      <InvitePartialModal guild={guild} close={closePartialModal} />
-    );
+    openPartialModal(<InvitePartialModal guild={guild} />);
   };
 
   const openGuildModal = () => {
-    openModal(<GuildModal guildId={guildId} close={closeModal} />);
+    openModal(<GuildModal guildId={guildId} />, (children) => (
+      <GuildIdProvider guildId={guildId}>{children}</GuildIdProvider>
+    ));
     close();
   };
 
@@ -48,7 +50,6 @@ const GuildPartialModal = ({ guildId, close }: GuildPartialModalProps) => {
       <CreateChannelModal
         categoriesId={guild.categoriesId}
         initialCategoryName={''}
-        close={closeModal}
       />
     );
     close();
@@ -60,12 +61,7 @@ const GuildPartialModal = ({ guildId, close }: GuildPartialModalProps) => {
       return;
     }
 
-    openModal(
-      <CreateCategoryModal
-        categoriesId={guild.categoriesId}
-        close={closeModal}
-      />
-    );
+    openModal(<CreateCategoryModal categoriesId={guild.categoriesId} />);
     close();
   };
 

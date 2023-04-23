@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import { IconFolderPlus } from '../../../../../assets/icons';
 import InsetChevronListItem from '../../../../../components/modal-utils/InsetChevronListItem';
-import { useScreenModal } from '../../../../screen-modal/ScreenModalContext';
+import { useModal } from '../../../../modal/ModalContext';
 import CategoryPickerModal from './CategoryPickerModal';
 
 type ChangeCategoryListItemProps = {
@@ -15,7 +15,7 @@ const ChangeCategoryListItem = ({
   categoryName,
   onChange,
 }: ChangeCategoryListItemProps) => {
-  const [openModal, closeModal] = useScreenModal();
+  const [openModal, closeModal] = useModal();
 
   const openPickCategoryModal = () => {
     if (categoryName === undefined) {
@@ -31,7 +31,6 @@ const ChangeCategoryListItem = ({
           onChange(categoryName);
           closeModal();
         }}
-        close={closeModal}
       />
     );
   };

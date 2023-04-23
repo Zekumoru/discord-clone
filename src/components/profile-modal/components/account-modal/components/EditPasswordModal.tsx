@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { ScreenModalMethods } from '../../../../../contexts/screen-modal/ScreenModalContext';
+import { useState } from 'react';
 import ModalChevronCloseButton from '../../../../modal-utils/ModalChevronCloseButton';
 import {
   useSignInWithEmailAndPassword,
@@ -9,12 +8,10 @@ import { getAuth } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
 import LoadingScreen from '../../../../LoadingScreen';
+import { useCloseModal } from '../../../../../contexts/modal/ModalContext';
 
-type EditPasswordModalProps = {
-  close: ScreenModalMethods[1];
-};
-
-const EditPasswordModal = ({ close }: EditPasswordModalProps) => {
+const EditPasswordModal = () => {
+  const close = useCloseModal();
   const [signInWithEmailAndPassword, _user, signInLoading] =
     useSignInWithEmailAndPassword(getAuth());
   const [updatePassword, updateLoading] = useUpdatePassword(getAuth());
@@ -54,7 +51,7 @@ const EditPasswordModal = ({ close }: EditPasswordModalProps) => {
       {(signInLoading || updateLoading) && <LoadingScreen />}
 
       <div className="flex h-[56px] items-center px-4">
-        <ModalChevronCloseButton close={close}>Account</ModalChevronCloseButton>
+        <ModalChevronCloseButton>Account</ModalChevronCloseButton>
       </div>
 
       <form
