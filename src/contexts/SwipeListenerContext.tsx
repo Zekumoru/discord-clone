@@ -9,7 +9,7 @@ import {
 import { useSidebar } from './sidebar/SidebarContext';
 
 const TIME_THRESHOLD_MILLISECONDS = 40;
-const DISTANCE_THRESHOLD_PIXELS = 50;
+const DISTANCE_THRESHOLD_PIXELS = 35;
 
 type SwipeEvents = {
   swipedLeft: boolean;
