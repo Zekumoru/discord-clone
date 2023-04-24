@@ -5,8 +5,7 @@ import UserPartialModal from '../UserPartialModal';
 import { format } from 'date-fns';
 import NoRetryQueryClientProvider from '../../../tests/NoRetryQueryClientProvider';
 import extractNameAndTag from '../../../utils/extractNameAndTag';
-import { BrowserRouter, useNavigate } from 'react-router-dom';
-import userEvent from '@testing-library/user-event';
+import { BrowserRouter } from 'react-router-dom';
 
 vi.mock('react-router-dom');
 
@@ -18,7 +17,7 @@ describe('UserPartialModal', () => {
     render(
       <BrowserRouter>
         <NoRetryQueryClientProvider>
-          <UserPartialModal userId={user.id} close={() => {}} />
+          <UserPartialModal userId={user.id} />
         </NoRetryQueryClientProvider>
       </BrowserRouter>
     );

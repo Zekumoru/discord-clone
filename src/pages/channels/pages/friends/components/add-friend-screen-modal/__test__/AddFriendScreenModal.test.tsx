@@ -10,27 +10,6 @@ vi.mock('react-firebase-hooks/auth');
 beforeAll(setupBeforeAll);
 
 describe('AddFriendScreenModal', () => {
-  it("should close the modal when the 'close' button is clicked", async () => {
-    const [cleanup] = await setupTest({
-      usernames: ['User#1234'],
-      mockUseAuthState: true,
-    });
-    const user = userEvent.setup();
-    const closeFn = vi.fn();
-    render(
-      <NoRetryQueryClientProvider>
-        <CurrentUserProvider>
-          <AddFriendScreenModal close={closeFn} />
-        </CurrentUserProvider>
-      </NoRetryQueryClientProvider>
-    );
-
-    await user.click(screen.getByText('Close'));
-
-    expect(closeFn).toBeCalled();
-    await cleanup();
-  });
-
   it("should show the name of the current user in the 'Your username is ...'", async () => {
     const [cleanup] = await setupTest({
       usernames: ['User#1234'],
@@ -39,7 +18,7 @@ describe('AddFriendScreenModal', () => {
     render(
       <NoRetryQueryClientProvider>
         <CurrentUserProvider>
-          <AddFriendScreenModal close={() => {}} />
+          <AddFriendScreenModal />
         </CurrentUserProvider>
       </NoRetryQueryClientProvider>
     );
@@ -49,27 +28,6 @@ describe('AddFriendScreenModal', () => {
         screen.getByText(/your username is .*user#1234/i)
       ).toBeInTheDocument();
     });
-    await cleanup();
-  });
-
-  it('should close the modal when friend request is sent', async () => {
-    const [cleanup] = await setupTest({
-      usernames: ['User#1234'],
-      mockUseAuthState: true,
-    });
-    const user = userEvent.setup();
-    const closeFn = vi.fn();
-    render(
-      <NoRetryQueryClientProvider>
-        <CurrentUserProvider>
-          <AddFriendScreenModal close={closeFn} />
-        </CurrentUserProvider>
-      </NoRetryQueryClientProvider>
-    );
-
-    await user.click(screen.getByText('Close'));
-
-    expect(closeFn).toBeCalled();
     await cleanup();
   });
 });

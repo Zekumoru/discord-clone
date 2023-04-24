@@ -1,51 +1,61 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
+import SwipeListenerProvider from '../SwipeListenerContext';
+import { ChildrenProps } from '../../types/props.type';
 
-type PartialScreenModalMethods = [
-  open: (modal: ReactNode) => void,
-  close: () => void
+type OpenPartialModalFn = (partialModal: ReactNode) => void;
+type ClosePartialModalFn = () => void;
+
+type PartialModalMethods = [
+  open: OpenPartialModalFn,
+  close: ClosePartialModalFn
 ];
 
-const PartialScreenModalContext = createContext<PartialScreenModalMethods>(
-  [] as unknown as PartialScreenModalMethods
-);
+const noop = () => {};
+const PartialModalContext = createContext<PartialModalMethods>([noop, noop]);
+const usePartialModal = () => useContext(PartialModalContext);
 
-const usePartialScreenModal = () => {
-  return useContext(PartialScreenModalContext);
-};
+const ClosePartialModalContext = createContext<ClosePartialModalFn>(noop);
+const useClosePartialModal = () => useContext(ClosePartialModalContext);
 
-type PartialScreenModalProviderProps = {
-  children: ReactNode;
-};
+const PartialModalProvider = ({ children }: ChildrenProps) => {
+  const [partialModal, setPartialModal] = useState<ReactNode>();
 
-const PartialScreenModalProvider = ({
-  children,
-}: PartialScreenModalProviderProps) => {
-  const [modal, setModal] = useState<ReactNode>();
-
-  const open = (modal: ReactNode) => {
-    setModal(modal);
+  const openPartialModal: OpenPartialModalFn = (partialModal) => {
+    setPartialModal(partialModal);
   };
 
-  const close = () => {
-    setModal(undefined);
+  const closePartialModal: ClosePartialModalFn = () => {
+    setPartialModal(undefined);
   };
 
   return (
-    <PartialScreenModalContext.Provider value={[open, close]}>
-      {modal && (
-        <div className="fixed bottom-0 left-0 top-0 z-[100] w-full overflow-y-auto overflow-x-hidden">
-          <div className="flex min-h-screen flex-col items-center bg-background-700 bg-opacity-50">
-            <div className="min-h-[65vh] w-full flex-1" onClick={close} />
-            <div className="mb-3 h-1.5 w-16 rounded bg-silvergrey-300" />
-            {modal}
-          </div>
-        </div>
-      )}
-      {children}
-    </PartialScreenModalContext.Provider>
+    <PartialModalContext.Provider value={[openPartialModal, closePartialModal]}>
+      <ClosePartialModalContext.Provider value={closePartialModal}>
+        {children}
+
+        {partialModal && (
+          <SwipeListenerProvider
+            disableAlreadySwiped={true}
+            onSwipeDown={(element) => {
+              if (element?.scrollTop !== 0) return;
+              closePartialModal();
+            }}
+            className="fixed bottom-0 left-0 top-0 z-[500] w-full overflow-y-auto overflow-x-hidden"
+          >
+            <div className="flex min-h-screen flex-col items-center bg-background-700 bg-opacity-50">
+              <div
+                className="min-h-[65vh] w-full flex-1"
+                onClick={closePartialModal}
+              />
+              <div className="mb-3 h-1.5 w-16 rounded bg-silvergrey-300" />
+              {partialModal}
+            </div>
+          </SwipeListenerProvider>
+        )}
+      </ClosePartialModalContext.Provider>
+    </PartialModalContext.Provider>
   );
 };
 
-export default PartialScreenModalProvider;
-export { usePartialScreenModal };
-export type { PartialScreenModalMethods };
+export default PartialModalProvider;
+export { usePartialModal, useClosePartialModal };

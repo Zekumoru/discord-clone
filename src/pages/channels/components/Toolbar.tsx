@@ -22,10 +22,10 @@ const Toolbar = ({ prefix, buttons, children, className }: ToolbarProps) => {
             strokeWidth={1.8}
           />
         </div>
-        <div className="mr-auto text-lg font-bold capitalize">
+        <div className="mr-2 truncate text-lg font-bold">
           {prefix} {children}
         </div>
-        <div className="text-silvergrey-300">{buttons}</div>
+        <div className="ml-auto text-silvergrey-300">{buttons}</div>
       </nav>
     </>
   );

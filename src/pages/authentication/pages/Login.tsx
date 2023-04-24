@@ -8,6 +8,10 @@ import {
 import { getAuth } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import LoadingScreen from '../../../components/LoadingScreen';
+import { FirebaseError } from 'firebase/app';
+
+const EMAIL_REGEX =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 const Login = () => {
   const id = useId();
@@ -21,10 +25,6 @@ const Login = () => {
 
   useEffect(() => {
     if (!resetError) return;
-    if (email === '') {
-      toast.error('Email field is empty!');
-      return;
-    }
 
     toast.error('Could not send reset email!');
   }, [resetError]);
@@ -37,12 +37,20 @@ const Login = () => {
   };
 
   const handleResetPassword = async () => {
+    if (email === '') {
+      toast.error('Email field is empty!');
+      return;
+    }
+
+    if (!email.match(EMAIL_REGEX)) {
+      toast.error('Invalid email!');
+      return;
+    }
+
     const success = await sendPasswordResetEmail(email);
 
     if (success) {
       toast.success('Reset email sent!');
-    } else {
-      toast.error('Could not send reset email!');
     }
   };
 

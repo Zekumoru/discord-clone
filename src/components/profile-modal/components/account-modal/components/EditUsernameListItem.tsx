@@ -1,24 +1,20 @@
-import { IconChevronRight } from '../../../../../assets/icons';
 import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
-import { useScreenModal } from '../../../../../contexts/screen-modal/ScreenModalContext';
-import InsetListItem from '../../../../modal-utils/InsetListItem';
+import { useModal } from '../../../../../contexts/modal/ModalContext';
+import InsetChevronListItem from '../../../../modal-utils/InsetChevronListItem';
 import EditUsernameModal from './EditUsernameModal';
 
 const EditUsernameListItem = () => {
   const [currentUser] = useCurrentUser();
-  const [openModal, closeModal] = useScreenModal();
+  const [openModal, closeModal] = useModal();
 
   return (
-    <InsetListItem
+    <InsetChevronListItem
+      label="Username"
+      value={currentUser?.username}
       onClick={() => {
-        openModal(<EditUsernameModal close={closeModal} />);
+        openModal(<EditUsernameModal />);
       }}
-      className="ml-auto font-medium"
-      prefix={<span className="text-white">Username</span>}
-      postfix={<IconChevronRight className="h-4 w-4" strokeWidth={3} />}
-    >
-      {currentUser?.username}
-    </InsetListItem>
+    />
   );
 };
 

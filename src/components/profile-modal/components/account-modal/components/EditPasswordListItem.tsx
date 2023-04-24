@@ -1,15 +1,15 @@
 import { IconChevronRight } from '../../../../../assets/icons';
-import { useScreenModal } from '../../../../../contexts/screen-modal/ScreenModalContext';
+import { useModal } from '../../../../../contexts/modal/ModalContext';
 import InsetListItem from '../../../../modal-utils/InsetListItem';
 import EditPasswordModal from './EditPasswordModal';
 
 const EditPasswordListItem = () => {
-  const [openModal, closeModal] = useScreenModal();
+  const [openModal] = useModal();
 
   return (
     <InsetListItem
       onClick={() => {
-        openModal(<EditPasswordModal close={closeModal} />);
+        openModal(<EditPasswordModal />);
       }}
       className="ml-auto font-medium"
       prefix={<span className="text-white">Password</span>}

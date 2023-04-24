@@ -1,14 +1,14 @@
-import { useScreenModal } from '../../../../../contexts/screen-modal/ScreenModalContext';
+import { useModal } from '../../../../../contexts/modal/ModalContext';
 import InsetListItem from '../../../../modal-utils/InsetListItem';
 import DeleteAccountModal from './DeleteAccountModal';
 
 const DeleteAccountListItem = () => {
-  const [openModal, closeModal] = useScreenModal();
+  const [openModal] = useModal();
 
   return (
     <InsetListItem
       onClick={() => {
-        openModal(<DeleteAccountModal close={closeModal} />);
+        openModal(<DeleteAccountModal />);
       }}
       className="text-salmon-400"
     >

@@ -1,12 +1,7 @@
-interface IParticipant {
-  userId: string;
-}
-
 interface IChat {
   id: string;
   messagesId: string;
-  participants: IParticipant[];
+  membersId: string;
 }
 
 export default IChat;
-export type { IParticipant };

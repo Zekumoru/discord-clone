@@ -1,21 +1,18 @@
 import { useState } from 'react';
 import { IconXMark } from '../../../assets/icons';
-import { PartialScreenModalMethods } from '../../../contexts/partial-screen-modal/PartialScreenModalContext';
 import ProfilePicture from '../../../pages/channels/components/ProfilePicture';
 import IUser from '../../../types/user/User';
 import extractNameAndTag from '../../../utils/extractNameAndTag';
 import FriendAction from './FriendAction';
 import LoadingScreen from '../../LoadingScreen';
+import { useClosePartialModal } from '../../../contexts/partial-screen-modal/PartialScreenModalContext';
 
 type UserActionsPartialModalProps = {
   user: IUser | undefined;
-  close: PartialScreenModalMethods[1];
 };
 
-const UserActionsPartialModal = ({
-  user,
-  close,
-}: UserActionsPartialModalProps) => {
+const UserActionsPartialModal = ({ user }: UserActionsPartialModalProps) => {
+  const close = useClosePartialModal();
   const [loading, setLoading] = useState(false);
   const [name] = extractNameAndTag(user?.username ?? '');
 

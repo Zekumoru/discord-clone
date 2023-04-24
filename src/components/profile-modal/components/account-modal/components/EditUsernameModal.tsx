@@ -1,20 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
-import { ScreenModalMethods } from '../../../../../contexts/screen-modal/ScreenModalContext';
-import ScreenModalToolbar from '../../../../../contexts/screen-modal/components/ScreenModalToolbar';
+import ModalToolbar from '../../../../../contexts/modal/components/ModalToolbar';
 import ModalChevronCloseButton from '../../../../modal-utils/ModalChevronCloseButton';
 import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
 import extractNameAndTag from '../../../../../utils/extractNameAndTag';
-import { IconXMark } from '../../../../../assets/icons';
 import useUpdateUsername from '../hooks/useUpdateUsername';
 import LoadingScreen from '../../../../LoadingScreen';
 import DiscordError from '../../../../../utils/DiscordError';
 import { toast } from 'react-toastify';
+import CircledXButton from '../../../../CircledXButton';
+import { useCloseModal } from '../../../../../contexts/modal/ModalContext';
 
-type EditUsernameModalProps = {
-  close: ScreenModalMethods[1];
-};
-
-const EditUsernameModal = ({ close }: EditUsernameModalProps) => {
+const EditUsernameModal = () => {
+  const close = useCloseModal();
   const [user] = useCurrentUser();
   const [name, setName] = useState('');
   const [tag, setTag] = useState('');
@@ -72,15 +69,11 @@ const EditUsernameModal = ({ close }: EditUsernameModalProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background-300">
+    <div className="mb-4">
       {isLoading && <LoadingScreen />}
 
-      <ScreenModalToolbar
-        leftElement={
-          <ModalChevronCloseButton close={close}>
-            Account
-          </ModalChevronCloseButton>
-        }
+      <ModalToolbar
+        leftElement={<ModalChevronCloseButton>Account</ModalChevronCloseButton>}
         rightElement={
           hasChanges &&
           name.trim() &&
@@ -92,7 +85,7 @@ const EditUsernameModal = ({ close }: EditUsernameModalProps) => {
         }
       >
         Edit Username
-      </ScreenModalToolbar>
+      </ModalToolbar>
 
       <div className="px-4 py-6">
         <div className="heading-2 mb-2">Username</div>
@@ -107,15 +100,7 @@ const EditUsernameModal = ({ close }: EditUsernameModalProps) => {
             onChange={(e) => handleNameChange(e.target.value)}
             required
           />
-          <div
-            onClick={handleClearName}
-            className="grid h-5 w-5 place-content-center rounded-full bg-silvergrey-300"
-          >
-            <IconXMark
-              strokeWidth={3}
-              className="h-3.5 w-3.5 text-background-700"
-            />
-          </div>
+          <CircledXButton onClick={handleClearName} />
           <div className="mx-3 h-6 border-l-2 border-background-300" />
           <input
             type="text"

@@ -1,29 +1,27 @@
-import { IconCog6Tooth, IconUserBars } from '../../../assets/icons';
+import { useLocation } from 'react-router-dom';
 import SidebarFriends from './SidebarFriends';
-import SidebarGuildList from './SidebarGuildList';
+import SidebarGuilds from './SidebarGuilds';
 import SidebarProfile from './SidebarProfile';
+import SidebarGuild from './SidebarGuild';
+import { useSwipeListener } from '../../SwipeListenerContext';
+import { useEffect } from 'react';
 
 type SidebarProps = {
   isOpen: boolean;
   close: () => void;
 };
 
-const Sidebar = ({ isOpen, close }: SidebarProps) => {
+const Sidebar = ({ close, isOpen }: SidebarProps) => {
+  const location = useLocation().pathname;
+  const isMePage = location.includes('/channels/@me');
+
   return (
-    <div
-      className={`fixed bottom-0 top-0 z-50 flex ${
-        isOpen ? 'left-0 right-0' : '-left-full'
-      } md:left-0`}
-    >
-      <div className="sidebar w-80 bg-background-500 shadow-material md:shadow">
-        <SidebarGuildList />
+    <div className="sidebar w-sidebar bg-background-500 shadow-material md:shadow">
+      <SidebarGuilds />
 
-        <SidebarFriends close={close} />
+      {isMePage ? <SidebarFriends close={close} /> : <SidebarGuild />}
 
-        <SidebarProfile />
-      </div>
-
-      <div className="grow" onClick={close} />
+      <SidebarProfile isOpen={isOpen} />
     </div>
   );
 };

@@ -9,6 +9,10 @@
   html {
     @apply bg-background-300 text-white;
   }
+
+  dialog {
+    @apply bg-background-300 p-0 text-white backdrop:bg-black backdrop:bg-opacity-50;
+  }
 }
 
 @layer components {
@@ -44,12 +48,6 @@
     }
   }
 
-  @media screen(xl) {
-    .xl-w-sidebar {
-      width: calc(theme(width.full) - 2 * theme(width.80)) !important;
-    }
-  }
-
   .text-input {
     @apply rounded bg-background-700 p-2.5 leading-none text-silvergrey-300 outline-none placeholder:text-silvergrey-400;
   }
@@ -66,6 +64,10 @@
     grid-template-rows: 1fr auto;
   }
 
+  .w-sidebar {
+    @apply w-80;
+  }
+
   .h-toolbar {
     @apply h-14;
   }
@@ -74,8 +76,16 @@
     min-height: calc(100vh - 56px);
   }
 
+  .h-sidebar-profile {
+    height: 65px;
+  }
+
   .h-screen-slide-header {
     height: calc(100vh - 60px);
+  }
+
+  .heading-1 {
+    @apply text-center text-xl font-bold;
   }
 
   .heading-2 {
@@ -88,6 +98,14 @@
 
   .btn:disabled {
     @apply bg-warmblue-400 text-silvergrey-400;
+  }
+
+  .dialog-btn {
+    @apply w-full rounded bg-warmblue-100 px-10 py-1.5 font-medium;
+  }
+
+  .dialog-btn-outline {
+    @apply w-full rounded border-2 border-silvergrey-600 px-10 py-1.5 font-medium;
   }
 }
 
@@ -117,6 +135,22 @@
 
   .li-rule-4:last-of-type,
   .li-rule-4:last-of-type::after {
+    @apply border-transparent;
+  }
+
+  .li-rule-inset > .li-rule-inset-b {
+    @apply border-b border-background-100;
+  }
+
+  .li-rule-inset:last-of-type > .li-rule-inset-b {
+    @apply border-0;
+  }
+
+  .li-rule-2 > .li-rule-2-b {
+    @apply border-b-2 border-background-100;
+  }
+
+  .li-rule-2:last-of-type > .li-rule-2-b {
     @apply border-transparent;
   }
 }

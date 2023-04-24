@@ -1,13 +1,14 @@
-import { MouseEventHandler } from 'react';
-import { ScreenModalMethods } from '../../contexts/screen-modal/ScreenModalContext';
+import { useCloseModal } from '../../contexts/modal/ModalContext';
 
 type ModalCloseButtonProps = {
-  close: ScreenModalMethods[1];
+  className?: string;
 };
 
-const ModalCloseButton = ({ close }: ModalCloseButtonProps) => {
+const ModalCloseButton = ({ className }: ModalCloseButtonProps) => {
+  const close = useCloseModal();
+
   return (
-    <button className="font-medium" onClick={() => close()}>
+    <button className={className ?? 'font-medium'} onClick={() => close()}>
       Close
     </button>
   );

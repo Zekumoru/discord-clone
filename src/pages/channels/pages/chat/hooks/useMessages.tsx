@@ -3,16 +3,20 @@ import IMessage from '../../../../../types/message/Message';
 import chatMessagesCollection from '../../../../../types/chat/firebase/chatMessagesCollection';
 import { Unsubscribe } from 'firebase/auth';
 import { onSnapshot, orderBy, query } from 'firebase/firestore';
+import channelMessagesCollection from '../../../../../types/channel/firebase/channelMessagesCollection';
 
-const useMessages = (chatId: string | undefined) => {
+const useMessages = (type: 'chat' | 'channel', id: string | undefined) => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<unknown>();
 
   useEffect(() => {
-    if (!chatId) return;
+    if (!id) return;
 
-    const messagesRef = chatMessagesCollection(chatId);
+    const messagesRef =
+      type === 'chat'
+        ? chatMessagesCollection(id)
+        : channelMessagesCollection(id);
     const messagesQueryRef = query(messagesRef, orderBy('timestamp', 'asc'));
     let unsubscribe: Unsubscribe = () => {};
 
@@ -29,7 +33,7 @@ const useMessages = (chatId: string | undefined) => {
     }
 
     return () => unsubscribe();
-  }, [chatId]);
+  }, [id]);
 
   return [messages, isLoading, error] as const;
 };

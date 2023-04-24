@@ -1,8 +1,5 @@
 import { useSignOut } from 'react-firebase-hooks/auth';
 import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
-import ScreenModalProvider, {
-  ScreenModalMethods,
-} from '../../contexts/screen-modal/ScreenModalContext';
 import ProfilePicture from '../../pages/channels/components/ProfilePicture';
 import extractNameAndTag from '../../utils/extractNameAndTag';
 import InsetList from '../modal-utils/InsetList';
@@ -14,12 +11,10 @@ import { getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import BannerImage from '../BannerImage';
 import LoadingScreen from '../LoadingScreen';
+import { useCloseModal } from '../../contexts/modal/ModalContext';
 
-type ProfileModalProps = {
-  close: ScreenModalMethods[1];
-};
-
-const ProfileModal = ({ close }: ProfileModalProps) => {
+const ProfileModal = () => {
+  const close = useCloseModal();
   const [user] = useCurrentUser();
   const [name, tag] = extractNameAndTag(user?.username ?? '');
   const [logout, logoutLoading] = useSignOut(getAuth());
@@ -32,10 +27,10 @@ const ProfileModal = ({ close }: ProfileModalProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background-300">
+    <div>
       {logoutLoading && <LoadingScreen />}
 
-      <ProfileToolbar close={close} />
+      <ProfileToolbar />
 
       <BannerImage user={user} className="h-48">
         <div className="absolute -bottom-12 left-4 rounded-full bg-background-800 p-2">

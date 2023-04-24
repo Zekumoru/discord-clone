@@ -50,14 +50,17 @@ const initUserCollections = async (firebaseUser: User, username: string) => {
       firebaseId: firebaseUser.uid,
       pictureUrl: null,
       bannerUrl: null,
-      creationTimestamp: serverTimestamp() as Timestamp,
+      creationTimestamp: null,
       userChatsId,
       username,
       friendsId,
       friendRequestsId,
       guildsId,
     };
-    batch.set(userDoc(userId), user);
+    batch.set(userDoc(userId), {
+      ...user,
+      creationTimestamp: serverTimestamp(),
+    });
   });
 
   await queryClient.invalidateQueries(['user', 'current']);

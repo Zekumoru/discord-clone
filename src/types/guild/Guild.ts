@@ -1,12 +1,18 @@
-import IRole from '../role/Role';
+import { Timestamp } from 'firebase/firestore';
 
 interface IGuild {
-  // Stub!
+  id: string;
+  name: string;
+  pictureUrl: string | null;
+  categoriesId: string;
+  membersId: string;
+  rolesId: string;
+  systemMessagesChannelId: string | null;
+  creationTimestamp: Timestamp | null;
 }
 
 interface IUserGuild {
-  id: string;
-  role: IRole;
+  guildId: string;
 }
 
 interface IUserGuilds {

@@ -2,12 +2,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import ProfilePicture from '../../../pages/channels/components/ProfilePicture';
 import useUser from '../../../types/user/hooks/useUser';
 import extractNameAndTag from '../../../utils/extractNameAndTag';
-import { PartialScreenModalMethods } from '../../partial-screen-modal/PartialScreenModalContext';
 
 type SidebarFriendItemProps = {
   chatId: string;
   friendId: string;
-  close: PartialScreenModalMethods[1];
+  close: () => void;
 };
 
 const SidebarFriendItem = ({

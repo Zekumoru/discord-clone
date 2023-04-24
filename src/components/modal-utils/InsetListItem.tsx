@@ -5,6 +5,7 @@ type InsetListItemProps = {
   postfix?: ReactNode;
   children?: ReactNode;
   className?: string;
+  hrRule?: 'default' | 'rule-4';
   onClick?: () => void;
 };
 
@@ -14,21 +15,33 @@ const InsetListItem = ({
   postfix,
   className,
   onClick,
+  hrRule,
 }: InsetListItemProps = {}) => {
   return (
     <li
       onClick={onClick}
-      className="li-rule-4 flex items-center gap-2.5 border-background-100 bg-background-500 px-4 py-2.5 font-semibold text-silvergrey-300 after:border-background-500"
+      className={`${
+        hrRule === 'rule-4'
+          ? 'li-rule-4 border-background-100 after:border-background-500'
+          : 'li-rule-inset'
+      } flex items-center gap-3 bg-background-500 pl-4 font-semibold text-silvergrey-300`}
     >
       {prefix}
+
       <span
-        className={`flex min-h-[24px] items-center capitalize leading-none ${
-          className ?? ''
-        }`}
+        className={`${
+          hrRule === 'rule-4' ? '' : 'li-rule-inset-b'
+        } flex flex-1 items-center overflow-hidden py-2.5 pr-4`}
       >
-        {children}
+        <span
+          className={`flex min-h-[24px] items-center overflow-hidden leading-none ${
+            className ?? ''
+          }`}
+        >
+          {children}
+        </span>
+        {postfix}
       </span>
-      {postfix}
     </li>
   );
 };

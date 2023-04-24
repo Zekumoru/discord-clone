@@ -15,6 +15,20 @@ import IconPencil from './IconPencil';
 import IconChevronRight from './IconChevronRight';
 import IconChevronLeft from './IconChevronLeft';
 import IconPaperAirplane from './IconPaperAirplane';
+import IconCamera from './IconCamera';
+import IconLink from './IconLink';
+import IconChevronDown from './IconChevronDown';
+import IconChevronUp from './IconChevronUp';
+import IconPlus from './IconPlus';
+import IconMagnifyingGlass from './IconMagnifyingGlass';
+import IconCrown from './IconCrown';
+import IconImagePlus from './IconImagePlus';
+import IconExclamationCircle from './IconExclamationCircle';
+import IconInformationCircle from './IconInformationCircle';
+import IconChannels from './IconChannels';
+import IconCategories from './IconCategories';
+import IconFolderPlus from './IconFolderPlus';
+import IconDragDots from './IconDragDots';
 
 export {
   IconBurger,
@@ -34,4 +48,18 @@ export {
   IconChevronRight,
   IconChevronLeft,
   IconPaperAirplane,
+  IconCamera,
+  IconLink,
+  IconChevronDown,
+  IconChevronUp,
+  IconPlus,
+  IconMagnifyingGlass,
+  IconCrown,
+  IconImagePlus,
+  IconExclamationCircle,
+  IconInformationCircle,
+  IconChannels,
+  IconCategories,
+  IconFolderPlus,
+  IconDragDots,
 };
