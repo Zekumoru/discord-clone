@@ -1,6 +1,9 @@
 import { useId, useState } from 'react';
 import ModalCloseButton from '../../../../../../components/modal-utils/ModalCloseButton';
-import { useModal } from '../../../../../../contexts/modal/ModalContext';
+import {
+  useCloseModal,
+  useModal,
+} from '../../../../../../contexts/modal/ModalContext';
 import CircledXButton from '../../../../../../components/CircledXButton';
 import GuildPicturePicker from '../GuildPicturePicker';
 import useCreateGuild from '../../hooks/useCreateGuild';
@@ -12,6 +15,7 @@ import LoadingScreen from '../../../../../../components/LoadingScreen';
 
 const CreateGuildModal = () => {
   const id = useId();
+  const close = useCloseModal();
   const [user] = useCurrentUser();
   const [guildName, setGuildName] = useState('');
   const [guildPicture, setGuildPicture] = useState<File | null>(null);
