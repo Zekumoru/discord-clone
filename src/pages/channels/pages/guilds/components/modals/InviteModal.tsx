@@ -19,7 +19,7 @@ const InviteModal = ({ inviteId }: InviteModalProps) => {
   return (
     <div className="mb-4">
       <div className="flex h-[56px] items-center justify-end px-4">
-        <button className="font-medium" onClick={() => close()}>
+        <button className="font-medium" onClick={() => close(true)}>
           Skip
         </button>
       </div>
