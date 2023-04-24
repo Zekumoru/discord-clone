@@ -9,6 +9,7 @@ import createMember from '../../member/utils/createMember';
 import rolesDoc from '../../role/firebase/rolesDoc';
 import DiscordError from '../../../utils/DiscordError';
 import { queryClient } from '../../../components/QueryClientInitializer';
+import createMemberLog from '../../guild-log/utils/createMemberLog';
 
 type JoinGuildOptions = {
   user: IUser;
@@ -48,6 +49,11 @@ const joinGuild = async ({ user, guild }: JoinGuildOptions) => {
     batch.set(membersRef, {
       ...members,
       members: [...members.members, createMember(user.id, roleId)],
+    });
+
+    createMemberLog(batch, guild.id, {
+      type: 'user-joined',
+      userId: user.id,
     });
   });
 

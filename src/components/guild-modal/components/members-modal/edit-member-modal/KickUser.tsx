@@ -36,6 +36,7 @@ const KickUser = ({ user, className }: KickUserProps) => {
 
     removeMember({
       guildId,
+      type: 'user-kicked',
       userGuildsId: user.guildsId,
     });
   };

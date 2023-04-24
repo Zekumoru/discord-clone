@@ -88,6 +88,7 @@ const GuildPartialModal = ({ guildId }: GuildPartialModalProps) => {
     }
 
     removeMember({
+      type: 'user-left',
       guildId: guildId,
       userGuildsId: currentUser?.guildsId,
     });
