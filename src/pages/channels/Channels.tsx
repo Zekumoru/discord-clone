@@ -21,8 +21,8 @@ const Channels = () => {
   }, [user, loading]);
 
   return (
-    <SidebarProvider>
-      <MembersSliderProvider>
+    <MembersSliderProvider>
+      <SidebarProvider>
         <SwipeListenerProvider enabledSidebarSwiping>
           <Routes>
             <Route path="/@me" element={<Friends />} />
@@ -31,8 +31,8 @@ const Channels = () => {
             <Route path="/:guildId/:channelId" element={<Channel />} />
           </Routes>
         </SwipeListenerProvider>
-      </MembersSliderProvider>
-    </SidebarProvider>
+      </SidebarProvider>
+    </MembersSliderProvider>
   );
 };
 

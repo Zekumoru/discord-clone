@@ -4,6 +4,7 @@ import useUser from '../../../../../types/user/hooks/useUser';
 import extractNameAndTag from '../../../../../utils/extractNameAndTag';
 import InsetList from '../../../../modal-utils/InsetList';
 import ModalChevronCloseButton from '../../../../modal-utils/ModalChevronCloseButton';
+import KickUser from './KickUser';
 import TransferOwnership from './TransferOwnership';
 
 type EditMemberModalProps = {
@@ -31,6 +32,8 @@ const EditMemberModal = ({ memberId }: EditMemberModalProps) => {
           </span>
         </li>
       </InsetList>
+
+      <KickUser user={user} className="mb-4" />
 
       <TransferOwnership user={user} />
     </div>
