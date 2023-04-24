@@ -4,6 +4,8 @@ import { getDoc, setDoc } from 'firebase/firestore';
 import DiscordError from '../../../utils/DiscordError';
 import snowflakeId from '../../../utils/snowflake-id/snowflakeId';
 import { queryClient } from '../../../components/QueryClientInitializer';
+import performBatch from '../../../utils/performBatch';
+import createCategoryLog from '../../guild-log/utils/createCategoryLog';
 
 type CreateChannelOptions = {
   categoriesId: string;
@@ -41,7 +43,16 @@ const createChannel = async ({
     name: channelName,
   });
 
-  await setDoc(categoriesRef, categories);
+  await performBatch((batch) => {
+    batch.set(categoriesRef, categories);
+
+    createCategoryLog(batch, categories.guildId, {
+      categoriesId,
+      channelName,
+      type: 'channel-created',
+    });
+  });
+
   await queryClient.invalidateQueries(['categories', categoriesId]);
 };
 

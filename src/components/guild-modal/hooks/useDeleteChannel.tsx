@@ -4,6 +4,8 @@ import { getDoc, setDoc } from 'firebase/firestore';
 import findChannel from '../../../types/channel/utils/findChannel';
 import DiscordError from '../../../utils/DiscordError';
 import { queryClient } from '../../QueryClientInitializer';
+import performBatch from '../../../utils/performBatch';
+import createCategoryLog from '../../../types/guild-log/utils/createCategoryLog';
 
 type DeleteChannelOptions = {
   channelId: string;
@@ -30,7 +32,16 @@ const deleteChannel = async ({
     (channel) => channel.id !== channelId
   );
 
-  await setDoc(categoriesRef, categories);
+  await performBatch((batch) => {
+    batch.set(categoriesRef, categories);
+
+    createCategoryLog(batch, categories.guildId, {
+      type: 'channel-deleted',
+      categoriesId,
+      channelName: channel.name,
+    });
+  });
+
   await queryClient.invalidateQueries(['categories', categoriesId]);
 };
 

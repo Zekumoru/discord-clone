@@ -3,6 +3,8 @@ import ICategory from '../../../types/category/Category';
 import categoriesDoc from '../../../types/category/firebase/categoriesDoc';
 import { getDoc, setDoc } from 'firebase/firestore';
 import { queryClient } from '../../QueryClientInitializer';
+import performBatch from '../../../utils/performBatch';
+import createCategoryLog from '../../../types/guild-log/utils/createCategoryLog';
 
 type ReorderCategoriesOptions = {
   categoriesId: string;
@@ -21,7 +23,15 @@ const reorderCategories = async ({
     name,
   }));
 
-  await setDoc(categoriesRef, categoriesData);
+  await performBatch((batch) => {
+    batch.set(categoriesRef, categoriesData);
+
+    createCategoryLog(batch, categoriesData.guildId, {
+      type: 'categories-reordered',
+      categoriesId,
+    });
+  });
+
   await queryClient.invalidateQueries(['categories', categoriesId]);
 };
 

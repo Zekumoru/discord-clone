@@ -1,20 +1,46 @@
 interface IGuildCategoryEventBase {
-  type:
-    | 'channel-created'
-    | 'category-created'
-    | 'channel-deleted'
-    | 'category-deleted'
-    | 'categories-reordered';
+  type: 'category-created' | 'category-deleted';
+  categoriesId: string;
+  categoryName: string;
+}
+
+interface IGuildCategoryReorderEvent {
+  type: 'categories-reordered';
   categoriesId: string;
 }
 
-interface IGuildChannelsReorderEvent {
-  type: 'channels-reordered';
+interface IGuildCategoryNameUpdatedEvent {
+  type: 'category-name-updated';
   categoriesId: string;
-  categoryId: string;
+  oldName: string;
+  newName: string;
 }
 
-type TGuildCategoryEvent = IGuildCategoryEventBase | IGuildChannelsReorderEvent;
+interface IGuildChannelEventBase {
+  type: 'channel-created' | 'channel-deleted';
+  categoriesId: string;
+  channelName: string;
+}
+
+interface IGuildChannelNameUpdatedEvent {
+  type: 'channel-name-updated';
+  categoriesId: string;
+  oldName: string;
+  newName: string;
+}
+
+type TGuildCategoryEvent =
+  | IGuildCategoryEventBase
+  | IGuildChannelEventBase
+  | IGuildCategoryNameUpdatedEvent
+  | IGuildChannelNameUpdatedEvent
+  | IGuildCategoryReorderEvent;
 
 export default TGuildCategoryEvent;
-export type { IGuildCategoryEventBase, IGuildChannelsReorderEvent };
+export type {
+  IGuildCategoryEventBase,
+  IGuildChannelEventBase,
+  IGuildCategoryNameUpdatedEvent,
+  IGuildChannelNameUpdatedEvent,
+  IGuildCategoryReorderEvent,
+};

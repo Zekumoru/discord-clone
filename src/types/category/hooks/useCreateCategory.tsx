@@ -4,6 +4,8 @@ import { getDoc, setDoc } from 'firebase/firestore';
 import createCategory from '../utils/createCategory';
 import { queryClient } from '../../../components/QueryClientInitializer';
 import DiscordError from '../../../utils/DiscordError';
+import performBatch from '../../../utils/performBatch';
+import createCategoryLog from '../../guild-log/utils/createCategoryLog';
 
 type CreateCategoryOptions = {
   categoriesId: string;
@@ -25,7 +27,16 @@ const createNewCategory = async ({
 
   categories.categories.push(createCategory(categoryName, []));
 
-  await setDoc(categoriesRef, categories);
+  await performBatch((batch) => {
+    batch.set(categoriesRef, categories);
+
+    createCategoryLog(batch, categories.guildId, {
+      categoriesId,
+      categoryName,
+      type: 'category-created',
+    });
+  });
+
   await queryClient.invalidateQueries(['categories', categoriesId]);
 };
 

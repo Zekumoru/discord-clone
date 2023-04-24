@@ -3,6 +3,8 @@ import categoriesDoc from '../../../types/category/firebase/categoriesDoc';
 import { getDoc, setDoc } from 'firebase/firestore';
 import { queryClient } from '../../QueryClientInitializer';
 import DiscordError from '../../../utils/DiscordError';
+import performBatch from '../../../utils/performBatch';
+import createCategoryLog from '../../../types/guild-log/utils/createCategoryLog';
 
 type DeleteCategoryOptions = {
   categoriesId: string;
@@ -38,7 +40,16 @@ const deleteCategory = async ({
     (category) => category.name !== categoryName
   );
 
-  await setDoc(categoriesRef, categories);
+  await performBatch((batch) => {
+    batch.set(categoriesRef, categories);
+
+    createCategoryLog(batch, categories.guildId, {
+      categoriesId,
+      categoryName,
+      type: 'category-created',
+    });
+  });
+
   await queryClient.invalidateQueries(['categories', categoriesId]);
 };
 

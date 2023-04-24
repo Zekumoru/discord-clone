@@ -3,6 +3,8 @@ import categoriesDoc from '../../../types/category/firebase/categoriesDoc';
 import { getDoc, setDoc } from 'firebase/firestore';
 import DiscordError from '../../../utils/DiscordError';
 import { queryClient } from '../../QueryClientInitializer';
+import performBatch from '../../../utils/performBatch';
+import createCategoryLog from '../../../types/guild-log/utils/createCategoryLog';
 
 type UpdateCategoryNameOptions = {
   categoriesId: string;
@@ -27,7 +29,17 @@ const updateCategoryName = async ({
 
   category.name = newCategoryName;
 
-  await setDoc(categoriesRef, categories);
+  await performBatch((batch) => {
+    batch.set(categoriesRef, categories);
+
+    createCategoryLog(batch, categories.guildId, {
+      categoriesId,
+      type: 'category-name-updated',
+      newName: newCategoryName,
+      oldName: categoryName,
+    });
+  });
+
   await queryClient.invalidateQueries(['categories', categoriesId]);
 };
 
