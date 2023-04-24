@@ -6,6 +6,7 @@ import useDeleteGuild from '../../hooks/useDeleteGuild';
 import LoadingScreen from '../../../LoadingScreen';
 import { useState } from 'react';
 import { useCloseModal } from '../../../../contexts/modal/ModalContext';
+import { useNavigate } from 'react-router-dom';
 
 type DeleteGuildModalProps = {
   guildId: string;
@@ -15,8 +16,13 @@ const DeleteGuildModal = ({ guildId }: DeleteGuildModalProps) => {
   const close = useCloseModal();
   const [guild] = useGuild(guildId);
   const [confirmInput, setConfirmInput] = useState('');
+  const navigate = useNavigate();
   const { mutate: deleteGuild, isLoading } = useDeleteGuild({
-    onSuccess: () => close(true),
+    onSuccess: () => {
+      toast.success('Server deleted successfully!');
+      close(true);
+      navigate('/channels/@me');
+    },
     onError: () => toast.error('Error deleting server!'),
   });
 

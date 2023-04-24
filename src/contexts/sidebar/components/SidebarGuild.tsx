@@ -6,10 +6,8 @@ import useGuild from '../../../types/guild/hooks/useGuild';
 import useCategories from '../../../types/category/hooks/useCategories';
 import { usePartialModal } from '../../partial-screen-modal/PartialScreenModalContext';
 import InvitePartialModal from '../../../components/invite-partial-modal/InvitePartialModal';
-import MembersUpdatesListener from '../../../pages/channels/pages/guilds/components/MembersUpdatesListener';
 import GuildPartialModal from './modals/GuildPartialModal';
-import GuildDeletionListener from '../../../components/GuildDeletionListener';
-import GuildOwnershipListener from '../../../components/GuildOwnershipListener';
+import GuildListener from '../../../components/GuildListener';
 
 const SidebarGuild = () => {
   const location = useLocation().pathname;
@@ -31,9 +29,7 @@ const SidebarGuild = () => {
 
   return (
     <div className="overflow-x-hidden py-4">
-      <MembersUpdatesListener membersId={guild?.membersId} />
-      <GuildOwnershipListener guildId={guild?.id} />
-      <GuildDeletionListener guildId={guild?.id} />
+      <GuildListener guildId={guild?.id} />
 
       <header className="mx-4 mb-6">
         <div
