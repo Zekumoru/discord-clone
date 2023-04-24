@@ -1,4 +1,4 @@
-import { getDoc } from 'firebase/firestore';
+import { getDoc, serverTimestamp } from 'firebase/firestore';
 import { useMutation } from 'react-query';
 import guildDoc from '../../../types/guild/firebase/guildDoc';
 import performBatch from '../../../utils/performBatch';
@@ -10,6 +10,8 @@ import IMember from '../../../types/member/Member';
 import userDoc from '../../../types/user/firebase/userDoc';
 import userGuildsDoc from '../../../types/user/firebase/userGuildsDoc';
 import inviteDoc from '../../../types/invite/firebase/inviteDoc';
+import guildLogDoc from '../../../types/guild-log/firebase/guildLogDoc';
+import createServerLog from '../../../types/guild-log/utils/createServerLog';
 
 const getMembersGuilds = async (members: IMember[]) => {
   return await Promise.all(
@@ -55,6 +57,10 @@ const deleteGuild = async (guildId: string) => {
 
     // and finally... remove the guild
     batch.delete(guildRef);
+    createServerLog(batch, guildId, {
+      type: 'server-deleted',
+      guildId,
+    });
   });
 };
 

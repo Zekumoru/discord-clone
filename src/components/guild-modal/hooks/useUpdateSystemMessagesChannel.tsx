@@ -3,6 +3,8 @@ import IGuild from '../../../types/guild/Guild';
 import { setDoc } from 'firebase/firestore';
 import guildDoc from '../../../types/guild/firebase/guildDoc';
 import { queryClient } from '../../QueryClientInitializer';
+import performBatch from '../../../utils/performBatch';
+import createServerLog from '../../../types/guild-log/utils/createServerLog';
 
 type UpdateSMChannelOptions = {
   guild: IGuild;
@@ -15,10 +17,20 @@ const updateSystemMessagesChannel = async ({
 }: UpdateSMChannelOptions) => {
   const guildRef = guildDoc(guild.id);
 
-  await setDoc(guildRef, {
-    ...guild,
-    systemMessagesChannelId: channelId,
+  await performBatch((batch) => {
+    batch.set(guildRef, {
+      ...guild,
+      systemMessagesChannelId: channelId,
+    });
+
+    createServerLog(batch, guild.id, {
+      type: 'system-messages-channel-updated',
+      guildId: guild.id,
+      newChannelId: channelId,
+      oldChannelId: guild.systemMessagesChannelId,
+    });
   });
+
   await queryClient.invalidateQueries(['guild', guild.id]);
 };
 

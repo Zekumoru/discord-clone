@@ -5,6 +5,8 @@ import rolesDoc from '../../../types/role/firebase/rolesDoc';
 import membersDoc from '../../../types/member/firebase/membersDoc';
 import DiscordError from '../../../utils/DiscordError';
 import { queryClient } from '../../QueryClientInitializer';
+import performBatch from '../../../utils/performBatch';
+import createServerLog from '../../../types/guild-log/utils/createServerLog';
 
 type TransferOwnershipOptions = {
   guildId: string;
@@ -30,11 +32,13 @@ const transferOwnership = async ({
     throw new DiscordError('missing-role', 'Member role is missing!');
   }
 
+  let previousOwnerId: string | undefined;
   members.members.forEach((member) => {
     const { userId, roleId } = member;
 
     if (roleId && roleId === ownerRoleId) {
       member.roleId = memberRoleId;
+      previousOwnerId = userId;
     }
 
     if (userId === newOwnerId) {
@@ -42,7 +46,21 @@ const transferOwnership = async ({
     }
   });
 
-  await setDoc(membersRef, members);
+  await performBatch((batch) => {
+    batch.set(membersRef, members);
+
+    if (previousOwnerId === undefined) {
+      throw new DiscordError('user-not-found', 'Could not find current owner!');
+    }
+
+    createServerLog(batch, guildId, {
+      type: 'ownership-transferred',
+      guildId,
+      newOwnerId,
+      previousOwnerId,
+    });
+  });
+
   await queryClient.invalidateQueries(['members', guild.membersId]);
   await queryClient.invalidateQueries(['guild-owner-id', guild.id]);
 };

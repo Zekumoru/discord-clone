@@ -3,6 +3,8 @@ import IGuild from '../../../types/guild/Guild';
 import guildDoc from '../../../types/guild/firebase/guildDoc';
 import { setDoc } from 'firebase/firestore';
 import { queryClient } from '../../QueryClientInitializer';
+import performBatch from '../../../utils/performBatch';
+import createServerLog from '../../../types/guild-log/utils/createServerLog';
 
 type UpdateGuildNameOptions = {
   guild: IGuild;
@@ -15,10 +17,20 @@ const updateGuildName = async ({
 }: UpdateGuildNameOptions) => {
   const guildRef = guildDoc(guild.id);
 
-  await setDoc(guildRef, {
-    ...guild,
-    name: guildName,
+  await performBatch((batch) => {
+    batch.set(guildRef, {
+      ...guild,
+      name: guildName,
+    });
+
+    createServerLog(batch, guild.id, {
+      type: 'name-updated',
+      guildId: guild.id,
+      newName: guildName,
+      oldName: guild.name,
+    });
   });
+
   await queryClient.invalidateQueries(['guild', guild.id]);
 };
 

@@ -12,6 +12,7 @@ import IUser from '../../user/User';
 import createMember from '../../member/utils/createMember';
 import TGuildLog from '../../guild-log/GuildLog';
 import guildLogDoc from '../../guild-log/firebase/guildLogDoc';
+import createServerLog from '../../guild-log/utils/createServerLog';
 
 type InitGuildOptions = {
   owner: IUser;
@@ -59,21 +60,6 @@ const initGuildCollections = (
     id: membersId,
   });
 
-  const serverCreatedLog: TGuildLog = {
-    guildId,
-    id: snowflakeId(),
-    type: 'server',
-    timestamp: null,
-    event: {
-      type: 'server-created',
-      guildId,
-    },
-  };
-  batch.set(guildLogDoc(guildId, serverCreatedLog.id), {
-    ...serverCreatedLog,
-    timestamp: serverTimestamp(),
-  });
-
   const category = categories.find(
     (category) => category.channels.length !== 0
   )!;
@@ -90,6 +76,11 @@ const initGuildCollections = (
   batch.set(guildDoc(guildId), {
     ...guild,
     creationTimestamp: serverTimestamp(),
+  });
+
+  createServerLog(batch, guildId, {
+    type: 'server-created',
+    guildId,
   });
 
   return { guild, categories, members, roles };
