@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { IconMagnifyingGlass } from '../../../../assets/icons';
 import ModalToolbar from '../../../../contexts/modal/components/ModalToolbar';
-import useMembers from '../../../../types/member/hooks/useMembers';
 import useMembersUsers from '../../../../types/member/hooks/useMembersUsers';
 import ModalChevronCloseButton from '../../../modal-utils/ModalChevronCloseButton';
 import MemberItem from './MemberItem';

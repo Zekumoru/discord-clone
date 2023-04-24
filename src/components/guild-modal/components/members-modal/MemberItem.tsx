@@ -1,17 +1,24 @@
 import { IconChevronRight } from '../../../../assets/icons';
+import { useModal } from '../../../../contexts/modal/ModalContext';
 import ProfilePicture from '../../../../pages/channels/components/ProfilePicture';
 import IUser from '../../../../types/user/User';
 import extractNameAndTag from '../../../../utils/extractNameAndTag';
+import EditMemberModal from './edit-member-modal/EditMemberModal';
 
 type MemberItemProps = {
   user: IUser;
 };
 
 const MemberItem = ({ user }: MemberItemProps) => {
+  const [openModal] = useModal();
   const [name, tag] = extractNameAndTag(user?.username ?? '');
 
+  const openEditMemberModal = () => {
+    openModal(<EditMemberModal memberId={user.id} />);
+  };
+
   return (
-    <li className="flex items-center">
+    <li onClick={openEditMemberModal} className="flex items-center">
       <div className="px-4">
         <ProfilePicture user={user} className="h-8 w-8" />
       </div>

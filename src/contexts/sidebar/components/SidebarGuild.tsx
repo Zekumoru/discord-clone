@@ -9,6 +9,7 @@ import InvitePartialModal from '../../../components/invite-partial-modal/InviteP
 import MembersUpdatesListener from '../../../pages/channels/pages/guilds/components/MembersUpdatesListener';
 import GuildPartialModal from './modals/GuildPartialModal';
 import GuildDeletionListener from '../../../components/GuildDeletionListener';
+import GuildOwnershipListener from '../../../components/GuildOwnershipListener';
 
 const SidebarGuild = () => {
   const location = useLocation().pathname;
@@ -31,6 +32,7 @@ const SidebarGuild = () => {
   return (
     <div className="overflow-x-hidden py-4">
       <MembersUpdatesListener membersId={guild?.membersId} />
+      <GuildOwnershipListener guildId={guild?.id} />
       <GuildDeletionListener guildId={guild?.id} />
 
       <header className="mx-4 mb-6">
