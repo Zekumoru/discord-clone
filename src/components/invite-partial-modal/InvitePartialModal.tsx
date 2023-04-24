@@ -25,7 +25,7 @@ const InvitePartialModal = ({ guild }: InvitePartialModalProps) => {
     if (!invite) return;
 
     navigator.clipboard.writeText(
-      `${import.meta.env.VITE_APP_URL}/invite/${invite.id}`
+      `${import.meta.env.VITE_APP_URL}/#/invite/${invite.id}`
     );
     toast.success('Invite link copied!');
   };

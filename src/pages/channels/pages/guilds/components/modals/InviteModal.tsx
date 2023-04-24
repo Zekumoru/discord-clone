@@ -11,7 +11,7 @@ const InviteModal = ({ inviteId }: InviteModalProps) => {
   const close = useCloseModal();
   const handleCopyLink = () => {
     navigator.clipboard.writeText(
-      `${import.meta.env.VITE_APP_URL}/invite/${inviteId}`
+      `${import.meta.env.VITE_APP_URL}/#/invite/${inviteId}`
     );
     toast.success('Link copied');
   };
@@ -41,7 +41,7 @@ const InviteModal = ({ inviteId }: InviteModalProps) => {
           className="flex items-center gap-2 rounded bg-background-700 px-4 py-3 leading-none text-silvergrey-300"
         >
           <div className="font-medium">
-            {import.meta.env.VITE_APP_URL}/invite/{inviteId}
+            {import.meta.env.VITE_APP_URL}/#/invite/{inviteId}
           </div>
           <IconLink
             className="ml-auto h-6 w-6 text-silvergrey-400"
