@@ -5,7 +5,7 @@ import ConfirmationDialog from '../../../../dialog/ConfirmationDialog';
 import { useDialog } from '../../../../dialog/Dialog';
 import InsetList from '../../../../modal-utils/InsetList';
 import InsetListItem from '../../../../modal-utils/InsetListItem';
-import useKickUser from '../../../hooks/useKickUser';
+import useRemoveMember from '../../../hooks/useRemoveMember';
 import { useCloseModal } from '../../../../../contexts/modal/ModalContext';
 import { useGuildId } from '../../../../../types/guild/contexts/GuildIdContext';
 
@@ -20,7 +20,7 @@ const KickUser = ({ user, className }: KickUserProps) => {
   const guildId = useGuildId();
   const [currentUser] = useCurrentUser();
   const isCurrentUser = user && user?.id === currentUser?.id;
-  const { mutate: kickUser, isLoading } = useKickUser({
+  const { mutate: removeMember, isLoading } = useRemoveMember({
     onSuccess: () => {
       toast.success('User has been kicked from the server!');
       close();
@@ -34,7 +34,7 @@ const KickUser = ({ user, className }: KickUserProps) => {
       return;
     }
 
-    kickUser({
+    removeMember({
       guildId,
       userGuildsId: user.guildsId,
     });

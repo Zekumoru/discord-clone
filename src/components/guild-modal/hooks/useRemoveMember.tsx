@@ -6,12 +6,12 @@ import userGuildsDoc from '../../../types/user/firebase/userGuildsDoc';
 import performBatch from '../../../utils/performBatch';
 import { queryClient } from '../../QueryClientInitializer';
 
-type KickUserOptions = {
+type RemoveMemberOptions = {
   guildId: string;
   userGuildsId: string;
 };
 
-const kickUser = async ({ guildId, userGuildsId }: KickUserOptions) => {
+const removeMember = async ({ guildId, userGuildsId }: RemoveMemberOptions) => {
   const guild = (await getDoc(guildDoc(guildId))).data()!;
   const membersRef = membersDoc(guild.membersId);
   const members = (await getDoc(membersRef)).data()!;
@@ -36,16 +36,16 @@ const kickUser = async ({ guildId, userGuildsId }: KickUserOptions) => {
   await queryClient.invalidateQueries(['user-guilds', userGuilds.id]);
 };
 
-type UseKickUserProps = {
+type UseRemoveMemberProps = {
   onSuccess?: () => void;
   onError?: (error: unknown) => void;
 };
 
-const useKickUser = ({ onSuccess, onError }: UseKickUserProps = {}) => {
-  return useMutation(kickUser, {
+const useRemoveMember = ({ onSuccess, onError }: UseRemoveMemberProps = {}) => {
+  return useMutation(removeMember, {
     onSuccess,
     onError,
   });
 };
 
-export default useKickUser;
+export default useRemoveMember;

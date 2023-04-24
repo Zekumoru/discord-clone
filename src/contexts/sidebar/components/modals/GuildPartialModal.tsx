@@ -15,6 +15,11 @@ import CreateCategoryModal from './CreateCategoryModal';
 import GuildModal from '../../../../components/guild-modal/GuildModal';
 import useIsCurrentUserGuildOwner from '../../../../types/guild/hooks/useIsCurrentUserGuildOwner';
 import GuildIdProvider from '../../../../types/guild/contexts/GuildIdContext';
+import { useDialog } from '../../../../components/dialog/Dialog';
+import ConfirmationDialog from '../../../../components/dialog/ConfirmationDialog';
+import useRemoveMember from '../../../../components/guild-modal/hooks/useRemoveMember';
+import { useNavigate } from 'react-router-dom';
+import { useCurrentUser } from '../../../current-user/CurrentUserContext';
 
 type GuildPartialModalProps = {
   guildId: string | undefined;
@@ -22,12 +27,23 @@ type GuildPartialModalProps = {
 
 const GuildPartialModal = ({ guildId }: GuildPartialModalProps) => {
   const close = useClosePartialModal();
+  const [dialogRef, openDialog, closeDialog] = useDialog();
   const [openPartialModal] = usePartialModal();
   const [openModal] = useModal();
   const [guild] = useGuild(guildId);
   const [members] = useMembers(guild?.membersId);
   const isGuildOwner = useIsCurrentUserGuildOwner(guildId);
   const membersLength = members?.members.length ?? 0;
+  const [currentUser] = useCurrentUser();
+  const navigate = useNavigate();
+  const { mutate: removeMember, isLoading } = useRemoveMember({
+    onSuccess: () => {
+      toast.success('Server left successfully!');
+      navigate('/channels/@me');
+      close();
+    },
+    onError: () => toast.error('Could not leave server!'),
+  });
 
   const openInvitePartialModal = () => {
     openPartialModal(<InvitePartialModal guild={guild} />);
@@ -63,6 +79,22 @@ const GuildPartialModal = ({ guildId }: GuildPartialModalProps) => {
 
     openModal(<CreateCategoryModal categoriesId={guild.categoriesId} />);
     close();
+  };
+
+  const handleLeaveServer = () => {
+    if (!guildId || !currentUser) {
+      toast.error('Could not leave server!');
+      return;
+    }
+
+    removeMember({
+      guildId: guildId,
+      userGuildsId: currentUser?.guildsId,
+    });
+  };
+
+  const openLeaveDialog = () => {
+    openDialog();
   };
 
   return (
@@ -118,6 +150,28 @@ const GuildPartialModal = ({ guildId }: GuildPartialModalProps) => {
           <button onClick={openCreateCategoryModal} className="text-left">
             Create Category
           </button>
+
+          {!isGuildOwner && <div className="border-b border-background-100" />}
+
+          <ConfirmationDialog
+            ref={dialogRef}
+            title="Leave Server"
+            loading={isLoading}
+            confirmBtnText="Yes, leave"
+            onConfirm={handleLeaveServer}
+            onReject={closeDialog}
+          >
+            Leaving? You can always go back with an invite!
+          </ConfirmationDialog>
+
+          {!isGuildOwner && (
+            <button
+              onClick={openLeaveDialog}
+              className="text-left text-salmon-100"
+            >
+              Leave Server
+            </button>
+          )}
         </PartialModalRoundedDiv>
       </div>
     </div>

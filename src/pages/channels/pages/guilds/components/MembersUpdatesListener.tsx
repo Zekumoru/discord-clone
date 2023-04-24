@@ -48,6 +48,7 @@ const MembersUpdatesListener = ({ membersId }: GuildUpdatesListenerProps) => {
         }
 
         queryClient.invalidateQueries(['members', membersId]);
+        queryClient.invalidateQueries(['members-users', membersId]);
       });
     } catch (error) {
       toast.error('An error occurred in guild listener!');
