@@ -2,6 +2,7 @@ import { format } from 'date-fns';
 import IMessage from '../../../../../types/message/Message';
 import { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 import ChatMessage from './ChatMessage';
+import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
 
 // Offset to make sure the user is
 // scrolled at the bottom of the screen
@@ -17,11 +18,14 @@ const ChatMessagesList = ({ messages }: ChatMessagesListProps) => {
   const listRef = useRef<HTMLUListElement>(null);
   const lastItemRef = useRef<HTMLLIElement>(null);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [currentUser] = useCurrentUser();
   let currentDateString = '';
 
   useEffect(() => {
     if (messages.length === 0) return;
-    if (isFirstLoad) {
+
+    const lastMessageUserId = messages[messages.length - 1].userId;
+    if (isFirstLoad || lastMessageUserId === currentUser?.id) {
       endRef.current?.scrollIntoView({ behavior: 'auto' });
       setIsFirstLoad(false);
       return;
