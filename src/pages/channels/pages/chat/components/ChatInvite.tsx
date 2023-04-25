@@ -39,6 +39,11 @@ const ChatInvite = ({ message }: ChatInviteProps) => {
       return;
     }
 
+    if (partOfGuild) {
+      navigate(`/channels/${guild.id}`);
+      return;
+    }
+
     joinGuild({
       user,
       guild,
@@ -79,7 +84,7 @@ const ChatInvite = ({ message }: ChatInviteProps) => {
               <div className="truncate font-semibold">{guild?.name}</div>
               {partOfGuild ? (
                 <button
-                  disabled
+                  onClick={handleJoinGuild}
                   className="ml-auto rounded bg-jade-400 px-4 py-2 text-sm font-medium"
                 >
                   Joined
