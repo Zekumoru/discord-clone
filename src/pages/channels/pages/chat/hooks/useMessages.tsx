@@ -23,9 +23,13 @@ const useMessages = (type: 'chat' | 'channel', id: string | undefined) => {
     try {
       setError(undefined);
       unsubscribe = onSnapshot(messagesQueryRef, (snapshot) => {
-        const messages = snapshot.docs.map((doc) => doc.data());
-        setMessages(messages);
-        setIsLoading(false);
+        snapshot.docChanges().forEach((docChange) => {
+          if (docChange.doc.data().timestamp === null) return;
+
+          const messages = snapshot.docs.map((doc) => doc.data());
+          setMessages(messages);
+          setIsLoading(false);
+        });
       });
     } catch (error) {
       unsubscribe();
