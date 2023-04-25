@@ -1,16 +1,17 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
-import MembersSlider, { MembersSliderProps } from './components/MembersSlider';
+import MembersSlider from './components/MembersSlider';
 import { MembersSliderPrefix } from './components/MembersSliderHeader';
 import IGuild from '../../types/guild/Guild';
 import GuildProvider from '../../types/guild/contexts/GuildContext';
+import MembersIdProvider from '../../types/member/contexts/MembersIdContext';
 
 const noop = () => {};
 
 type MembersSliderOpenOptions = {
-  title: string;
+  title: string | undefined;
   guild?: IGuild;
   titlePrefix: MembersSliderPrefix;
-  membersId: string;
+  membersId: string | undefined;
 };
 
 type MembersSliderMethods = [
@@ -48,7 +49,7 @@ const MembersSliderProvider = ({ children }: MembersSliderProviderProps) => {
     guild,
   }: MembersSliderOpenOptions) => {
     setIsOpen(true);
-    setTitle(title);
+    setTitle(title ?? '');
     setTitlePrefix(titlePrefix);
     setMembersId(membersId);
     setGuild(guild);
@@ -66,14 +67,12 @@ const MembersSliderProvider = ({ children }: MembersSliderProviderProps) => {
     <MembersSliderContext.Provider value={[open, close]}>
       <IsOpenMembersSliderContext.Provider value={isOpen}>
         <GuildProvider guild={guild}>
-          {isOpen && (
-            <MembersSlider
-              title={title}
-              titlePrefix={titlePrefix}
-              membersId={membersId}
-            />
-          )}
-          {children}
+          <MembersIdProvider membersId={membersId}>
+            {isOpen && (
+              <MembersSlider title={title} titlePrefix={titlePrefix} />
+            )}
+            {children}
+          </MembersIdProvider>
         </GuildProvider>
       </IsOpenMembersSliderContext.Provider>
     </MembersSliderContext.Provider>

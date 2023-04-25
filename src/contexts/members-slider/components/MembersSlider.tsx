@@ -1,3 +1,4 @@
+import { useMembersId } from '../../../types/member/contexts/MembersIdContext';
 import useMembers from '../../../types/member/hooks/useMembers';
 import SwipeListenerProvider from '../../SwipeListenerContext';
 import {
@@ -8,20 +9,16 @@ import MembersSliderHeader, {
   MembersSliderPrefix,
 } from './MembersSliderHeader';
 import MembersSliderItem from './MembersSliderItem';
+import MembersSliderLoadingItem from './MembersSliderLoadingItem';
 
 type MembersSliderProps = {
   title: string;
   titlePrefix: MembersSliderPrefix;
-  membersId: string | undefined;
 };
 
-const MembersSlider = ({
-  title,
-  titlePrefix,
-  membersId,
-}: MembersSliderProps) => {
+const MembersSlider = ({ title, titlePrefix }: MembersSliderProps) => {
   const [_open, close] = useMembersSlider();
-  const [members] = useMembers(membersId);
+  const [members] = useMembers(useMembersId());
   const isOpen = useIsOpenMembersSlider();
 
   return (
@@ -42,7 +39,10 @@ const MembersSlider = ({
           <ul className="flex flex-col gap-2.5">
             {members?.members.map((member) => (
               <MembersSliderItem key={member.userId} member={member} />
-            ))}
+            )) ??
+              Array(20)
+                .fill(undefined)
+                .map((_, index) => <MembersSliderLoadingItem key={index} />)}
           </ul>
         </div>
       </div>

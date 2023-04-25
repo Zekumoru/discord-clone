@@ -42,15 +42,10 @@ const Channel = () => {
   }, [partOfGuild]);
 
   const handleOpenMembersSlider = () => {
-    if (!channel || !guild) {
-      toast.error('Could not open members slider!');
-      return;
-    }
-
     openMembersSlider({
-      title: channel.name,
+      title: channel?.name,
       titlePrefix: '#',
-      membersId: guild.membersId,
+      membersId: guild?.membersId,
       guild: guild,
     });
   };
