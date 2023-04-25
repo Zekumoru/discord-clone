@@ -21,11 +21,13 @@ const SidebarCategoryLoading = () => {
         className="skeleton-loading mb-2 h-3 rounded-full"
       />
 
-      {Array(number)
-        .fill(undefined)
-        .map((_, index) => (
-          <SidebarChannelLoading key={index} />
-        ))}
+      <ul>
+        {Array(number)
+          .fill(undefined)
+          .map((_, index) => (
+            <SidebarChannelLoading key={index} />
+          ))}
+      </ul>
     </li>
   );
 };
