@@ -7,6 +7,9 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
+  "storage": {
+    "rules": "storage.rules"
+  },
   "emulators": {
     "firestore": {
       "port": 3174
@@ -17,6 +20,9 @@
     "singleProjectMode": true,
     "auth": {
       "port": 3173
+    },
+    "storage": {
+      "port": 9199
     }
   }
 }

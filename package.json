@@ -11,7 +11,7 @@
     "test": "vitest",
     "coverage": "vitest --coverage",
     "lint": "prettier --write .",
-    "emulator": "firebase emulators:start"
+    "emulator": "firebase emulators:start --import=./emulator --export-on-exit=./emulator"
   },
   "dependencies": {
     "date-fns": "^2.29.3",
