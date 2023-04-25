@@ -3,6 +3,7 @@ import { IconUserBars } from '../../../assets/icons';
 import useUserChats from '../../../types/user-chat/hooks/useUserChats';
 import { useCurrentUser } from '../../current-user/CurrentUserContext';
 import SidebarFriendItem from './SidebarFriendItem';
+import SidebarFriendLoadingItem from './SidebarFriendLoadingItem';
 
 type SidebarFriendsProps = {
   close: () => void;
@@ -41,7 +42,10 @@ const SidebarFriends = ({ close }: SidebarFriendsProps) => {
             friendId={chat.userId}
             close={close}
           />
-        ))}
+        )) ??
+          Array(14)
+            .fill(undefined)
+            .map((_, index) => <SidebarFriendLoadingItem key={index} />)}
       </ul>
     </div>
   );
