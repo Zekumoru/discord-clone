@@ -16,8 +16,6 @@ const ChannelMessages = ({ channel }: ChannelMessagesProps) => {
     <div className="h-screen-toolbar flex flex-col justify-end p-4">
       {isEndOfChat && (
         <div>
-          <div className="mb-2 h-20 w-20" />
-
           <h2 className="text-2xl font-bold">Welcome to #{channel?.name}!</h2>
 
           <p className="text-silvergrey-300">
