@@ -29,7 +29,7 @@ const AccountModal = () => {
           className="ml-auto font-medium normal-case"
           prefix={<span className="text-white">Email</span>}
         >
-          {currentUser?.email}
+          {currentUser?.email ?? 'Not set'}
         </InsetListItem>
 
         <EditPasswordListItem />
