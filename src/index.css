@@ -20,6 +20,18 @@
     @apply mb-1.5 text-2xl font-semibold;
   }
 
+  .more-info {
+    @apply mt-4 flex w-full text-sm text-silvergrey-400;
+  }
+
+  .more-info > .asterisk {
+    @apply w-6 flex-shrink-0;
+  }
+
+  .more-info-paragraphs {
+    @apply flex flex-col gap-1;
+  }
+
   .loading-circle {
     width: 90px;
     height: 90px;

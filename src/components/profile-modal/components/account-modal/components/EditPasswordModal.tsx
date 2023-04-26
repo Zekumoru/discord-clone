@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
 import LoadingScreen from '../../../../LoadingScreen';
 import { useCloseModal } from '../../../../../contexts/modal/ModalContext';
+import useIsAnonymous from '../../../../../hooks/useIsAnonymous';
 
 const EditPasswordModal = () => {
   const close = useCloseModal();
@@ -18,6 +19,7 @@ const EditPasswordModal = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [password, setPassword] = useState('');
   const [user] = useCurrentUser();
+  const isAnonymous = useIsAnonymous();
 
   const handleUpdatePassword = async () => {
     if (!user) {
@@ -54,45 +56,51 @@ const EditPasswordModal = () => {
         <ModalChevronCloseButton>Account</ModalChevronCloseButton>
       </div>
 
-      <form
-        className="p-4"
-        onSubmit={(e) => {
-          handleUpdatePassword();
-          e.preventDefault();
-        }}
-      >
+      <div className="mx-4 mt-4">
         <h2 className="heading-1 mb-2.5 mt-4">Update your password</h2>
         <p className="mx-4 mb-5 text-center font-medium text-silvergrey-300">
-          Please enter your existing password and your new password.
+          {!isAnonymous
+            ? 'Please enter your existing password and your new password.'
+            : 'Upgrade your account first.'}
         </p>
+      </div>
 
-        <div className="heading-2 mb-2">Current Password</div>
-        <input
-          type="password"
-          value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)}
-          minLength={8}
-          maxLength={30}
-          className="mb-6 w-full rounded bg-background-500 px-3 py-2.5 outline-none"
-        />
-
-        <div className="heading-2 mb-2">New Password</div>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          minLength={8}
-          maxLength={30}
-          className="w-full rounded bg-background-500 px-3 py-2.5 outline-none"
-        />
-
-        <button
-          className="btn mt-4 py-2 font-semibold"
-          disabled={password.length < 8}
+      {!isAnonymous && (
+        <form
+          className="p-4"
+          onSubmit={(e) => {
+            handleUpdatePassword();
+            e.preventDefault();
+          }}
         >
-          Change Password
-        </button>
-      </form>
+          <div className="heading-2 mb-2">Current Password</div>
+          <input
+            type="password"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            minLength={8}
+            maxLength={30}
+            className="mb-6 w-full rounded bg-background-500 px-3 py-2.5 outline-none"
+          />
+
+          <div className="heading-2 mb-2">New Password</div>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            minLength={8}
+            maxLength={30}
+            className="w-full rounded bg-background-500 px-3 py-2.5 outline-none"
+          />
+
+          <button
+            className="btn mt-4 py-2 font-semibold"
+            disabled={password.length < 8}
+          >
+            Change Password
+          </button>
+        </form>
+      )}
     </div>
   );
 };

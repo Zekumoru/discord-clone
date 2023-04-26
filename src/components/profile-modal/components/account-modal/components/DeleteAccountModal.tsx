@@ -3,6 +3,7 @@ import ModalChevronCloseButton from '../../../../modal-utils/ModalChevronCloseBu
 import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
 import { toast } from 'react-toastify';
 import {
+  useAuthState,
   useDeleteUser,
   useSignInWithEmailAndPassword,
 } from 'react-firebase-hooks/auth';
@@ -16,13 +17,15 @@ import friendRequestsDoc from '../../../../../types/friend/firebase/friendReques
 import { useNavigate } from 'react-router-dom';
 import LoadingScreen from '../../../../LoadingScreen';
 import { useCloseModal } from '../../../../../contexts/modal/ModalContext';
+import useIsAnonymous from '../../../../../hooks/useIsAnonymous';
 
 const DeleteAccountModal = () => {
   const close = useCloseModal();
-  const [signInWithEmailAndPassword, _user, signInLoading] =
+  const [signInWithEmailAndPassword, _, signInLoading] =
     useSignInWithEmailAndPassword(getAuth());
   const [deleteUser, deleteLoading] = useDeleteUser(getAuth());
   const [user] = useCurrentUser();
+  const isAnonymous = useIsAnonymous();
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
@@ -70,43 +73,57 @@ const DeleteAccountModal = () => {
         <ModalChevronCloseButton>Account</ModalChevronCloseButton>
       </div>
 
-      <form
-        onSubmit={(e) => {
-          handleDeleteAccount();
-          e.preventDefault();
-        }}
-        className="p-4"
-      >
+      <div className="mx-4 mt-4">
         <h2 className="mb-2.5 mt-4 text-center text-xl font-bold">
           Delete your account
         </h2>
         <p className="mx-4 mb-5 text-center font-medium text-silvergrey-300">
-          Deleting your account <span className="font-bold">does not</span>{' '}
-          remove your past conversations and making a new account with the same
-          email <span className="font-bold">does not</span> recover any of your
-          past data.
+          {!isAnonymous ? (
+            <>
+              Deleting your account <span className="font-bold">does not</span>{' '}
+              remove your past conversations and making a new account with the
+              same email <span className="font-bold">does not</span> recover any
+              of your past data.
+            </>
+          ) : (
+            <>
+              Anonymous accounts are{' '}
+              <span className="font-bold">automatically deleted</span> after 30
+              days.
+            </>
+          )}
         </p>
+      </div>
 
-        <div className="heading-2 mb-2">Confirm your password</div>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          minLength={8}
-          maxLength={30}
-          className="mb-6 w-full rounded bg-background-500 px-3 py-2.5 outline-none"
-        />
-
-        <p className="mx-4 mb-2.5 text-center font-bold text-silvergrey-300">
-          Are you sure to leave? :(
-        </p>
-        <button
-          className="btn bg-salmon-700 py-2 font-bold disabled:bg-salmon-800"
-          disabled={password.length < 8}
+      {!isAnonymous && (
+        <form
+          onSubmit={(e) => {
+            handleDeleteAccount();
+            e.preventDefault();
+          }}
+          className="px-4"
         >
-          Yes, delete account
-        </button>
-      </form>
+          <div className="heading-2 mb-2">Confirm your password</div>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            minLength={8}
+            maxLength={30}
+            className="mb-6 w-full rounded bg-background-500 px-3 py-2.5 outline-none"
+          />
+
+          <p className="mx-4 mb-2.5 text-center font-bold text-silvergrey-300">
+            Are you sure to leave? :(
+          </p>
+          <button
+            className="btn bg-salmon-700 py-2 font-bold disabled:bg-salmon-800"
+            disabled={password.length < 8}
+          >
+            Yes, delete account
+          </button>
+        </form>
+      )}
     </div>
   );
 };
