@@ -2,7 +2,7 @@ import { useId, useState } from 'react';
 import TextInput from '../components/TextInput';
 import { getAuth, signInAnonymously, updateProfile } from 'firebase/auth';
 import initUserCollections from './utils/initUserCollections';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import generateTag from './utils/generateTag';
 import { FirebaseError } from 'firebase/app';
 import LoadingScreen from '../../../components/LoadingScreen';
@@ -78,6 +78,13 @@ const AnonymousLogin = () => {
 
         <button className="btn">Sign In Anonymously</button>
       </form>
+
+      <Link
+        to="/"
+        className="mt-3 inline-block w-full text-sm font-medium text-dodgerblue-100"
+      >
+        Already have an account?
+      </Link>
 
       <div className="more-info">
         <div className="asterisk">*</div>
