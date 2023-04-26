@@ -25,9 +25,11 @@ const RoundPicture = ({
   return (
     <span
       onClick={onClick}
-      className={`grid h-10 w-10 place-content-center rounded-full bg-cover bg-center bg-no-repeat font-medium ${className}`}
+      className={`grid h-10 w-10 place-content-center rounded-full bg-cover bg-center bg-no-repeat font-medium ${className} ${
+        pictureUrl === undefined ? 'skeleton-loading' : ''
+      }`}
       style={{
-        backgroundColor: bgColor,
+        backgroundColor: pictureUrl !== undefined ? bgColor : '',
         backgroundImage: pictureUrl ? `url(${pictureUrl})` : '',
       }}
     >

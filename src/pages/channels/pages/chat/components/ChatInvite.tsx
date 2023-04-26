@@ -18,8 +18,9 @@ const ChatInvite = ({ message }: ChatInviteProps) => {
   const [user] = useCurrentUser();
   const [invite, inviteLoading] = useInvite(message.inviteId);
   const inviteExists = !inviteLoading && invite;
-  const [guild] = useGuild(invite?.guildId);
-  const [partOfGuild] = usePartOfGuild(guild, user);
+  const [guild, guildLoading] = useGuild(invite?.guildId);
+  const [partOfGuild, partOfGuildLoading] = usePartOfGuild(guild, user);
+  const loading = guildLoading || partOfGuildLoading || inviteLoading;
   const navigate = useNavigate();
   const { mutate: joinGuild, isLoading } = useJoinGuild({
     onSuccess: ({ guild }) => navigate(`/channels/${guild.id}`),
@@ -38,6 +39,11 @@ const ChatInvite = ({ message }: ChatInviteProps) => {
       return;
     }
 
+    if (partOfGuild) {
+      navigate(`/channels/${guild.id}`);
+      return;
+    }
+
     joinGuild({
       user,
       guild,
@@ -52,30 +58,49 @@ const ChatInvite = ({ message }: ChatInviteProps) => {
         {inviteExists ? 'You are invited to join a server' : 'Invite expired'}
       </header>
 
-      {inviteExists && (
-        <div className="mt-2 flex items-center gap-2.5">
-          <GuildPicture
-            guild={guild}
-            className="h-12 w-12 flex-shrink-0 !rounded-2xl"
-          />
-          <div className="truncate font-semibold">{guild?.name}</div>
-          {partOfGuild ? (
+      <div className="mt-2 flex items-center gap-2.5">
+        {loading ? (
+          <>
+            <GuildPicture
+              guild={undefined}
+              className="h-12 w-12 flex-shrink-0 !rounded-2xl"
+            />
+
+            <div className="skeleton-loading h-5 w-2/5 rounded-full" />
             <button
               disabled
-              className="ml-auto rounded bg-jade-400 px-4 py-2 text-sm font-medium"
-            >
-              Joined
-            </button>
-          ) : (
-            <button
-              onClick={handleJoinGuild}
-              className="ml-auto rounded bg-warmblue-100 px-5 py-2 text-sm font-medium"
+              className="ml-auto rounded bg-warmblue-100 px-4 py-2 text-sm font-medium opacity-40"
             >
               Join
             </button>
-          )}
-        </div>
-      )}
+          </>
+        ) : (
+          inviteExists && (
+            <>
+              <GuildPicture
+                guild={guild}
+                className="h-12 w-12 flex-shrink-0 !rounded-2xl"
+              />
+              <div className="truncate font-semibold">{guild?.name}</div>
+              {partOfGuild ? (
+                <button
+                  onClick={handleJoinGuild}
+                  className="ml-auto rounded bg-jade-400 px-4 py-2 text-sm font-medium"
+                >
+                  Joined
+                </button>
+              ) : (
+                <button
+                  onClick={handleJoinGuild}
+                  className="ml-auto rounded bg-warmblue-100 px-5 py-2 text-sm font-medium"
+                >
+                  Join
+                </button>
+              )}
+            </>
+          )
+        )}
+      </div>
     </div>
   );
 };

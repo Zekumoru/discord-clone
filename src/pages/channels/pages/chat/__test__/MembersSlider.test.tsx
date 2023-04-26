@@ -11,7 +11,7 @@ describe('MembersSlider', () => {
     const [cleanup] = await setupTest();
     render(
       <MembersSliderProvider>
-        <MembersSlider title="User" titlePrefix="@" membersId={''} />
+        <MembersSlider title="User" titlePrefix="@" />
       </MembersSliderProvider>
     );
 

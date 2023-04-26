@@ -153,4 +153,18 @@
   .li-rule-2:last-of-type > .li-rule-2-b {
     @apply border-transparent;
   }
+
+  .skeleton-loading {
+    animation: skeleton-loading-anim 800ms linear infinite alternate;
+  }
+
+  @keyframes skeleton-loading-anim {
+    0% {
+      background-color: hsl(0, 0%, 32%, 0.8);
+    }
+
+    100% {
+      background-color: hsla(0, 0%, 48%, 0.8);
+    }
+  }
 }

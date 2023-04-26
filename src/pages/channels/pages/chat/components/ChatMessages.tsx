@@ -12,23 +12,31 @@ type ChatMessagesProps = {
 };
 
 const ChatMessages = ({ user, chatId }: ChatMessagesProps) => {
-  const [messages] = useMessages('chat', chatId);
+  const { messages, isEndOfChat, loadMoreMessages } = useMessages(
+    'chat',
+    chatId
+  );
   const [name] = extractNameAndTag(user?.username ?? '');
 
   return (
     <div className="h-screen-toolbar flex flex-col justify-end p-4">
-      <div>
-        <ProfilePicture user={user} className="mb-2 h-20 w-20" />
+      {isEndOfChat && (
+        <div>
+          <ProfilePicture user={user} className="mb-2 h-20 w-20" />
 
-        <h2 className="text-2xl font-bold">{name}</h2>
+          <h2 className="text-2xl font-bold">{name}</h2>
 
-        <p className="text-silvergrey-300">
-          This is the beginning of your direct message history with{' '}
-          <span className="font-semibold">{name}</span>.
-        </p>
-      </div>
-
-      <ChatMessagesList messages={messages} />
+          <p className="text-silvergrey-300">
+            This is the beginning of your direct message history with{' '}
+            <span className="font-semibold">{name}</span>.
+          </p>
+        </div>
+      )}
+      <ChatMessagesList
+        messages={messages}
+        loadMoreMessagesFn={loadMoreMessages}
+        isEndOfChat={isEndOfChat}
+      />
     </div>
   );
 };

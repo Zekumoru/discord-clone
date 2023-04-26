@@ -8,6 +8,7 @@ import { usePartialModal } from '../../partial-screen-modal/PartialScreenModalCo
 import InvitePartialModal from '../../../components/invite-partial-modal/InvitePartialModal';
 import GuildPartialModal from './modals/GuildPartialModal';
 import GuildListener from '../../../components/GuildListener';
+import SidebarCategoryLoading from './SidebarCategoryLoading';
 
 const SidebarGuild = () => {
   const location = useLocation().pathname;
@@ -52,15 +53,17 @@ const SidebarGuild = () => {
       </header>
 
       <ul>
-        {guild &&
-          categories &&
-          categories.categories.map((category) => (
-            <SidebarCategory
-              key={`${category.name}-${guild.id}`}
-              guild={guild}
-              category={category}
-            />
-          ))}
+        {guild && categories
+          ? categories.categories.map((category) => (
+              <SidebarCategory
+                key={`${category.name}-${guild.id}`}
+                guild={guild}
+                category={category}
+              />
+            ))
+          : Array(12)
+              .fill(undefined)
+              .map((_, index) => <SidebarCategoryLoading key={index} />)}
       </ul>
     </div>
   );

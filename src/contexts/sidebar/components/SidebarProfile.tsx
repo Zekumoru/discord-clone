@@ -46,11 +46,20 @@ const SidebarProfile = ({ isOpen }: SidebarProfileProps) => {
           className="h-10 w-10 shrink-0 text-lg text-white"
         />
 
-        <div onClick={handleOpenUserPartialModal} className="min-w-0">
-          <div className="truncate font-medium leading-none text-white">
-            {name}
-          </div>
-          <div className="text-xs">#{tag}</div>
+        <div onClick={handleOpenUserPartialModal} className="min-w-0 flex-1">
+          {user ? (
+            <>
+              <div className="truncate font-medium leading-none text-white">
+                {name}
+              </div>
+              <div className="text-xs">#{tag}</div>
+            </>
+          ) : (
+            <>
+              <div className="skeleton-loading mb-1 h-4 w-5/6 rounded-full" />
+              <div className="skeleton-loading h-3 w-1/3 rounded-full" />
+            </>
+          )}
         </div>
 
         <div onClick={handleOpenProfileModal} className="ml-auto p-2">

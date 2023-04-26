@@ -26,10 +26,6 @@ const ReorderCategoriesModal = () => {
   });
 
   useEffect(() => {
-    console.log(categories);
-  }, [categories]);
-
-  useEffect(() => {
     if (!categoriesData) return;
 
     setCategories(
