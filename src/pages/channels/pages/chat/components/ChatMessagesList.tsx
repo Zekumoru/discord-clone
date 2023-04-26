@@ -72,6 +72,7 @@ const ChatMessagesList = ({
     const lastLoadingItem = lastLoadingItemRef.current;
     if (prevFirstItem && lastLoadingItem && firstItem !== prevFirstItem) {
       window.scrollBy(0, prevFirstItem.offsetTop - lastLoadingItem.offsetTop);
+      return;
     }
 
     if (!listRef.current || !lastItemRef.current) return;
