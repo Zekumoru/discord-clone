@@ -3,6 +3,8 @@ import IMessage from '../../../../../types/message/Message';
 import { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 import ChatMessage from './ChatMessage';
 import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
+import ChatMessageLoading from './ChatMessageLoading';
+import { loadConfigFromFile } from 'vite';
 
 // Offset to make sure the user is
 // scrolled at the bottom of the screen
@@ -11,24 +13,65 @@ const HEIGHT_SENSITIVITY = 2;
 
 type ChatMessagesListProps = {
   messages: IMessage[];
+  isEndOfChat: boolean;
+  loadMoreMessagesFn: () => void;
 };
 
-const ChatMessagesList = ({ messages }: ChatMessagesListProps) => {
+const ChatMessagesList = ({
+  messages,
+  loadMoreMessagesFn,
+  isEndOfChat,
+}: ChatMessagesListProps) => {
   const endRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
+  const firstItemRef = useRef<HTMLLIElement>(null);
+  const prevFirstItemRef = useRef({ element: null as HTMLLIElement | null });
   const lastItemRef = useRef<HTMLLIElement>(null);
+  const lastLoadingItemRef = useRef<HTMLLIElement>(null);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [currentUser] = useCurrentUser();
+  const nowRef = useRef(Date.now());
   let currentDateString = '';
+
+  useEffect(() => {
+    let firstScrolled = -1;
+
+    const scrollListener = () => {
+      if (!lastLoadingItemRef.current) return;
+
+      const loadingStartY =
+        lastLoadingItemRef.current.getBoundingClientRect().y;
+
+      if (firstScrolled === -1 && loadingStartY > 0) {
+        firstScrolled = loadingStartY;
+        loadMoreMessagesFn();
+      }
+    };
+
+    window.addEventListener('scroll', scrollListener);
+    return () => window.removeEventListener('scroll', scrollListener);
+  }, [loadMoreMessagesFn]);
 
   useEffect(() => {
     if (messages.length === 0) return;
 
-    const lastMessageUserId = messages[messages.length - 1].userId;
-    if (isFirstLoad || lastMessageUserId === currentUser?.id) {
-      endRef.current?.scrollIntoView({ behavior: 'auto' });
+    const lastMessage = messages[messages.length - 1];
+    if (
+      isFirstLoad ||
+      (lastMessage.userId === currentUser?.id &&
+        lastMessage.timestamp &&
+        lastMessage.timestamp.toMillis() > nowRef.current)
+    ) {
+      window.scrollTo(0, document.body.scrollHeight);
       setIsFirstLoad(false);
       return;
+    }
+
+    const firstItem = firstItemRef.current;
+    const prevFirstItem = prevFirstItemRef.current.element;
+    const lastLoadingItem = lastLoadingItemRef.current;
+    if (prevFirstItem && lastLoadingItem && firstItem !== prevFirstItem) {
+      window.scrollBy(0, prevFirstItem.offsetTop - lastLoadingItem.offsetTop);
     }
 
     if (!listRef.current || !lastItemRef.current) return;
@@ -51,7 +94,13 @@ const ChatMessagesList = ({ messages }: ChatMessagesListProps) => {
   return (
     <>
       <ul ref={listRef} className="relative mb-14">
-        {messages.map((message) => {
+        {!isEndOfChat &&
+          Array(12)
+            .fill(undefined)
+            .map((_, index) => (
+              <ChatMessageLoading ref={lastLoadingItemRef} key={index} />
+            ))}
+        {messages.map((message, index) => {
           const dateString = message.timestamp
             ? format(message.timestamp?.toDate(), 'PP')
             : '';
@@ -70,10 +119,15 @@ const ChatMessagesList = ({ messages }: ChatMessagesListProps) => {
             );
           }
 
+          if (firstItemRef.current !== null) {
+            prevFirstItemRef.current.element = firstItemRef.current;
+          }
+
+          let itemRef = index === 0 ? firstItemRef : lastItemRef;
           return (
             <Fragment key={message.id}>
               {dateHeader}
-              <ChatMessage ref={lastItemRef} message={message} />
+              <ChatMessage ref={itemRef} message={message} />
             </Fragment>
           );
         })}
