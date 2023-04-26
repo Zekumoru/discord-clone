@@ -4,6 +4,7 @@ import Logo from './components/Logo';
 import SignUp from './pages/SignUp';
 import { useCurrentUser } from '../../contexts/current-user/CurrentUserContext';
 import { useEffect } from 'react';
+import AnonymousLogin from './pages/AnonymousLogin';
 
 const Authentication = () => {
   const [currentUser] = useCurrentUser();
@@ -21,6 +22,7 @@ const Authentication = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/anonymous" element={<AnonymousLogin />} />
       </Routes>
     </div>
   );

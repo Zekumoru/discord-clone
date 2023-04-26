@@ -8,7 +8,6 @@ import {
 import { getAuth } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import LoadingScreen from '../../../components/LoadingScreen';
-import { FirebaseError } from 'firebase/app';
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
@@ -109,6 +108,20 @@ const Login = () => {
             Register
           </Link>
         </div>
+
+        <div className="my-4 flex items-center gap-2">
+          <div className="flex-1 border-b border-silvergrey-800" />
+          <div className="heading-2 font-semibold text-silvergrey-400">or</div>
+          <div className="flex-1 border-b border-silvergrey-800" />
+        </div>
+
+        <button
+          type="button"
+          className="btn bg-silvergrey-800"
+          onClick={() => navigate('/anonymous')}
+        >
+          Sign In Anonymously
+        </button>
       </form>
     </>
   );
