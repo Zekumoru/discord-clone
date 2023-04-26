@@ -64,6 +64,18 @@
     @apply rounded bg-background-700 p-2.5 leading-none text-silvergrey-300 outline-none placeholder:text-silvergrey-400;
   }
 
+  .text-area::-webkit-scrollbar {
+    @apply w-1;
+  }
+
+  .text-area::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  .text-area::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-background-700;
+  }
+
   .message {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -122,6 +134,15 @@
 }
 
 @layer utilities {
+  .hide-scrollbars {
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .hide-scrollbars::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+
   .li-rule-85 {
     @apply border-b border-transparent;
   }

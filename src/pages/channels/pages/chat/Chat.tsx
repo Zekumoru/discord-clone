@@ -29,6 +29,8 @@ const Chat = (props: ChatProps) => {
   const { mutate: sendMessage } = useSendMessage();
 
   const handleSendMessage = () => {
+    if (input.trim() === '') return;
+
     if (!currentUser) {
       toast.error('User is not logged in!');
       return;
