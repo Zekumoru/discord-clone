@@ -12,12 +12,17 @@ import { useNavigate } from 'react-router-dom';
 import BannerImage from '../BannerImage';
 import LoadingScreen from '../LoadingScreen';
 import { useCloseModal } from '../../contexts/modal/ModalContext';
+import ConfirmationDialog from '../dialog/ConfirmationDialog';
+import { useDialog } from '../dialog/Dialog';
+import useIsAnonymous from '../../hooks/useIsAnonymous';
 
 const ProfileModal = () => {
   const close = useCloseModal();
   const [user] = useCurrentUser();
   const [name, tag] = extractNameAndTag(user?.username ?? '');
   const [logout, logoutLoading] = useSignOut(getAuth());
+  const [dialogRef, openDialog, closeDialog] = useDialog();
+  const isAnonymous = useIsAnonymous();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -29,6 +34,24 @@ const ProfileModal = () => {
   return (
     <div>
       {logoutLoading && <LoadingScreen />}
+
+      <ConfirmationDialog
+        ref={dialogRef}
+        title="Log out"
+        confirmBtnText="Log out"
+        onConfirm={handleLogout}
+        onReject={closeDialog}
+      >
+        {!isAnonymous ? (
+          <>Are you sure to sign out from Discord?</>
+        ) : (
+          <>
+            <span className="font-bold text-salmon-400">Caution:</span> Signing
+            out an anonymous account without upgrading will lose your data. Are
+            you sure to log out?
+          </>
+        )}
+      </ConfirmationDialog>
 
       <ProfileToolbar />
 
@@ -49,10 +72,7 @@ const ProfileModal = () => {
       </InsetList>
 
       <ul className="border-y border-background-700">
-        <InsetListItem
-          onClick={handleLogout}
-          className="mx-auto text-salmon-100"
-        >
+        <InsetListItem onClick={openDialog} className="mx-auto text-salmon-100">
           Log out
         </InsetListItem>
       </ul>
