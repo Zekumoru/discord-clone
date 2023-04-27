@@ -54,6 +54,7 @@ const ChatInput = ({
 
   return (
     <form
+      className={className}
       onSubmit={(e) => {
         handleSend();
         e.preventDefault();

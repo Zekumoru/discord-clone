@@ -54,6 +54,7 @@ const Channel = () => {
     <Chat
       type="channel"
       channelId={channelId}
+      membersId={guild?.membersId}
       disabled={!partOfGuild || partOfGuild === undefined}
       placeholder={`Message #${channel?.name}`}
     >

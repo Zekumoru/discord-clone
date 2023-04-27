@@ -60,6 +60,7 @@ const FriendChat = () => {
     <Chat
       type="chat"
       chatId={chatId}
+      membersId={chat?.membersId}
       disabled={!ownsChat || ownsChat === undefined}
       placeholder={`Message @${friendName}`}
     >

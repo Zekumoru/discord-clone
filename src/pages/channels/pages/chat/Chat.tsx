@@ -1,11 +1,12 @@
 import { useCurrentUser } from '../../../../contexts/current-user/CurrentUserContext';
 import ChatInput from './components/ChatInput';
 import { ReactNode, useState } from 'react';
-import useSendMessage from './hooks/useSendMessage';
 import { useIsOpenMembersSlider } from '../../../../contexts/members-slider/MembersSliderContext';
-import { toast } from 'react-toastify';
 import { useSidebarIsOpen } from '../../../../contexts/sidebar/SidebarContext';
 import useHandleSendMessage from './utils/useHandleSendMessage';
+import useMembersUsers from '../../../../types/member/hooks/useMembersUsers';
+import IUser from '../../../../types/user/User';
+import MentionUserItem from './components/MentionUserItem';
 
 type Chat = {
   type: 'chat';
@@ -21,10 +22,11 @@ type ChatProps = {
   children: ReactNode;
   placeholder?: string;
   disabled?: boolean;
+  membersId?: string;
 } & (Chat | Channel);
 
 const Chat = (props: ChatProps) => {
-  const { children, placeholder, disabled } = props;
+  const { children, placeholder, disabled, membersId } = props;
   const isSidebarOpen = useSidebarIsOpen();
   const isOpenMembersSlide = useIsOpenMembersSlider();
   const [input, setInput] = useState('');
@@ -32,6 +34,28 @@ const Chat = (props: ChatProps) => {
     ...props,
     onSend: () => setInput(''),
   });
+  const [users] = useMembersUsers(membersId);
+  const [mentionUsers, setMentionUsers] = useState<IUser[]>([]);
+
+  const handleInputChange = (input: string) => {
+    setInput(input);
+
+    const mention = input
+      .match(/(\s|^)@[^@\s]*$/)?.[0]
+      .trim()
+      .toLowerCase();
+
+    if (!users) return;
+    if (mention === undefined) {
+      setMentionUsers([]);
+      return;
+    }
+
+    const name = mention.substring(1);
+    setMentionUsers(
+      users.filter((user) => user.username.toLowerCase().includes(name))
+    );
+  };
 
   return (
     <div className="flex">
@@ -41,17 +65,27 @@ const Chat = (props: ChatProps) => {
         {children}
 
         <div
-          className={`md-w-sidebar fixed -bottom-[1px] right-0 w-full bg-background-300 p-4 pt-0 ${
+          className={`md-w-sidebar fixed -bottom-[1px] right-0 w-full ${
             isOpenMembersSlide ? '!-left-80 !right-80 !w-full' : ''
           } ${isSidebarOpen ? '!-right-80 !left-80' : ''}`}
         >
-          <ChatInput
-            value={input}
-            onChange={setInput}
-            onEnter={handleSendMessage}
-            placeholder={placeholder}
-            disabled={disabled}
-          />
+          {mentionUsers.length > 0 && (
+            <ul className="mx-4 mb-1 rounded bg-background-500 px-1 py-2 shadow-2xl">
+              {mentionUsers.map((user) => (
+                <MentionUserItem key={user.id} user={user} />
+              ))}
+            </ul>
+          )}
+
+          <div className="bg-background-300 px-4 pb-4">
+            <ChatInput
+              value={input}
+              onChange={handleInputChange}
+              onEnter={handleSendMessage}
+              placeholder={placeholder}
+              disabled={disabled}
+            />
+          </div>
         </div>
       </div>
     </div>
