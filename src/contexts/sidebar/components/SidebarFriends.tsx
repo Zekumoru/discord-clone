@@ -35,6 +35,11 @@ const SidebarFriends = ({ close }: SidebarFriendsProps) => {
       <div className="heading-2 mb-2 px-2">Direct Messages</div>
 
       <ul>
+        {userChats && userChats.chats.length === 0 && (
+          <li className="mx-2 text-sm">
+            It's feeling a bit lonely here... Why don't you add some friends?
+          </li>
+        )}
         {userChats?.chats.map((chat) => (
           <SidebarFriendItem
             key={chat.chatId}
