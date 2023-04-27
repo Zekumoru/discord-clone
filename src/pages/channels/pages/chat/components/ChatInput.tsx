@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { IconPaperAirplane } from '../../../../../assets/icons';
-import { useSidebarIsOpen } from '../../../../../contexts/sidebar/SidebarContext';
 
 type ChatInputProps = {
   value?: string;
@@ -22,7 +21,6 @@ const ChatInput = ({
   value,
   disabled,
 }: ChatInputProps) => {
-  const isSidebarOpen = useSidebarIsOpen();
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [height, setHeight] = useState(0);
   const [reachedMax, setReachedMax] = useState(false);
@@ -60,9 +58,6 @@ const ChatInput = ({
         handleSend();
         e.preventDefault();
       }}
-      className={`md-w-sidebar fixed -bottom-[1px] right-0 w-full bg-background-300 p-4 pt-0 ${
-        className ?? ''
-      } ${isSidebarOpen ? '!-right-80 !left-80' : ''}`}
     >
       <div className="flex gap-1 rounded bg-background-100 py-2 pl-4 pr-1 shadow-sm">
         <div style={{ height: `${height}px` }} className="relative flex-1">

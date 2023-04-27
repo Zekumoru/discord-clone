@@ -4,6 +4,8 @@ import { ReactNode, useState } from 'react';
 import useSendMessage from './hooks/useSendMessage';
 import { useIsOpenMembersSlider } from '../../../../contexts/members-slider/MembersSliderContext';
 import { toast } from 'react-toastify';
+import { useSidebarIsOpen } from '../../../../contexts/sidebar/SidebarContext';
+import useHandleSendMessage from './utils/useHandleSendMessage';
 
 type Chat = {
   type: 'chat';
@@ -22,50 +24,14 @@ type ChatProps = {
 } & (Chat | Channel);
 
 const Chat = (props: ChatProps) => {
-  const { type, children, placeholder, disabled } = props;
-  const [currentUser] = useCurrentUser();
+  const { children, placeholder, disabled } = props;
+  const isSidebarOpen = useSidebarIsOpen();
   const isOpenMembersSlide = useIsOpenMembersSlider();
   const [input, setInput] = useState('');
-  const { mutate: sendMessage } = useSendMessage();
-
-  const handleSendMessage = () => {
-    if (input.trim() === '') return;
-
-    if (!currentUser) {
-      toast.error('User is not logged in!');
-      return;
-    }
-
-    if (type === 'chat') {
-      const chatId = props.chatId;
-      if (!chatId) {
-        toast.error('Could not send message!');
-        return;
-      }
-
-      sendMessage({
-        type,
-        chatId,
-        userId: currentUser.id,
-        content: input,
-      });
-    } else {
-      const channelId = props.channelId;
-      if (!channelId) {
-        toast.error('Could not send message!');
-        return;
-      }
-
-      sendMessage({
-        type,
-        channelId,
-        userId: currentUser.id,
-        content: input,
-      });
-    }
-
-    setInput('');
-  };
+  const handleSendMessage = useHandleSendMessage(input, {
+    ...props,
+    onSend: () => setInput(''),
+  });
 
   return (
     <div className="flex">
@@ -74,19 +40,23 @@ const Chat = (props: ChatProps) => {
       >
         {children}
 
-        <ChatInput
-          className={`${
+        <div
+          className={`md-w-sidebar fixed -bottom-[1px] right-0 w-full bg-background-300 p-4 pt-0 ${
             isOpenMembersSlide ? '!-left-80 !right-80 !w-full' : ''
-          }`}
-          value={input}
-          onChange={setInput}
-          onEnter={handleSendMessage}
-          placeholder={placeholder}
-          disabled={disabled}
-        />
+          } ${isSidebarOpen ? '!-right-80 !left-80' : ''}`}
+        >
+          <ChatInput
+            value={input}
+            onChange={setInput}
+            onEnter={handleSendMessage}
+            placeholder={placeholder}
+            disabled={disabled}
+          />
+        </div>
       </div>
     </div>
   );
 };
 
 export default Chat;
+export type { ChatProps };
