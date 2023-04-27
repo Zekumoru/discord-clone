@@ -72,7 +72,14 @@ const ChatInput = ({
               reachedMax ? 'overflow-auto' : 'overflow-hidden'
             } text-area w-full resize-none bg-transparent pr-10 outline-none placeholder:text-silvergrey-600`}
             value={value ?? ''}
-            onChange={(e) => onChange?.(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              onChange?.(value);
+
+              if (!textAreaRef.current) return;
+              textAreaRef.current.value = value;
+              handleResize();
+            }}
             onKeyUp={() => handleResize()}
             placeholder={placeholder ?? ''}
             disabled={disabled}
@@ -86,7 +93,6 @@ const ChatInput = ({
           <textarea
             ref={textAreaRef}
             className="text-area pointer-events-none absolute left-0 right-0 top-0 h-6 resize-none bg-transparent pr-10 opacity-0 outline-none"
-            value={value ?? ''}
             disabled
           />
 
