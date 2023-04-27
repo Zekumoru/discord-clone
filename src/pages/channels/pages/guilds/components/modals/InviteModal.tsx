@@ -2,13 +2,16 @@ import ticketImage from '../../../../../../assets/images/ticket.png';
 import { IconLink } from '../../../../../../assets/icons';
 import { toast } from 'react-toastify';
 import { useCloseModal } from '../../../../../../contexts/modal/ModalContext';
+import { useNavigate } from 'react-router-dom';
 
 type InviteModalProps = {
+  guildId: string;
   inviteId: string;
 };
 
-const InviteModal = ({ inviteId }: InviteModalProps) => {
+const InviteModal = ({ guildId, inviteId }: InviteModalProps) => {
   const close = useCloseModal();
+  const navigate = useNavigate();
   const handleCopyLink = () => {
     navigator.clipboard.writeText(
       `${import.meta.env.VITE_APP_URL}/#/invite/${inviteId}`
@@ -19,7 +22,13 @@ const InviteModal = ({ inviteId }: InviteModalProps) => {
   return (
     <div className="mb-4">
       <div className="flex h-[56px] items-center justify-end px-4">
-        <button className="font-medium" onClick={() => close(true)}>
+        <button
+          className="font-medium"
+          onClick={() => {
+            navigate(`/channels/${guildId}`);
+            close(true);
+          }}
+        >
           Skip
         </button>
       </div>

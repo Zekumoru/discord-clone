@@ -19,11 +19,11 @@ const createInvite = async ({ guildId, inviterId }: CreateInviteOptions) => {
     expiration: '',
   });
 
-  return inviteId;
+  return { guildId, inviteId };
 };
 
 type UseCreateInviteOptions = {
-  onSuccess?: (inviteId: string) => void;
+  onSuccess?: (data: Awaited<ReturnType<typeof createInvite>>) => void;
   onError?: (error: unknown) => void;
 };
 

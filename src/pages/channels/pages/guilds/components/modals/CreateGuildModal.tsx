@@ -18,8 +18,8 @@ const CreateGuildModal = () => {
   const [openModal] = useModal();
   const { mutate: createInvite, isLoading: createInviteLoading } =
     useCreateInvite({
-      onSuccess: (inviteId) => {
-        openModal(<InviteModal inviteId={inviteId} />);
+      onSuccess: ({ guildId, inviteId }) => {
+        openModal(<InviteModal guildId={guildId} inviteId={inviteId} />);
       },
     });
   const { mutate: createGuild, isLoading: createGuildLoading } = useCreateGuild(
