@@ -5,6 +5,7 @@ import userDoc from '../../../../../types/user/firebase/userDoc';
 import { setDoc } from 'firebase/firestore';
 import findUserByUsername from '../../../../../types/user/firebase/findUserByUsername';
 import DiscordError from '../../../../../utils/DiscordError';
+import { getAuth, updateProfile } from 'firebase/auth';
 
 type UpdateUsernameArgs = {
   user: IUser;
@@ -22,6 +23,7 @@ const updateUsername = async ({ user, newUsername }: UpdateUsernameArgs) => {
     );
   }
 
+  await updateProfile(getAuth().currentUser!, { displayName: newUsername });
   await setDoc(userRef, {
     ...user,
     username: newUsername,
