@@ -36,6 +36,7 @@ const Chat = (props: ChatProps) => {
   });
   const [users] = useMembersUsers(membersId);
   const [mentionUsers, setMentionUsers] = useState<IUser[]>([]);
+  const [bottomHeight, setBottomHeight] = useState(0);
 
   const handleInputChange = (input: string) => {
     setInput(input);
@@ -62,7 +63,7 @@ const Chat = (props: ChatProps) => {
       <div
         className={`relative flex-1 ${isOpenMembersSlide ? '-left-80' : ''}`}
       >
-        {children}
+        <div style={{ marginBottom: `${bottomHeight}px` }}>{children}</div>
 
         <div
           className={`md-w-sidebar fixed -bottom-[1px] right-0 w-full ${
@@ -81,6 +82,7 @@ const Chat = (props: ChatProps) => {
             <ChatInput
               value={input}
               onChange={handleInputChange}
+              onHeightChange={setBottomHeight}
               onEnter={handleSendMessage}
               placeholder={placeholder}
               disabled={disabled}

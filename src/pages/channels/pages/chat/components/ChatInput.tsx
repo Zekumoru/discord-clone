@@ -4,6 +4,7 @@ import { IconPaperAirplane } from '../../../../../assets/icons';
 type ChatInputProps = {
   value?: string;
   className?: string;
+  onHeightChange?: (height: number) => void;
   onChange?: (value: string) => void;
   onEnter?: () => void;
   placeholder?: string;
@@ -17,6 +18,7 @@ const ChatInput = ({
   placeholder,
   className,
   onChange,
+  onHeightChange,
   onEnter,
   value,
   disabled,
@@ -32,11 +34,13 @@ const ChatInput = ({
     const maxHeight = BASE_INPUT_HEIGHT * MAXIMUM_LINEFEED;
     if (scrollHeight >= maxHeight) {
       setHeight(maxHeight);
+      onHeightChange?.(maxHeight - BASE_INPUT_HEIGHT);
       setReachedMax(true);
       return;
     }
 
     setHeight(scrollHeight);
+    onHeightChange?.(scrollHeight - BASE_INPUT_HEIGHT);
     setReachedMax(false);
   }, []);
 
