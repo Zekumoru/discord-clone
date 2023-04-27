@@ -74,7 +74,7 @@ const AddFriendScreenModal = () => {
           Add your friend on Discord
         </h1>
         <p className="px-2 text-center text-silvergrey-300">
-          You will need both their username and a tag. Keep in mind that
+          You will need both their username and their tag. Keep in mind that
           username is case sensitive.
         </p>
 
