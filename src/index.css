@@ -16,6 +16,10 @@
 }
 
 @layer components {
+  .DraftEditor-editorContainer {
+    @apply overflow-auto;
+  }
+
   .auth-title {
     @apply mb-1.5 text-2xl font-semibold;
   }

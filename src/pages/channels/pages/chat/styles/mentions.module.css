@@ -1,0 +1,7 @@
+.mention {
+  @apply rounded bg-warmblue-600 px-0.5;
+}
+
+.mentionSuggestions {
+  @apply mx-4 mb-1 rounded bg-background-500 px-1 py-2 shadow-2xl;
+}

@@ -4,7 +4,6 @@ import { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 import ChatMessage from './ChatMessage';
 import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
 import ChatMessageLoading from './ChatMessageLoading';
-import { loadConfigFromFile } from 'vite';
 
 // Offset to make sure the user is
 // scrolled at the bottom of the screen
@@ -94,7 +93,7 @@ const ChatMessagesList = ({
 
   return (
     <>
-      <ul ref={listRef} className="relative mb-14">
+      <ul ref={listRef} className="relative mb-2.5">
         {!isEndOfChat &&
           Array(12)
             .fill(undefined)

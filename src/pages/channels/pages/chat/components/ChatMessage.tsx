@@ -56,7 +56,7 @@ const ChatMessage = forwardRef<HTMLLIElement, ChatMessageProps>(
               {message.inviteId !== undefined ? (
                 <ChatInvite message={message} />
               ) : (
-                <div className="break-words text-silvergrey-100">
+                <div className="whitespace-break-spaces text-silvergrey-100">
                   {message.content}
                 </div>
               )}

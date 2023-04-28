@@ -1,18 +1,13 @@
 import { toast } from 'react-toastify';
 import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
 import { ChatProps } from '../Chat';
-import useSendMessage from '../hooks/useSendMessage';
+import useSendMessage from './useSendMessage';
 
-const useHandleSendMessage = (
-  input: string,
-  props: ChatProps & { onSend?: () => void }
-) => {
+const useHandleSendMessage = (props: ChatProps) => {
   const [currentUser] = useCurrentUser();
   const { mutate: sendMessage } = useSendMessage();
 
-  const handleSendMessage = () => {
-    if (input.trim() === '') return;
-
+  const handleSendMessage = (message: string) => {
     if (!currentUser) {
       toast.error('User is not logged in!');
       return;
@@ -30,7 +25,7 @@ const useHandleSendMessage = (
         chatId,
         type,
         userId: currentUser.id,
-        content: input,
+        content: message,
       });
     } else {
       const channelId = props.channelId;
@@ -43,11 +38,9 @@ const useHandleSendMessage = (
         type,
         channelId,
         userId: currentUser.id,
-        content: input,
+        content: message,
       });
     }
-
-    props.onSend?.();
   };
 
   return handleSendMessage;

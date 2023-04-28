@@ -27,6 +27,7 @@ export default {
         warmblue: {
           100: '#5A65EA',
           400: '#464C90',
+          600: '#424676',
         },
         dodgerblue: {
           100: '#00A8FC',

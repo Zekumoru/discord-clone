@@ -1,117 +1,122 @@
-import { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { EditorState, getDefaultKeyBinding } from 'draft-js';
+import Editor, { createEditorStateWithText } from '@draft-js-plugins/editor';
+import { useEffect, useRef, useState } from 'react';
+import IUser from '../../../../../types/user/User';
 import { IconPaperAirplane } from '../../../../../assets/icons';
+import 'draft-js/dist/Draft.css';
+import useMentionPlugin from '../hooks/useMentionPlugin';
+import MentionEntry from './MentionEntry';
+import getPlainText from '../utils/getPlainText';
 
 type ChatInputProps = {
-  value?: string;
-  className?: string;
-  onHeightChange?: (height: number) => void;
-  onChange?: (value: string) => void;
-  onKeyDown?: (event: KeyboardEvent<HTMLTextAreaElement>) => void;
-  onEnter?: () => void;
+  users: IUser[];
   placeholder?: string;
   disabled?: boolean;
+  onChange?: (data: { content: string; height: number }) => void;
+  onEnter?: (content: string) => void;
 };
 
-const BASE_INPUT_HEIGHT = 24;
-const MAXIMUM_LINEFEED = 12;
-
 const ChatInput = ({
+  users,
   placeholder,
-  className,
-  onChange,
-  onKeyDown,
-  onHeightChange,
-  onEnter,
-  value,
   disabled,
+  onChange,
+  onEnter,
 }: ChatInputProps) => {
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [height, setHeight] = useState(0);
-  const [reachedMax, setReachedMax] = useState(false);
+  const sendButtonRef = useRef<HTMLButtonElement>(null);
+  const editorContainerRef = useRef<HTMLDivElement>(null);
+  const editorRef = useRef<Editor>(null);
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty()
+  );
+  const {
+    MentionSuggestions,
+    onOpenChange,
+    onSearchChange,
+    open,
+    plugins,
+    suggestions,
+  } = useMentionPlugin(users);
 
-  const handleResize = useCallback(() => {
-    const scrollHeight = textAreaRef.current?.scrollHeight;
-    if (!scrollHeight) return;
+  useEffect(() => {
+    onChange?.({
+      content: getPlainText(editorState),
+      height: editorContainerRef.current?.scrollHeight ?? 0,
+    });
+  }, [editorState]);
 
-    const maxHeight = BASE_INPUT_HEIGHT * MAXIMUM_LINEFEED;
-    if (scrollHeight >= maxHeight) {
-      setHeight(maxHeight);
-      onHeightChange?.(maxHeight - BASE_INPUT_HEIGHT);
-      setReachedMax(true);
+  const focusEditor = async () => {
+    await Promise.resolve();
+    editorRef.current?.focus();
+  };
+
+  const handleEnter = async () => {
+    const plainText = getPlainText(editorState);
+    if (plainText.trim() === '') {
+      focusEditor();
       return;
     }
 
-    setHeight(scrollHeight);
-    onHeightChange?.(scrollHeight - BASE_INPUT_HEIGHT);
-    setReachedMax(false);
-  }, []);
-
-  useEffect(() => {
-    if (!textAreaRef.current || value === undefined) return;
-    textAreaRef.current.value = value;
-    handleResize();
-  }, [value]);
-
-  useEffect(() => {
-    setHeight(textAreaRef.current?.scrollHeight ?? BASE_INPUT_HEIGHT);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const handleSend = () => {
-    if (value === '') return;
-
-    onEnter?.();
+    onEnter?.(plainText);
+    setEditorState(createEditorStateWithText(''));
+    focusEditor();
   };
 
   return (
-    <form
-      className={className}
-      onSubmit={(e) => {
-        handleSend();
-        e.preventDefault();
-      }}
-    >
-      <div className="flex gap-1 rounded bg-background-100 py-2 pl-4 pr-1 shadow-sm">
-        <div style={{ height: `${height}px` }} className="relative flex-1">
-          <textarea
-            style={{ height: `${height}px` }}
-            className={`${
-              reachedMax ? 'overflow-auto' : 'overflow-hidden'
-            } text-area w-full resize-none bg-transparent pr-10 outline-none placeholder:text-silvergrey-600`}
-            value={value ?? ''}
-            onChange={(e) => {
-              const value = e.target.value;
-              onChange?.(value);
+    <>
+      <MentionSuggestions
+        open={open}
+        onOpenChange={onOpenChange}
+        onSearchChange={onSearchChange}
+        suggestions={suggestions}
+        entryComponent={MentionEntry}
+        popoverContainer={({ children, theme }) => (
+          <div className={theme.mentionSuggestions}>{children}</div>
+        )}
+      />
 
-              if (!textAreaRef.current) return;
-              textAreaRef.current.value = value;
+      <div className="relative bg-background-300 px-4 pb-4">
+        <div
+          ref={editorContainerRef}
+          className="text-area max-h-60 overflow-auto rounded bg-background-100 py-2 pl-2.5 pr-[36px] shadow-sm"
+        >
+          <Editor
+            ref={editorRef}
+            editorKey="editor"
+            editorState={editorState}
+            plugins={plugins}
+            placeholder={placeholder}
+            onChange={(state) => {
+              if (disabled) return;
+              setEditorState(state);
             }}
-            onKeyUp={() => handleResize()}
-            placeholder={placeholder ?? ''}
-            disabled={disabled}
-            onKeyDown={(e) => {
+            keyBindingFn={(e) => {
               if (!e.shiftKey && e.key === 'Enter') {
-                handleSend();
-                e.preventDefault();
+                // hack to fix editor bug text cursor stuck
+                // in the beginning of text for 3-4 characters
+                (async () => {
+                  await Promise.resolve();
+                  sendButtonRef.current?.focus();
+                  sendButtonRef.current?.click();
+                })();
               }
-              onKeyDown?.(e);
+
+              if (open && e.key === 'Tab') {
+                return;
+              }
+
+              return getDefaultKeyBinding(e);
             }}
           />
-          <textarea
-            ref={textAreaRef}
-            className="text-area pointer-events-none absolute left-0 right-0 top-0 h-6 resize-none bg-transparent pr-10 opacity-0 outline-none"
-            disabled
-          />
+        </div>
 
-          <div className="absolute right-2 top-0">
-            <button className="h-6">
-              <IconPaperAirplane className="h-6 w-6 text-warmblue-100" />
-            </button>
-          </div>
+        <div className="absolute right-[25px] top-2">
+          <button ref={sendButtonRef} className="h-6" onClick={handleEnter}>
+            <IconPaperAirplane className="h-6 w-6 text-warmblue-100" />
+          </button>
         </div>
       </div>
-    </form>
+    </>
   );
 };
 
