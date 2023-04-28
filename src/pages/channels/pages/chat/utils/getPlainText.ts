@@ -1,32 +1,33 @@
 import { EditorState, convertToRaw } from 'draft-js';
 import MentionUserData from '../components/types/MentionUserData';
 
+type MapEntry = {
+  type: 'mention';
+  data: {
+    mention: MentionUserData;
+  };
+};
+
 const getPlainText = (editorState: EditorState) => {
   const texts: string[] = [];
   const { blocks, entityMap } = convertToRaw(editorState.getCurrentContent());
 
+  let endCursor: number = 0;
+  let textBlocks: string[] = [];
   blocks.forEach(({ entityRanges, text }) => {
-    if (entityRanges.length === 0) texts.push(text);
-
-    entityRanges.forEach(({ offset: start, length, key }) => {
-      const end = start + length;
-
-      const mapEntry = entityMap[key] as unknown as {
-        type: 'mention';
-        data: {
-          mention: MentionUserData;
-        };
-      };
+    entityRanges.forEach(({ offset: start, key }) => {
+      const mapEntry = entityMap[key] as unknown as MapEntry;
+      const end = start + mapEntry.data.mention.name.length;
+      console.log(start, end, mapEntry.data.mention.name);
 
       const userId = mapEntry.data.mention.id;
-      texts.push(
-        String.prototype.concat(
-          text.slice(0, start),
-          `<@${userId}>`,
-          text.slice(end)
-        )
-      );
+      textBlocks.push(text.slice(endCursor, start));
+      textBlocks.push(`<@${userId}>`);
+      endCursor = end;
     });
+
+    textBlocks.push(text.slice(endCursor));
+    texts.push(textBlocks.join(''));
   });
 
   return texts.join('\n');
