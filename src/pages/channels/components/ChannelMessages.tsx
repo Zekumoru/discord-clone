@@ -25,6 +25,7 @@ const ChannelMessages = ({ channel }: ChannelMessagesProps) => {
       )}
 
       <ChatMessagesList
+        id={channel?.id}
         messages={messages}
         loadMoreMessagesFn={loadMoreMessages}
         isEndOfChat={isEndOfChat}

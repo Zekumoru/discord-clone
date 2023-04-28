@@ -33,6 +33,7 @@ const ChatMessages = ({ user, chatId }: ChatMessagesProps) => {
         </div>
       )}
       <ChatMessagesList
+        id={chatId}
         messages={messages}
         loadMoreMessagesFn={loadMoreMessages}
         isEndOfChat={isEndOfChat}

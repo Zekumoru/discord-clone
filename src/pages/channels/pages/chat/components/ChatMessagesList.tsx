@@ -11,12 +11,14 @@ import ChatMessageLoading from './ChatMessageLoading';
 const HEIGHT_SENSITIVITY = 2;
 
 type ChatMessagesListProps = {
+  id: string | undefined;
   messages: IMessage[];
   isEndOfChat: boolean;
   loadMoreMessagesFn: () => void;
 };
 
 const ChatMessagesList = ({
+  id,
   messages,
   loadMoreMessagesFn,
   isEndOfChat,
@@ -31,6 +33,10 @@ const ChatMessagesList = ({
   const [currentUser] = useCurrentUser();
   const nowRef = useRef(Date.now());
   let currentDateString = '';
+
+  useEffect(() => {
+    setIsFirstLoad(true);
+  }, [id]);
 
   useEffect(() => {
     let firstScrolled = -1;
@@ -87,7 +93,8 @@ const ChatMessagesList = ({
       Math.ceil(window.innerHeight + window.scrollY) + HEIGHT_SENSITIVITY;
 
     if (currentScrollHeight >= maxScrollHeight) {
-      window.scrollBy(0, lastItemHeight);
+      window.scrollTo(0, document.body.scrollHeight);
+      // window.scrollBy(0, lastItemHeight);
     }
   }, [messages, isFirstLoad]);
 
