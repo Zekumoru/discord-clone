@@ -104,13 +104,16 @@ const ChatMessage = forwardRef<HTMLLIElement, ChatMessageProps>(
                     if (mention) {
                       const id = mention[0].substring(2, mention[0].length - 1);
                       const user = usersMap.get(id);
-                      const [name] = extractNameAndTag(user?.username ?? '');
 
-                      return (
-                        <span key={index} className={mentionStyles.mention}>
-                          @{name}
-                        </span>
-                      );
+                      if (user) {
+                        const [name] = extractNameAndTag(user.username ?? '');
+
+                        return (
+                          <span key={index} className={mentionStyles.mention}>
+                            @{name}
+                          </span>
+                        );
+                      }
                     }
 
                     return <Fragment key={index}>{block}</Fragment>;
