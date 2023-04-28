@@ -1,4 +1,3 @@
-import { useCurrentUser } from '../../../../contexts/current-user/CurrentUserContext';
 import ChatInput from './components/ChatInput';
 import { ReactNode, useState } from 'react';
 import { useIsOpenMembersSlider } from '../../../../contexts/members-slider/MembersSliderContext';
@@ -42,8 +41,8 @@ const Chat = (props: ChatProps) => {
     setInput(input);
 
     const mention = input
-      .match(/(\s|^)@[^@\s]*$/)?.[0]
-      .trim()
+      .match(/(\s|^)@[^@]*$/)?.[0]
+      .trimStart()
       .toLowerCase();
 
     if (!users) return;
@@ -83,7 +82,10 @@ const Chat = (props: ChatProps) => {
               value={input}
               onChange={handleInputChange}
               onHeightChange={setBottomHeight}
-              onEnter={handleSendMessage}
+              onEnter={() => {
+                setMentionUsers([]);
+                handleSendMessage();
+              }}
               placeholder={placeholder}
               disabled={disabled}
             />
