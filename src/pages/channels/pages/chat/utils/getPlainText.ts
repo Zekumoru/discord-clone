@@ -15,6 +15,8 @@ const getPlainText = (editorState: EditorState) => {
   let endCursor: number = 0;
   let textBlocks: string[] = [];
   blocks.forEach(({ entityRanges, text }) => {
+    textBlocks = [];
+
     entityRanges.forEach(({ offset: start, key }) => {
       const mapEntry = entityMap[key] as unknown as MapEntry;
       const end = start + mapEntry.data.mention.name.length;
