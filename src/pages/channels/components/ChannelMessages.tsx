@@ -13,9 +13,9 @@ const ChannelMessages = ({ channel }: ChannelMessagesProps) => {
   );
 
   return (
-    <div className="h-screen-toolbar flex flex-col justify-end p-4">
+    <div className="h-screen-toolbar flex flex-col justify-end py-4">
       {isEndOfChat && (
-        <div>
+        <div className="px-4">
           <h2 className="text-2xl font-bold">Welcome to #{channel?.name}!</h2>
 
           <p className="text-silvergrey-300">

@@ -48,6 +48,7 @@ export default {
         },
         gold: {
           100: '#F0B132',
+          700: '#444037',
         },
         salmon: {
           100: '#FA777C',

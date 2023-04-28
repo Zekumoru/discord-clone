@@ -5,7 +5,14 @@ import removeTagFromName from '../../../../../utils/removeTagFromName';
 import ProfilePicture from '../../../components/ProfilePicture';
 import useUserPartialModal from '../../../../../components/user-partial-modal/hooks/useUserPartialModal';
 import ChatInvite from './ChatInvite';
-import { forwardRef, useMemo } from 'react';
+import { Fragment, forwardRef, useMemo, useState } from 'react';
+import mentionStyles from '../styles/mentions.module.css';
+import { useUsers } from '../contexts/UsersContext';
+import IUser from '../../../../../types/user/User';
+import extractNameAndTag from '../../../../../utils/extractNameAndTag';
+import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
+
+const MENTION_PATTERN = /<@\d*>/g;
 
 type ChatMessageProps = {
   message: IMessage;
@@ -13,8 +20,18 @@ type ChatMessageProps = {
 
 const ChatMessage = forwardRef<HTMLLIElement, ChatMessageProps>(
   ({ message }, ref) => {
+    const [currentUser] = useCurrentUser();
     const [user] = useUser(message.userId);
     const [openUserPartialModal] = useUserPartialModal();
+    const [isMentioned, setIsMentioned] = useState(false);
+    const users = useUsers();
+    const usersMap = useMemo(() => {
+      const usersMap = new Map<string, IUser>();
+      if (users === undefined) return usersMap;
+
+      users.forEach((user) => usersMap.set(user.id, user));
+      return usersMap;
+    }, [users]);
 
     const userName = removeTagFromName(user?.username ?? '');
     const datetime = useMemo(() => {
@@ -34,12 +51,36 @@ const ChatMessage = forwardRef<HTMLLIElement, ChatMessageProps>(
       return format(timestamp, 'MM/dd/yyyy h:mm a');
     }, [message]);
 
+    const messageBlocks = useMemo(() => {
+      const messageBlocks: string[] = [];
+
+      let endCursor = 0;
+      for (const mentionBlock of message.content.matchAll(MENTION_PATTERN)) {
+        messageBlocks.push(
+          message.content.slice(endCursor, mentionBlock.index!)
+        );
+        messageBlocks.push(mentionBlock[0]);
+        endCursor = mentionBlock[0].length + mentionBlock.index!;
+
+        if (currentUser && mentionBlock[0].includes(currentUser.id)) {
+          setIsMentioned(true);
+        }
+      }
+
+      return messageBlocks;
+    }, [message]);
+
     const handleOpenUserPartialModal = () => {
       openUserPartialModal(user?.id);
     };
 
     return (
-      <li ref={ref} className="message mt-2.5 first-of-type:mt-0">
+      <li
+        ref={ref}
+        className={`${
+          isMentioned ? 'border-l-[3px] border-gold-100 bg-gold-700' : ''
+        } message mt-2.5 px-4 py-1 first-of-type:mt-0`}
+      >
         {datetime !== '' && (
           <>
             <ProfilePicture user={user} onClick={handleOpenUserPartialModal} />
@@ -57,7 +98,22 @@ const ChatMessage = forwardRef<HTMLLIElement, ChatMessageProps>(
                 <ChatInvite message={message} />
               ) : (
                 <div className="whitespace-break-spaces text-silvergrey-100">
-                  {message.content}
+                  {messageBlocks.map((block, index) => {
+                    const mention = block.match(MENTION_PATTERN);
+                    if (mention) {
+                      const id = mention[0].substring(2, mention[0].length - 1);
+                      const user = usersMap.get(id);
+                      const [name] = extractNameAndTag(user?.username ?? '');
+
+                      return (
+                        <span key={index} className={mentionStyles.mention}>
+                          @{name}
+                        </span>
+                      );
+                    }
+
+                    return <Fragment key={index}>{block}</Fragment>;
+                  })}
                 </div>
               )}
             </div>

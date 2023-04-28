@@ -109,7 +109,7 @@ const ChatMessagesList = ({
           if (dateString !== '' && dateString !== currentDateString) {
             currentDateString = dateString;
             dateHeader = (
-              <li className="my-2.5 flex items-center gap-2">
+              <li className="my-2.5 flex items-center gap-2 px-4">
                 <div className="flex-1 border-b border-silvergrey-800" />
                 <div className="text-xs font-semibold text-silvergrey-400">
                   {currentDateString}

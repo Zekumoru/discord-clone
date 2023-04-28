@@ -5,6 +5,7 @@ import useHandleSendMessage from './hooks/useHandleSendMessage';
 import useMembersUsers from '../../../../types/member/hooks/useMembersUsers';
 import '@draft-js-plugins/mention/lib/plugin.css';
 import ChatInput from './components/ChatInput';
+import UsersProvider from './contexts/UsersContext';
 
 type Chat = {
   type: 'chat';
@@ -36,7 +37,9 @@ const Chat = (props: ChatProps) => {
       <div
         className={`relative flex-1 ${isOpenMembersSlide ? '-left-80' : ''}`}
       >
-        <div style={{ marginBottom: `${height}px` }}>{children}</div>
+        <UsersProvider users={users}>
+          <div style={{ marginBottom: `${height}px` }}>{children}</div>
+        </UsersProvider>
 
         <div
           className={`md-w-sidebar fixed -bottom-[1px] right-0 w-full ${
