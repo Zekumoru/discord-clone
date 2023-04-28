@@ -4,7 +4,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 
-const packages = ['firebase'];
+const packages = ['firebase', 'draft-js'];
 const manualChunks = (id: string) => {
   if (id.includes('node_modules')) {
     const index = packages.findIndex((p) => id.includes(p));
