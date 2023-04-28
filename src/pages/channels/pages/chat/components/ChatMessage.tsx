@@ -131,7 +131,11 @@ const ChatMessage = forwardRef<HTMLLIElement, ChatMessageProps>(
                         const [name] = extractNameAndTag(user.username ?? '');
 
                         return (
-                          <span key={index} className={mentionStyles.mention}>
+                          <span
+                            key={index}
+                            onClick={() => openUserPartialModal(user.id)}
+                            className={`${mentionStyles.mention} cursor-pointer`}
+                          >
                             @{name}
                           </span>
                         );
