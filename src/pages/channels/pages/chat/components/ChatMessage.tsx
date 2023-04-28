@@ -11,6 +11,7 @@ import { useUsers } from '../contexts/UsersContext';
 import IUser from '../../../../../types/user/User';
 import extractNameAndTag from '../../../../../utils/extractNameAndTag';
 import { useCurrentUser } from '../../../../../contexts/current-user/CurrentUserContext';
+import { EVERYONE_MENTION_ID, HERE_MENTION_ID } from './types/MentionUserData';
 
 const MENTION_PATTERN = /<@\d*>/g;
 
@@ -62,7 +63,12 @@ const ChatMessage = forwardRef<HTMLLIElement, ChatMessageProps>(
         messageBlocks.push(mentionBlock[0]);
         endCursor = mentionBlock[0].length + mentionBlock.index!;
 
-        if (currentUser && mentionBlock[0].includes(currentUser.id)) {
+        if (
+          currentUser &&
+          (mentionBlock[0].includes(currentUser.id) ||
+            mentionBlock[0].includes(EVERYONE_MENTION_ID) ||
+            mentionBlock[0].includes(HERE_MENTION_ID))
+        ) {
           setIsMentioned(true);
         }
       }
@@ -104,6 +110,22 @@ const ChatMessage = forwardRef<HTMLLIElement, ChatMessageProps>(
                     if (mention) {
                       const id = mention[0].substring(2, mention[0].length - 1);
                       const user = usersMap.get(id);
+
+                      if (id === EVERYONE_MENTION_ID) {
+                        return (
+                          <span key={index} className={mentionStyles.mention}>
+                            @everyone
+                          </span>
+                        );
+                      }
+
+                      if (id === HERE_MENTION_ID) {
+                        return (
+                          <span key={index} className={mentionStyles.mention}>
+                            @here
+                          </span>
+                        );
+                      }
 
                       if (user) {
                         const [name] = extractNameAndTag(user.username ?? '');
