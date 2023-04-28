@@ -66,6 +66,7 @@ const ChatMessage = forwardRef<HTMLLIElement, ChatMessageProps>(
           setIsMentioned(true);
         }
       }
+      messageBlocks.push(message.content.slice(endCursor));
 
       return messageBlocks;
     }, [message]);
@@ -79,7 +80,7 @@ const ChatMessage = forwardRef<HTMLLIElement, ChatMessageProps>(
         ref={ref}
         className={`${
           isMentioned ? 'border-l-[3px] border-gold-100 bg-gold-700' : ''
-        } message mt-2.5 px-4 py-1 first-of-type:mt-0`}
+        } message mt-1.5 px-4 py-1 first-of-type:mt-0`}
       >
         {datetime !== '' && (
           <>
