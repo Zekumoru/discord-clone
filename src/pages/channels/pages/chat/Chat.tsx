@@ -17,6 +17,8 @@ type Channel = {
   channelId: string | undefined;
 };
 
+const MENTION_USER_REGEX = /(\s|^)@[^@]*/;
+
 type ChatProps = {
   children: ReactNode;
   placeholder?: string;
@@ -41,7 +43,7 @@ const Chat = (props: ChatProps) => {
     setInput(input);
 
     const mention = input
-      .match(/(\s|^)@[^@]*$/)?.[0]
+      .match(MENTION_USER_REGEX)?.[0]
       .trimStart()
       .toLowerCase();
 
@@ -55,6 +57,13 @@ const Chat = (props: ChatProps) => {
     setMentionUsers(
       users.filter((user) => user.username.toLowerCase().includes(name))
     );
+  };
+
+  const handleMentionUserClick = (user: IUser) => {
+    setInput((input) =>
+      input.replace(MENTION_USER_REGEX, ` <@${user.id}:${user.username}>`)
+    );
+    setMentionUsers([]);
   };
 
   return (
@@ -72,7 +81,11 @@ const Chat = (props: ChatProps) => {
           {mentionUsers.length > 0 && (
             <ul className="mx-4 mb-1 rounded bg-background-500 px-1 py-2 shadow-2xl">
               {mentionUsers.map((user) => (
-                <MentionUserItem key={user.id} user={user} />
+                <MentionUserItem
+                  key={user.id}
+                  user={user}
+                  onClick={handleMentionUserClick}
+                />
               ))}
             </ul>
           )}
@@ -82,6 +95,12 @@ const Chat = (props: ChatProps) => {
               value={input}
               onChange={handleInputChange}
               onHeightChange={setBottomHeight}
+              onKeyDown={(e) => {
+                if (e.key === 'Tab' && mentionUsers.length > 0) {
+                  handleMentionUserClick(mentionUsers[0]);
+                  e.preventDefault();
+                }
+              }}
               onEnter={() => {
                 setMentionUsers([]);
                 handleSendMessage();

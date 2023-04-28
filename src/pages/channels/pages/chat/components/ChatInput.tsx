@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { IconPaperAirplane } from '../../../../../assets/icons';
 
 type ChatInputProps = {
@@ -6,6 +6,7 @@ type ChatInputProps = {
   className?: string;
   onHeightChange?: (height: number) => void;
   onChange?: (value: string) => void;
+  onKeyDown?: (event: KeyboardEvent<HTMLTextAreaElement>) => void;
   onEnter?: () => void;
   placeholder?: string;
   disabled?: boolean;
@@ -18,6 +19,7 @@ const ChatInput = ({
   placeholder,
   className,
   onChange,
+  onKeyDown,
   onHeightChange,
   onEnter,
   value,
@@ -43,6 +45,12 @@ const ChatInput = ({
     onHeightChange?.(scrollHeight - BASE_INPUT_HEIGHT);
     setReachedMax(false);
   }, []);
+
+  useEffect(() => {
+    if (!textAreaRef.current || value === undefined) return;
+    textAreaRef.current.value = value;
+    handleResize();
+  }, [value]);
 
   useEffect(() => {
     setHeight(textAreaRef.current?.scrollHeight ?? BASE_INPUT_HEIGHT);
@@ -78,7 +86,6 @@ const ChatInput = ({
 
               if (!textAreaRef.current) return;
               textAreaRef.current.value = value;
-              handleResize();
             }}
             onKeyUp={() => handleResize()}
             placeholder={placeholder ?? ''}
@@ -88,6 +95,7 @@ const ChatInput = ({
                 handleSend();
                 e.preventDefault();
               }
+              onKeyDown?.(e);
             }}
           />
           <textarea
