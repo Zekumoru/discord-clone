@@ -18,7 +18,6 @@ const getPlainText = (editorState: EditorState) => {
     entityRanges.forEach(({ offset: start, key }) => {
       const mapEntry = entityMap[key] as unknown as MapEntry;
       const end = start + mapEntry.data.mention.name.length;
-      console.log(start, end, mapEntry.data.mention.name);
 
       const userId = mapEntry.data.mention.id;
       textBlocks.push(text.slice(endCursor, start));

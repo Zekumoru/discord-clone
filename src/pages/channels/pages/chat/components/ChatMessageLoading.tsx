@@ -7,7 +7,7 @@ const ChatMessageLoading = forwardRef<HTMLLIElement>((_props, ref) => {
   const nameWidth = useRandomWidth({ minPercent: 50, maxPercent: 90 }) / 2;
 
   return (
-    <li ref={ref} className="message mt-2.5 first-of-type:mt-0">
+    <li ref={ref} className="message mx-4 mt-2.5 first-of-type:mt-0">
       <ProfilePicture user={undefined} />
       <div>
         <div className="flex h-6 items-center gap-2">

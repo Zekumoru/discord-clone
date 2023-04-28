@@ -19,9 +19,9 @@ const ChatMessages = ({ user, chatId }: ChatMessagesProps) => {
   const [name] = extractNameAndTag(user?.username ?? '');
 
   return (
-    <div className="h-screen-toolbar flex flex-col justify-end p-4">
+    <div className="h-screen-toolbar flex flex-col justify-end py-4">
       {isEndOfChat && (
-        <div>
+        <div className="px-4">
           <ProfilePicture user={user} className="mb-2 h-20 w-20" />
 
           <h2 className="text-2xl font-bold">{name}</h2>
